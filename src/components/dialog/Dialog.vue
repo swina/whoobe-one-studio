@@ -1,6 +1,6 @@
 <template>
     <div class="modal z-modal w-full bg-white" :class="classe" v-if="dialogComponent">
-        <m-icon class="absolute top-0 right-0 z-modal bg-gray-800 h-10 w-10 flex items-center justify-center text-white text-3xl" icon="close" @click="$dialogBus('closeDialog')"/>
+        <m-icon class="absolute top-0 right-0 z-highest bg-gray-800 h-10 w-10 flex items-center justify-center text-white text-3xl" icon="close" @click="$dialogBus('closeDialog')"/>
         <div class="h-10 w-full flex items-center text-white text-lg px-2 font-bold" :class="topBar?'bg-gray-800':'bg-transparent'">
             {{ title }}
        </div>

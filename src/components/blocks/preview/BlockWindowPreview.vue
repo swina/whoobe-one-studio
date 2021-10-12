@@ -1,6 +1,6 @@
 <template>
     <div class="w-screen" @contextmenu="contextmenu($event)">
-        <div class="fixed top-0 h-10 w-screen text-center text-gray-300 border-b">
+        <div class="absolute top-0 h-10 w-screen text-center text-gray-300 border-b">
             <m-icon icon="laptop" class="text-3xl mr-4" @click="mode='fullscreen'"/>
             <m-icon icon="tablet" class="text-3xl mr-4" @click="mode='tablet'"/>
             <m-icon icon="smartphone" class="text-3xl  mr-4" @click="mode='smartphone'"/>
