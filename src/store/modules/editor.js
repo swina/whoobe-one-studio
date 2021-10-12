@@ -14,7 +14,7 @@ const editor = {
         startTime: null,
         autosave: null,
         export: 'single',
-        preview: null,
+        preview: false,
         fonts: process.env.VUE_APP_FONT_FAMILIES.split('|'),
         save: true,
         article: null,
@@ -116,7 +116,7 @@ const editor = {
         autoSave ( { commit } , blocks ){
             commit ( 'autosave' , blocks )
         },
-        setPreview ( { commit } , preview ){
+        preview ( { commit } , preview ){
             commit ( 'preview' , preview )
         },
         export ( { commit } , payload ){

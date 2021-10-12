@@ -1,5 +1,5 @@
 <template>
-    <div ref="mainEditor" class="bg-gray-100 min-h-screen text-black" :classe="display" v-if="editor.page">
+    <div ref="mainEditor" class="bg-gray-100 min-h-screen text-black" :classe="display" v-if="display && editor.page">
         <div class="h-8 mt-8 p-1 bg-gray-200 text-gray-800 w-full fixed flex flex-row items-center left-0 top-0 z-2xtop shadow">
             <!-- <m-icon icon="menu" css="icon-button z-modal" @click="$eventBus('desktopSidebarLeft','main')" title="Main menu"/> -->
             <m-icon icon="web" css="icon-button text-black z-modal" @click="$dialogBus('pages')" title="Templates"/>
@@ -144,12 +144,7 @@ export default {
         this.timer = null
     },
     mounted(){
-        dialogBus.$on ( 'preview' , () => {
-            this.display = false
-        })
-        dialogBus.$on ( 'closeDialog' , () => {
-            this.display = true
-        })
+        
         //Autosave if is set to true in settings
         let vm = this
         let settings = JSON.parse ( window.localStorage.getItem ( 'whoobe-settings') )

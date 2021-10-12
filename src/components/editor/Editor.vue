@@ -1,5 +1,5 @@
 <template>
-<div class="overflow-hidden mt-10">
+<div class="overflow-hidden mt-10" v-if="display">
     <div class="editor-container min-h-screen top-0 right-0 left-0 bottom-0 flex flex-row">
         <div class="w-full overflow-y-hidden overflow-x-hidden">
             <div class="w-full grid grid-cols-12 relative">
@@ -41,7 +41,8 @@ export default {
         el: null,
         scrollTop: 0,
         sidebar: false,
-        sidebarName: ''
+        sidebarName: '',
+        display:true
     }),
     components:{
         'EditorFooter'      : () => import ( '@/components/editor/EditorFooter.vue'),
@@ -61,7 +62,12 @@ export default {
         }
     },
     mounted(){
-
+        editorBus.$on ( 'preview' , () => {
+            this.display = false
+        })
+        dialogBus.$on ( 'closeDialog' , () => {
+            this.display = true
+        })
         //create block as component
         // editorBus.$on ( 'createComponent' , () => {
         //     let component = new Block()
@@ -174,7 +180,7 @@ export default {
         //preview block 
         editorBus.$on ( 'preview' , (mode) => {
             //if ( mode === 'fullscreen' ){
-                console.log ( mode )
+                this.$store.dispatch ( 'preview' , true )
                 window.localStorage.setItem('whoobe-preview',JSON.stringify(this.editor.document))
                 window.localStorage.setItem('whoobe-page',JSON.stringify(this.editor.page))
                 this.$dialogBus ( 'pagePreview' , (this.editor.document , mode) )

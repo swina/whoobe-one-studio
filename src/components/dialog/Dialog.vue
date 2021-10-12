@@ -107,6 +107,7 @@ export default {
         })
         
         dialogBus.$on ( 'closeDialog' , () => {
+            this.$store.dispatch ( 'preview' , false )
             this.dialogComponent = null
         })
 

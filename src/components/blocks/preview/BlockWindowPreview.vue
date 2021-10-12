@@ -17,7 +17,7 @@
             <!-- <m-icon icon="laptop" class="text-3xl" @click="mode='fullscreen'"/>
             <m-icon icon="tablet" class="text-3xl" @click="mode='tablet'"/><m-icon icon="smartphone" class="text-3xl" @click="mode='smartphone'"/>
             <m-icon icon="flip_camera_android" class="m-auto text-3xl" @click="orientation=!orientation"/> -->
-            <iframe :style="previewFrame" src="/preview" class="m-auto border-8 overflow-x-hidden border-black rounded-xl">
+            <iframe :style="previewFrame" src="/?preview=true" class="m-auto border-8 overflow-x-hidden border-black rounded-xl">
             </iframe>
         </div>
         <div ref="contextMenu" class="fixed z-highest shadow bg-white shadow absolute flex flex-col w-64 cursor-pointer" :class="classe" @mouseleave="display=!display">
@@ -102,6 +102,7 @@ export default {
         previewFrame(){
             let scale = window.innerHeight < 900 ? .6 : 1
             if ( this.mode === 'smartphone' ){
+                
                 return this.orientation ? "width:800px;height:375px;" : "width:375px;height:80vh;"
             }
             if ( this.mode === 'tablet' ){
@@ -261,6 +262,7 @@ export default {
         
     },
     mounted(){
+        this.$store.dispatch ( 'preview' , true )
         // if ( this.$route.params.slug ){
         //     this.$api.service ( 'articles' ).find ( { query : { slug : this.$route.params.slug }} ).then ( res => {
         //         let mydoc = res.data[0].blocks.json
@@ -282,7 +284,7 @@ export default {
             if ( e.key === 'Escape') this.$dialogBus('closeDialog')
         })
         this.mode = this.$attrs.options.mode
-        this.$eventBus ( 'notification' , 'Press Escape to close the preview')
+        //this.$eventBus ( 'notification' , 'Press Escape to close the preview')
     }
 }
 </script>

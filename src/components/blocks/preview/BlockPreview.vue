@@ -16,7 +16,8 @@ export default {
     },
     computed:{
         doc(){
-            
+            this.$store.dispatch ( 'preview' , true )
+            console.log ( this.$store.state.editor.preview )
             return JSON.parse(window.localStorage.getItem('whoobe-preview'))
         }
     }

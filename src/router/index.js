@@ -34,58 +34,7 @@ const routes = [
     name: 'Preview',
     component: Preview
   },
-//   {
-//     path: '/login',
-//     name: 'Login',
-//     component: Login
-//   },
-//   { 
-//     path: '/desktop',
-//     name: 'Desktop',
-//     component: Desktop
-//   },
-  {
-    path: '/preview/:slug',
-    name: 'PreviewSlug',
-    component: Preview
-  },
-  /*
-  {
-    path: '/dashboard',
-    name: 'Dashboard',
-    component: Dashboard
-  },
-  {
-    path: '/components',
-    name: 'Components',
-    component: Components
-  },
-  {
-    path: '/moka',
-    name: 'Moka',
-    component: Moka
-  },
-  {
-    path: '/logout',
-    name: 'Logout',
-    component: Logout
-  },
-  {
-    path: '/preview',
-    name: 'Preview',
-    component: Preview
-  },
-  {
-    path: '/imageeditor',
-    name: 'Image Editor',
-    component: ImageEditor
-  },
-  {
-    path: '/component/:path',
-    name: 'Component',
-    //component: () => import(/* webpackChunkName: "whoobe"  '../' + path)
-  }
-  */
+  { path: "*", component: Main }
 ]
 
 const router = new VueRouter({

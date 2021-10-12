@@ -2,7 +2,7 @@
   <div id="app" class="bg-white grid w-screen min-h-screen overflow-x-hidden bg-no-repeat bg-cover bg-center">
     <router-view/>
     
-    <Tabs ref="whoobeTabs"/>
+    <Tabs ref="whoobeTabs" v-if="!$store.state.editor.preview"/>
     <DesktopSidebarLeft v-if="sidebarLeft"/>
     
     <!-- <Dialog v-if="dialogComponent" :width="width" @close="dialogComponent=null">
@@ -50,7 +50,7 @@ export default {
     
   },
   mounted(){
-    
+    console.log ( this.$route )
     window.localStorage.setItem  ( 'whoobe-autosave-timeout' , 1000*60*5 )
     const groups = new Element().Groups()
     this.$store.dispatch ( 'elements' , groups )
