@@ -144,6 +144,12 @@ export default {
         this.timer = null
     },
     mounted(){
+        dialogBus.$on ( 'preview' , () => {
+            this.display = false
+        })
+        dialogBus.$on ( 'closeDialog' , () => {
+            this.display = true
+        })
         //Autosave if is set to true in settings
         let vm = this
         let settings = JSON.parse ( window.localStorage.getItem ( 'whoobe-settings') )
