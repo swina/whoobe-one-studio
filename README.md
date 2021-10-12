@@ -4,7 +4,7 @@ Visual webpage editor.
 
 ## Demo
 
-[Demo](https://whoobe-one-demo.vercel.app/)
+[Demo](https://whoobe-one-studio.vercel.app/)
 
 
 ## Getting Started
