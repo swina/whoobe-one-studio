@@ -1,0 +1,263 @@
+<template>
+    <div ref="mainEditor" class="bg-gray-100 min-h-screen text-black" :classe="display" v-if="editor.page">
+        <div class="h-8 mt-8 p-1 bg-gray-200 text-gray-800 w-full fixed flex flex-row items-center left-0 top-0 z-2xtop shadow">
+            <!-- <m-icon icon="menu" css="icon-button z-modal" @click="$eventBus('desktopSidebarLeft','main')" title="Main menu"/> -->
+            <m-icon icon="web" css="icon-button text-black z-modal" @click="$dialogBus('pages')" title="Templates"/>
+            <span class="ml-6 text-gray-800 " v-if="editor.page">{{ editor.page.name }} <span class="chip bg-gray-800 text-white p-1">{{ editor.page.category }}</span></span>
+            <m-icon icon="settings" class="ml-4" @click="$dialogBus('settingsPage')"/>
+            <m-icon icon="remove_red_eyes" class="ml-4" @click="$editorBus('preview','fullscreen')"/>
+        </div>
+        <div class="p-4 mt-16">
+            <BlockContainer v-if="editor.document" 
+                :doc="editor.document" 
+                @current="setCurrent"
+                level="10"/>
+        </div>
+        <component 
+            :is="actionComponent" 
+            class="z-highest bg-white absolute" 
+            id="floatingAction"
+            
+            :coords="coords"
+            :class="editElementContent()"
+            :parent="editor.current?editor.current.id:null"
+            :options="options"
+            v-if="editor.current"
+            @close="actionComponent=null"
+            :style="`top:${coords.top}px;left:${coords.left}px;`"/> 
+
+        <BlockFloating 
+            :is="component" 
+            class="absolute left-0 z-highest" 
+            id="floating"
+            :scroll="scroll" 
+            :coords="containerCoords"
+            :class="editElementContent()"
+            @close="component=null,actionComponent=null"/>
+
+        <pre v-if="editor.current && viewBlocks">
+            {{ editor.current.tag }}
+            {{ editor.current }}
+        </pre>
+    </div>
+</template>
+
+<script>
+import Element from '@/scripts/ElementsClass'
+import Block from '@/scripts/BlocksClass'
+import { mapState } from 'vuex'
+import { editorBus , dialogBus } from '@/main'
+export default {
+    name: 'BlockEditor',
+    components:{
+        'BlockContainer' : () => import ( '@/components/blocks/BlockContainer.vue' ),
+        'BlockLink'         : () => import ( '@/components/blocks/components/BlockLink.vue'),
+        'BlockFloating'     : () => import ( '@/components/blocks/components/BlockFloating.vue'),
+        'BlockEditContent'  : () => import ( '@/components/blocks/components/BlockEditContent.vue'),
+    },
+    props: [ 'scroll' ],
+    data:()=>({
+        viewBlocks : false,
+        elementLink : false,
+        elementFloating: false,
+        elementContent: false,
+        floatingID : null,
+        display: true,
+        coords: {
+            top: 0,
+            left: 0,
+            offsetX: 0,
+            offsetY: 0
+        },
+        
+        containerCoords: {
+            top: 0,
+            left:0,
+        },
+        component: null,
+        actionComponent: null,
+        options: null,
+        action: null,
+        timer: null
+    }),
+    computed:{
+        ...mapState ( ['editor'] ),
+        linkVisible(){
+            return this.elementLink ? 'opacity-100' : 'opacity-0'
+        },
+        floating(){
+            return this.elementFloating ? 
+                this.editor.current.type === 'element' ? 'opacity-100' : 'opacity-0' : 'opacity-0'
+        },
+        classe(){
+            return this.display ? '' : 'hidden'
+        }
+    },
+    watch:{
+        scroll(v){
+            if ( !this.editor.current  ) return
+            if ( this.editor.current && this.editor.current.id && this.containerCoords ){
+                try {
+                    let el = document.getElementById ( this.editor.current.id )
+                    let coords = el.getBoundingClientRect()
+                    this.containerCoords.top = coords.top - 32  
+                } catch ( err ){
+                    return
+                }
+            }
+        },
+        '$store.state.editor.current.id' : function(){
+            this.actionComponent = null
+        }
+    },
+    methods:{
+        createDocument(){
+            const component = new Block()
+            const block = new Element().Flexbox({direction:'col'})
+            block.css.css = this.$clean ( block.css.css )
+            components.json = block
+            this.$store.dispatch ( 'setComponent' , component )
+            this.$store.dispatch ( 'document' , block )
+            this.$store.dispatch ( 'setCurrent' , block )
+        },
+        setCurrent ( element ){
+            element.css.css = this.$clean ( element.css.css )
+            this.$store.dispatch ( 'setCurrent' , element )
+            this.action = null
+        },
+        getCoords(id){
+            let el = document.querySelector('#' + id )
+            return el.getBoundingClientRect()
+        },
+        editContent(){
+            return this.elementContent ? 
+                this.editor.current.type === 'element' ? 'opacity-100' : 'opacity-0' : 'opacity-0'
+        },
+        editElementContent(){
+            return this.component ? 'opacity-100' : 'opacity-0'
+                //this.editor.current.type === 'element' ? 'opacity-100' : 'opacity-0' : 'opacity-0'
+        },
+    
+    },
+    beforeDestroy(){
+        window.clearInterval ( this.timer )
+        this.timer = null
+    },
+    mounted(){
+        //Autosave if is set to true in settings
+        let vm = this
+        let settings = JSON.parse ( window.localStorage.getItem ( 'whoobe-settings') )
+        if ( settings.autosave ){
+            this.timer = window.setInterval( () => {
+                vm.$savePage()
+            },parseInt(settings.autosaveTimeout)*1000*60)
+        }
+        if ( !this.editor.document ) {
+            
+            let lastDocument = window.localStorage.getItem( 'whoobe-preview' )
+            if ( lastDocument ){
+                //let confirm = window.confirm ( 'Do you want to open the last document you worked on?' )
+                //confirm ? 
+                    this.$store.dispatch ( 'document' , JSON.parse ( lastDocument ) ) 
+                    //: 
+                //        this.$editorBus('createDocument')
+                     
+            } else {
+                this.$editorBus('createComponent')
+            }
+        }
+
+        
+
+        editorBus.$on ( 'floatingElement' , (id) => {
+            this.component = () => import ( '@/components/blocks/components/BlockFloating.vue')
+            let coords = this.getCoords(id)
+            this.containerCoords = {
+                top: coords.top - 32,
+                left: coords.left
+            }
+            
+        })
+
+        editorBus.$on ( 'selectElement' , ( coords , type ) => {
+            if ( !coords ){
+                let sel = document.querySelector('.elementSelector')
+                if ( sel ) document.body.removeChild ( sel )
+                return
+            }
+            let el = document.getElementById ( this.editor.current.id )
+
+        })
+
+        editorBus.$on ( 'editorAction' , ( action ) => {
+            this.action = action.icon
+            this.actionComponent = () => import ( '@/components/blocks/components/' + action.action )
+            let coords = this.getCoords ( 'floating' )
+            this.coords = {
+                top: coords.bottom + this.scroll,
+                left: coords.left
+            }
+            this.options = action.options
+        })
+
+        editorBus.$on ( 'importComponent' , ( component ) => {
+            this.editor.current.blocks.push ( component.json.blocks[0] )
+            this.$dialogBus ( 'closeDialog' )
+        })
+
+        editorBus.$on ( 'selectedMedia' , ( media ) => {
+            this.editor.current.image.hasOwnProperty('url') ?
+                this.editor.current.image.url = media : this.editor.current.image = media
+            this.actionComponent = null
+            this.action = null
+            this.$dialogBus ( 'closeDialog' )
+        })
+       
+        editorBus.$on ( 'copyBlockCSS' , () => {
+            let css = Object.assign ( {} , this.editor.current.css )
+            css.style = this.editor.current.style
+            window.localStorage.setItem ( 'whoobe-block-css' , JSON.stringify(css) )
+        })
+
+        editorBus.$on ( 'pasteBlockCSS' , () => {
+            if ( window.localStorage.getItem ( 'whoobe-block-css') ){
+                let css = JSON.parse ( window.localStorage.getItem ( 'whoobe-block-css' ) )
+                this.editor.current.css.css = css.css
+                this.editor.current.css.container = css.container
+                this.editor.current.style = css.style
+                //window.localStorage.setItem ( 'whoobe-block-css' , false )
+            }
+        })
+
+        
+
+        // let doc = Object.assign ( {} , this.editor.document )
+        // function addKey ( obj , key , value ){
+        //     console.log ( 'adding key => ', key , ' to: ' , obj.id )
+        //     obj[key] = value // === 'object' ? {} : value
+        //     obj.blocks.map ( block => {
+        //         addKey ( block , key , value )
+        //     })
+        //     return obj
+        // }
+        // if ( !doc.hasOwnProperty('alpine') ){
+        //     doc = addKey ( doc , 'alpine' , {} )
+        //     this.$store.dispatch('document', doc )
+        // }
+        
+        
+        // let lastDocument = window.localStorage.getItem( 'whoobe-preview' )
+        // if ( this.$store.state.editor.page ){
+        //     this.$store.state.editor.page.json = JSON.parse ( lastDocument )
+        // } else {
+        //     this.$editorBus ( 'createPage' , JSON.parse(lastDocument) )
+        // }
+        //this.$dialogBus ( 'pages' )
+        if ( !this.editor.page ) this.$router.push('/')
+
+        // let slider = new Element().createElement('Slider')
+        // console.log ( slider )
+    }
+
+}
+</script>

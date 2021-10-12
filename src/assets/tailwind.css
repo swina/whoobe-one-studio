@@ -1,0 +1,990 @@
+@tailwind base;
+
+@import './custom.css';
+
+@tailwind components;
+
+body {
+    font-family:Arial, 'Roboto' , sans-serif;
+    font-size:.8;
+    @apply text-xs leading-6 overflow-x-hidden;
+}
+
+h1 {
+    @apply text-5xl leading-normal;
+}
+
+h2 {
+    @apply text-4xl leading-normal;
+}
+
+h3 {
+    @apply text-3xl leading-normal;
+}
+
+h4 {
+    @apply text-2xl leading-normal;
+}
+
+h5 {
+    @apply text-2xl leading-normal;
+}
+
+/* a { 
+    @apply text-sky-500; 
+} */
+
+
+blockquote , q {
+    @apply bg-gray-200 p-4 border-l-4 w-full my-4 border-gray-400;
+}
+
+ul {
+    @apply ml-10 my-2;
+}
+ul > li {
+    @apply list-disc;
+}
+
+p {
+    font-weight:400;
+}
+
+p.nuxpresso-box-multiline {
+    @apply my-1;
+}
+
+p > pre {
+  @apply bg-transparent text-base;
+}
+
+button {
+    @apply bg-gray-700 text-white text-sm leading-4 px-2 py-1 border border-transparent rounded-none outline-none;
+    width: fit-content;
+}
+
+button:focus {
+  @apply outline-none;
+}
+
+button:hover {
+    @apply bg-white text-black border-gray-300;
+}
+
+button.xs {
+    @apply px-2 py-1 text-xs;
+}
+
+button.sm {
+    @apply px-2 py-1 text-sm;
+}
+
+button.lg {
+  @apply text-base px-2 py-2;
+}
+
+button.round {
+  @apply rounded-full w-20;
+}
+
+button.info {
+  @apply bg-purple-600;
+}
+
+
+button.success {
+    @apply bg-green-400;
+}
+
+button.warning {
+    @apply bg-yellow-400;
+}
+
+button.danger {
+    @apply bg-red-600;
+}
+
+button.light {
+  @apply bg-white text-gray-600 border border-gray-600;
+}
+
+button.light:hover {
+  @apply bg-gray-700 text-white;
+}
+
+/*mr-2 mt-1 capitalize w-24 border hover:bg-blue-400 hover:text-white border-blue-400 focus:bg-gray-600 focus:text-white focus:outline-none bg-white text-blue-400 rounded-none*/
+
+button .fixed {
+  @apply w-24;
+}
+
+
+label {
+  @apply px-1;
+}
+
+input , input[type=number] , textarea , select {
+    @apply p-2 border bg-white text-base;
+    width: fit-content;
+    font-family: sans-serif;
+    line-height:1rem;
+}
+
+
+input[type=text]:focus , textarea:focus {
+    @apply shadow-lg border border-blue-500 outline-none;
+}
+
+input.dark , select.dark , textarea.dark , 
+input.nodark , select.nodark , textarea.nodark , nodark {
+    @apply  border-0 p-2 bg-gray-700 rounded;
+}
+
+select {
+  @apply text-sm;
+}
+
+input[type=range] {
+    background-color: transparent;
+    -webkit-appearance: none;
+    outline: none;
+    border:0;
+  }
+  input[type=range]:focus {
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    background: #1b1b1b;
+    border: 0.3px solid #616161;
+    border-radius: 1.3px;
+    height: 1.5px;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    margin-top: -7.05px;
+    width: 16px;
+    height: 16px;
+    background: #b4b4b4;
+    border: 1px solid #5f5f5f;
+    border-radius: 50px;
+    cursor: pointer;
+    -webkit-appearance: none;
+  }
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ffffff;
+  }
+  input[type=range]::-moz-range-track {
+    background: #ffffff;
+    border: 0.3px solid #e3e2e0;
+    border-radius: 1.3px;
+    width: 100%;
+    height: 2.5px;
+    cursor: pointer;
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 50px;
+    cursor: pointer;
+  }
+  input[type=range]::-ms-track {
+    background: transparent;
+    border-color: transparent;
+    border-width: 7.75px 0;
+    color: transparent;
+    width: 100%;
+    height: 1.5px;
+    cursor: pointer;
+  }
+  input[type=range]::-ms-fill-lower {
+    background: #f2f2f2;
+    border: 0.3px solid #e3e2e0;
+    border-radius: 2.6px;
+  }
+  input[type=range]::-ms-fill-upper {
+    background: #ffffff;
+    border: 0.3px solid #e3e2e0;
+    border-radius: 2.6px;
+  }
+  input[type=range]::-ms-thumb {
+    width: 16px;
+    height: 16px;
+    background: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 0px;
+    /*Needed to keep the Edge thumb centred*/
+  }
+  input[type=range]:focus::-ms-fill-lower {
+    background: #ffffff;
+  }
+  input[type=range]:focus::-ms-fill-upper {
+    background: #ffffff;
+  }
+  /*TODO: Use one of the selectors from https://stackoverflow.com/a/20541859/7077589 and figure out
+  how to remove the virtical space around the range input in IE*/
+  @supports (-ms-ime-align:auto) {
+    /* Pre-Chromium Edge only styles, selector taken from hhttps://stackoverflow.com/a/32202953/7077589 */
+    input[type=range] {
+      margin: 0;
+      /*Edge starts the margin from the thumb, not the track as other browsers do*/
+    }
+  }
+  
+
+input.xs {
+    @apply text-xs p-1 text-gray-700;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.5);
+    margin: .3rem;
+}
+
+input.customize {
+    @apply text-xs p-0 text-gray-700;
+}
+
+pre {
+    @apply w-full overflow-auto bg-gray-200 text-xs p-2 my-2 border border-gray-400;
+}
+
+.truncate  {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.whoobe-fullscreen-gallery {
+  @apply absolute top-0 left-0 right-0 bottom-0 w-screen h-screen;
+}
+
+.modal {
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    position:fixed;
+}
+
+.modal-bottom {
+  bottom:0;
+  left:50%;
+  transform: translateX(-50%);
+  position: fixed;  
+}
+
+.modal-top {
+  top:0;
+  left:50%;
+  transform: translateX(-50%);
+  position: fixed;  
+}
+
+.modal-top-left {
+  top:0;
+  left:0;
+  position: fixed;  
+}
+
+.modal-top-right {
+  top:0;
+  right:0;
+  position: fixed;  
+}
+
+.modal-bottom-left {
+  bottom:0;
+  left:0;
+  position: fixed;  
+}
+
+.editor-context-menu {
+  @apply opacity-0 z-highest cursor-pointer z-highest absolute bg-gray-800 text-gray-500 text-sm border border-gray-900 top-0 left-0 shadow-lg;
+}
+
+.editor-context-menu-item {
+  @apply p-1 pr-8 flex flex-row items-center border-l-4 border-transparent; 
+}
+
+
+.editor-context-menu-item:hover {
+  @apply bg-gray-900 text-lime-500 border-lime-400;
+}
+
+
+.preview-context-menu {
+  @apply opacity-0 cursor-pointer z-highest absolute bg-gray-800 text-gray-500 text-sm border border-gray-900 shadow-lg
+}
+
+.preview-context-menu-item {
+  @apply p-1 flex flex-row items-center pr-16;
+}
+
+.preview-context-menu-item:hover {
+  @apply bg-white text-black;
+}
+
+.modal-bottom-right {
+  bottom:0;
+  right:0;
+  position: fixed;  
+}
+
+.nuxpresso-modal {
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    position:fixed;
+    @apply bg-white shadow-lg w-auto border rounded;
+}
+
+.nuxpresso-modal-lg {
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    position:fixed;
+    width:65%;
+    @apply bg-white shadow-lg;
+}
+
+.nuxpresso-modal-wide {
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    position:fixed;
+    width:85%;
+    @apply bg-white shadow-lg;
+}
+
+.nuxpresso-slider-dots {
+    @apply bg-opacity-75 w-3 h-3 bg-white border border-black shadow-lg rounded-full mx-1 cursor-pointer;
+}
+
+.nuxpresso-slider-dot-active {
+    @apply bg-black;
+}
+
+.nuxpresso-icon-btn {
+    @apply rounded bg-white text-white p-1 cursor-pointer border text-base;
+}
+
+.nuxpresso-icon-btn:hover {
+    @apply bg-blue-300
+}
+
+.nuxpresso-icon-circle {
+    @apply bg-gray-800 text-gray-600 rounded-full cursor-pointer text-base p-1;
+}
+
+
+
+.nuxpresso-icon-circle:hover {
+    @apply  bg-blue-300 text-gray-800;
+}
+
+.moka-icon-circle {
+  @apply bg-gray-500 text-gray-600 rounded-full cursor-pointer text-sm p-1;
+}
+
+
+.moka-icon-circle:hover {
+  @apply  bg-white text-gray-800;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .7s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}
+
+.height-enter-active , .height-leave-active {
+  transition: all .5s linear;
+  height:auto;
+}
+
+.height-enter , .height-leave-to {
+  transition: all .5s linear;
+  height:0;
+}
+
+.width-enter-active , .width-leave-active {
+  transition: all .5s linear;
+  width:100%;
+}
+
+.width-enter , .width-leave-to {
+  transition: all .5s linear;
+  width:0;
+}
+
+.slideleft-enter-active {
+    transition: transform .8s ease-in-out;
+ }
+ 
+ .slideleft-leave-active {
+    transition: transform .8s ease-in-out;
+ }
+ 
+ .slideleft-enter-to, .slideleft-leave {
+    transform: translate(0%, 0);
+    overflow: hidden;
+ }
+ 
+ .slideleft-enter, .slideleft-leave-to {
+    transform: translate(-100%, 0);
+    margin-right: 0;
+ }
+
+/*----------------------------*/
+
+/*---------------------------*/
+
+.slideright-enter-active {
+   transition: transform .8s ease-in-out;
+}
+
+.slideright-leave-active {
+   transition: transform .8s ease-in-out;
+}
+
+.slideright-enter-to, .slideright-leave {
+   transform: translate(0%, 0);
+   overflow: hidden;
+}
+
+.slideright-enter, .slideright-leave-to {
+   transform: translate(100%, 0);
+   margin-right: 0;
+}
+
+.slidedown-enter-active , .slidedown-leave-active {
+    transition: transform .5s ease-in-out;
+    transform: translateY(0%);
+    opacity:1;
+}
+
+.slidedown-enter , .slidedown-leave-to {
+    transform: translateY(-100%);
+    opacity:1;
+}
+
+.lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+  }
+  .lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border: 8px solid #fff;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #fff transparent transparent transparent;
+  }
+  .lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+  }
+  .lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+  }
+  .lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+  }
+  @keyframes lds-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+.moka-editor-selector-block {
+    @apply text-xs border border-green-400 border-dashed opacity-0 absolute left-0 right-0 bottom-0;
+    transform: scale(1.03,1.07);
+    top:-1rem;
+    padding-bottom:3rem;
+    
+}  
+
+.moka-editor-selector-block:hover {
+    @apply opacity-100;
+}
+
+.moka-editor-selector {
+    @apply text-xs border border-red-500 border-dashed opacity-0 absolute top-0 left-0 right-0 bottom-0;
+}
+
+.moka-editor-selector:hover {
+    @apply opacity-100;
+}
+
+
+.moka-editor-active {
+    @apply border border-red-500 border-double opacity-100;
+}
+
+.moka-editor-tag {
+    @apply absolute top-0 left-0 -mt-6;
+}
+
+.moka-left-drawer {
+    @apply fixed top-0 left-0 w-1/5 h-screen;
+}
+.moka-editor {
+    @apply border border-transparent border-dashed cursor-pointer absolute top-0 right-0 bottom-0 left-0;   
+}
+
+.moka-editor.moka-block:hover {
+    @apply border-green-300;
+}
+
+.moka-element:hover {
+    @apply border-gray-500
+}
+
+/*
+DESKTOP classes
+*/
+.desktop {
+  @apply flex flex-col items-center h-screen bg-gray-300;
+}
+
+.desktop-logo {
+  @apply text-4xl w-32 m-auto h-32 bg-gray-200 rounded-full flex flex-col text-gray-400 font-black cursor-pointer;
+}
+
+.desktop > div {
+  @apply m-auto text-center font-thin;
+}
+
+.desktop-nav {
+  @apply fixed top-0 z-2xtop left-0 bg-gray-800 text-gray-500 flex flex-col justify-start h-screen items-start cursor-pointer text-base;
+}
+
+.desktop-nav > div {
+  @apply w-full p-1 pl-1 py-2 flex flex-row items-center my-2 mr-4 border-l-4 border-transparent;
+}
+
+.desktop-nav > div:hover {
+  @apply bg-gray-900 text-gray-300 border-yellow-400; 
+}
+
+.desktop-nav-submenu {
+  @apply absolute w-48 ml-1 -mt-4 z-2xtop bg-gray-800 text-gray-500 shadow flex flex-col border-l border-gray-900;
+}
+
+.desktop-nav-submenu > div {
+  @apply border-l-4 border-transparent px-4 py-1
+}
+.desktop-nav-submenu > div:hover {
+  @apply border-yellow-400 text-white bg-gray-700;
+}
+
+.desktop-tabs {
+  @apply ml-10 sticky top-0 z-2xtop w-full bg-gray-700 border-b text-sm flex flex-row flex-wrap cursor-pointer;
+}
+
+.desktop-tab {
+  @apply border-l border-gray-700 py-1 bg-gray-800 text-gray-300 px-1 flex flex-row justify-around items-center text-sm;
+}
+.desktop-tab-point {
+  @apply border-r border-gray-700 absolute top-0 right-0 h-2 w-2 bg-gray-700 clipped-right;
+}
+
+.desktop-tab > span {
+  @apply flex flex-row items-center
+}
+
+.desktop-tab:hover {
+  @apply text-white; 
+}
+
+.desktop-tab-close {
+  @apply text-xs text-gray-200 material-icons ml-6 opacity-0; 
+}
+
+.desktop-tab-close:hover {
+  @apply opacity-100;
+}
+
+.desktop-container {
+  @apply ml-10 flex flex-col  w-full min-h-screen overflow-y-auto;
+}
+
+.desktop-container > div {
+  @apply relative top-0 bottom-0 right-0 left-0 w-full;
+}
+
+.dot {
+  @apply h-2 w-2 bg-black rounded-full absolute;
+}
+
+
+/** Components classes **/
+.whoobe-components-gallery {
+  @apply  grid grid-cols-1 w-full items-start justify-start cursor-pointer;
+}
+
+.whoobe-components-gallery-container {
+  @apply mb-2 text-sm shadow-lg rounded-lg justify-center flex flex-col h-full;
+}
+
+.whoobe-components-gallery-container > div {
+  @apply flex-1 relative object-cover h-40 items-center justify-center;
+}
+
+.whoobe-component-gallery-title {
+  @apply px-1 bg-gray-300 text-gray-600 w-full text-xs rounded-tl rounded-tr  flex flex-row items-center;
+}
+
+.whoobe-component-gallery-image {
+  @apply w-full flex flex-col h-48 items-center justify-center;
+}
+
+.whoobe-component-gallery-image > img {
+  @apply w-full bg-contain bg-gray-800 object-top;
+}
+
+.whoobe-component-gallery-actions {
+  @apply px-1 absolute bottom-0 rounded-br rounded-bl bg-gray-300 items-center flex flex-row w-full text-left text-xs justify-between
+}
+
+.whoobe-component-gallery-actions > div {
+  @apply flex flex-col w-full relative
+}
+
+.whoobe-component-gallery-actions > div > .menu {
+  @apply w-full bg-gray-300 flex flex-col p-1
+}
+
+.whoobe-editor-tw-options select , .whoobe-editor-tw-options input  {
+  @apply bg-gray-700 text-gray-500 border-0;
+}
+
+
+
+.clipped-right { 
+  clip-path: polygon(0 0, 100% 100%, 100% 0);
+}
+
+.clip-path-angle-left {
+    clip-path: polygon(0 0,100% 0,100% 100%,0 87%);
+    min-height:11rem;
+    height:11rem;
+}
+
+.clip-path-angle-right {
+    clip-path: polygon(0 0,100% 0,100% 87%,0 100%);
+    min-height:11rem;
+    height:11rem;
+}
+
+.clip-path-tag-down {
+    clip-path: polygon(50% 0,100% 0,100% 100%,51% 84%,0 100%,0 0);
+    min-height:11rem;
+    height:11rem;
+    padding-bottom:14rem!important;
+}
+
+.clip-path-circle {
+    clip-path: circle(50% at 50% 50%);
+}
+.clip-path-frame {
+  clip-path: polygon(0% 0%, 0% 100%, 25% 100%, 25% 25%, 75% 25%, 75% 75%, 25% 75%, 25% 100%, 100% 100%, 100% 0%);
+}
+.clip-path-cross {
+  clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
+}
+
+.clip-path-arrow-right {
+  clip-path: polygon(0% 20%, 60% 20%, 60% 0%, 100% 50%, 60% 100%, 60% 80%, 0% 80%);
+}
+
+.clip-path-arrow-left {
+  clip-path: polygon(40% 0%, 40% 20%, 100% 20%, 100% 80%, 40% 80%, 40% 100%, 0% 50%);
+}
+
+.clip-path-stairs {
+  clip-path: polygon(29% 0, 29% 25%, 53% 25%, 53% 49%, 78% 49%, 78% 73%, 100% 73%, 100% 100%, 0 100%, 0 0);
+}
+
+.clip-path-stairs-2 {
+  clip-path: polygon(18% 0, 18% 31%, 45% 31%, 45% 55%, 73% 55%, 73% 77%, 100% 77%, 100% 100%, 0 100%, 0 0);
+
+}
+
+.clip-path-triangle {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+.clip-path-trapezoid-left {
+    clip-path: polygon(0 11%, 100% 0, 100% 100%, 0 89%);
+}
+
+.clip-path-trapezoid-right {
+  clip-path: polygon(0 0, 100% 11%, 100% 89%, 0 100%);
+}
+
+
+.clip-path-rombus {
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.clip-path-parallelogram {
+    clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+}
+
+.material-icons {
+    @apply cursor-pointer text-lg;
+}
+
+.fade-in , .animation-1 {
+    animation:fade 2s;
+}
+@keyframes fade
+{
+  0%   {opacity:0}
+  100% { opacity: 1}
+}
+
+.slide-left , .animation-2 {
+	-webkit-animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes slide-left {
+  0% {
+      opacity:0;
+    -webkit-transform: translateX(100%);
+            transform: translateX(100%);
+  }
+  100% {
+      opacity:1;
+    -webkit-transform: translateX(0%);
+            transform: translateX(0%);
+  }
+}
+
+
+.flip-2-ver-right-1 , .animation-3 {
+	animation: flip-2-ver-right-1 0.5s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+}
+
+ @keyframes flip-2-ver-right-1 {
+    0% { 
+      transform: translateX(100%) rotateY(-180deg);
+      transform-origin: 0% 50%;
+    }
+    100% {
+      transform: translateX(0) rotateY(0deg);
+      transform-origin: 100% 50%;
+    }
+  }
+
+  .flip-out-hor-top , .animation-4 {
+	animation: flip-out-hor-top 0.45s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+
+@keyframes flip-out-hor-top {
+  100% {
+    transform: rotateX(0);
+    opacity: 1;
+  }
+  0% {
+    transform: rotateX(70deg);
+    opacity: 0;
+  }
+}
+
+.tilt-in-right-1 , .animation-5 {
+	animation: tilt-in-right-1 0.6s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes tilt-in-right-1 {
+  0% {
+    transform: rotateX(-30deg) translateX(300px) skewX(30deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateX(0deg) translateX(0) skewX(0deg);
+    opacity: 1;
+  }
+}  
+
+.roll-in-right , .animation-6 {
+	animation: roll-in-right 0.6s ease-out both;
+}
+
+@keyframes roll-in-right {
+  0% {
+    transform: translateX(300px) rotate(540deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.animate-slideout {
+  transform: scaleX(0);
+  opacity:.5;
+  transition: transform .4s linear;
+  transform-origin: top left;
+  transform-style: preserve-3D;
+}
+.animate-slidein {
+  transform: scaleX(1);
+  transition: transform .4s linear;
+  transform-origin: top right;
+  transform-style: preserve-3D;
+}
+
+.width-grow {
+  transform: scaleX(1);
+  transition: transform .4s linear;
+  transform-origin: top left;
+  transform-style: preserve-3D;
+}
+.width-grow-out {
+  transform: scaleX(0);
+  transition: transform .4s linear;
+  transform-origin: top left;
+  transform-style: preserve-3D;
+}
+
+.height-grow {
+  opacity:1;
+  transform: scaleY(1);
+  transition: all .4s linear;
+  transform-origin: top left;
+  transform-style: preserve-3D;
+}
+.height-grow-out {
+  opacity:0;
+  transform: scaleY(0);
+  transition: all .4s linear;
+  transform-origin: top left;
+  transform-style: preserve-3D;
+}
+
+.child-hide-show {
+  @apply opacity-0;
+}
+
+.next-hide-show:hover + .child-hide-show {
+  transition: opacity 1s linear;
+  @apply opacity-100;
+}
+
+.customizer-item {
+  @apply text-xs w-full pl-1 py-1 border-b border-gray-700 bg-gray-800 text-gray-500 capitalize flex flex-row relative items-center;
+}
+
+.line-hover::before {
+  content: '';
+  top:-8px;
+  @apply h-1 bg-brown-300 absolute left-0 w-0;
+  transition: width .5s linear;
+}
+
+.line-hover:hover::before {
+  @apply w-full;
+}
+
+.customizer-item:hover {
+  @apply bg-gray-700 text-white;
+}
+
+@tailwind utilities;
+
+@layer utilities {
+
+  .masonry {
+    grid-template-rows: masonry;
+  }
+
+  .grayscale {
+    filter: grayscale(1)
+  }
+
+  
+ 
+  @variants responsive {
+    .perspective-rotate3dY {
+      transform:perspective(80vw) rotateY(28deg);
+    }
+    .perspective-rotate3dY-inverse {
+      transform:perspective(80vw) rotateY(-28deg);
+    }
+    
+    .perspective-rotate3dX {
+      transform: perspective(80vh) rotateX(45deg);
+    }
+    .perspective-rotate3dX-inverse {
+      transform:perspective(80vw) rotateX(-45deg);
+    }
+
+    .blur-1 {
+      backdrop-filter: blur(1px);
+    }
+  
+    .blur-2 {
+      backdrop-filter: blur(2px);
+    }
+  
+    .blur-3 {
+      backdrop-filter: blur(3px);
+    }
+  
+    .blur-4 {
+      backdrop-filter: blur(4px);
+    }
+  
+    .blur-5 {
+      backdrop-filter: blur(5px);
+    }
+
+    .blur-none {
+      backdrop-filter: blur(0px);
+    }	
+
+    .blur-sm	{
+      backdrop-filter: blur(4px);
+    }
+    
+    .blur {	
+      backdrop-filter:  blur(8px);
+    }
+
+    .blur-md {
+      backdrop-filter: blur(12px);
+    }
+
+    .blur-lg	{
+      backdrop-filter: blur(16px);
+    }
+    
+    .blur-xl { 
+      backdrop-filter: blur(24px);
+    }
+
+    .blur-2xl	{
+      backdrop-filter: blur(40px);
+    }
+
+    .blur-3xl {
+      backdrop-filter: blur(64px);
+    }
+    
+  }
+}
