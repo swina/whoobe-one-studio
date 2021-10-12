@@ -1,5 +1,5 @@
 <template>
-    <div class="relative w-full darkTheme z-modal h-screen overflow-hidden border-r border-white">
+    <div class="relative w-full darkTheme z-highest h-screen overflow-hidden border-r border-white">
         <!-- <div class="top-0 left-0">
             <EditorSidebarTabs/>
         </div> -->
