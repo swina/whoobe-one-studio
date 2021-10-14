@@ -65,10 +65,7 @@ export default {
     }),
     computed:{
         categories(){
-            //let data =  [ ...new Set ( this.dataset.map ( a => { return a.category } ) ) ]
-            //this.category = data[0]
             return JSON.parse ( window.localStorage.getItem ( 'whoobe-settings') ).categories.sort()
-            //return ['','Lead','Landing page','Subscribe page','Header','Footer','Hero','Homepage','Shop' , 'Feature']
         }
     },
     watch:{
@@ -86,15 +83,6 @@ export default {
     methods: {
         getImageInfo (image){
             let img = this.$imageInfo ( image )
-            // const img = new Image();
-
-            // img.src = image;
-
-            // img.onload = function() {
-            //     const imgWidth = img.naturalWidth;
-            //     const imgHeight = img.naturalHeight;
-            //     return  
-            // };
             let ratio = img.naturalWidth / img.naturalHeight
             return ratio < 1 ?
                 'object-cover object-top h-60' : ratio > 2 ? 'h-20 object-contain' : 'h-80 object-contain'

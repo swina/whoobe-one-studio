@@ -76,6 +76,23 @@ export default {
       dialogBus.$emit ( 'closeDialog' )
     })
 
+    let settings = {
+      id: 0,
+      autosave: false,
+      autosaveTimeout: 5,
+      categories: ['Lead','Landing page','Subscribe page','Header','Footer','Hero','Homepage','Shop' , 'Feature'].sort()
+    }
+
+    this.$settings().then ( res => {
+        if ( res.length ){
+            settings = res[0]
+            if ( settings.categories ){
+                settings.categories = ['Lead','Landing page','Subscribe page','Header','Footer','Hero','Homepage','Shop' , 'Feature'].sort()
+            }
+        }
+        window.localStorage.setItem ( 'whoobe-settings' , settings )
+    })
+
 
     // editorBus.$on ( 'savePage' , () => {
     //     if ( this.editor.page && this.editor.document ){
