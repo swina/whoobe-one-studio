@@ -1,30 +1,33 @@
 <template>
-    <div ref="mainEditor" class="bg-gray-100 min-h-screen text-black" :classe="display" v-if="display && editor.page">
+    <div ref="mainEditor" id="mainEditor" class="bg-gray-100 min-h-screen text-black" :classe="display" v-if="display && editor.page && editor.document">
         <div class="h-8 mt-8 p-1 bg-gray-200 text-gray-800 w-full fixed flex flex-row items-center left-0 top-0 z-2xtop shadow">
             <!-- <m-icon icon="menu" css="icon-button z-modal" @click="$eventBus('desktopSidebarLeft','main')" title="Main menu"/> -->
             <m-icon icon="web" css="icon-button text-black z-modal" @click="$dialogBus('pages')" title="Templates"/>
             <span class="ml-6 text-gray-800 " v-if="editor.page">{{ editor.page.name }} <span class="chip bg-gray-800 text-white p-1">{{ editor.page.category }}</span></span>
             <m-icon icon="settings" class="ml-4" @click="$dialogBus('settingsPage')"/>
             <m-icon icon="remove_red_eyes" class="ml-4" @click="$editorBus('preview','fullscreen')"/>
+            <span class="absolute right-0 mr-12">{{ parseInt(containerCoords.top) }} {{ parseInt(containerCoords.height) }} {{ parseInt(containerCoords.top-containerCoords.height) }}</span>
         </div>
-        <div class="p-4 mt-16">
+        <div class="p-4 mt-16 pb-20">
             <BlockContainer v-if="editor.document" 
                 :doc="editor.document" 
                 @current="setCurrent"
                 level="10"/>
         </div>
         <component 
-            :is="actionComponent" 
-            class="z-highest bg-white absolute" 
+            :is="actionComponent"
+            ref="floatingDropdown" 
+            class="z-highest bg-white absolute shadow border border-black" 
             id="floatingAction"
-            
             :coords="coords"
+            :scroll="scroll"
             :class="editElementContent()"
             :parent="editor.current?editor.current.id:null"
             :options="options"
             v-if="editor.current"
+            @position="actionComponentPosition"
             @close="actionComponent=null"
-            :style="`top:${coords.top}px;left:${coords.left}px;`"/> 
+            :style="actionStile"/> 
 
         <BlockFloating 
             :is="component" 
@@ -55,8 +58,9 @@ export default {
         'BlockFloating'     : () => import ( '@/components/blocks/components/BlockFloating.vue'),
         'BlockEditContent'  : () => import ( '@/components/blocks/components/BlockEditContent.vue'),
     },
-    props: [ 'scroll' ],
+    // props: [ 'scroll' ],
     data:()=>({
+        scroll: 0,
         viewBlocks : false,
         elementLink : false,
         elementFloating: false,
@@ -73,9 +77,11 @@ export default {
         containerCoords: {
             top: 0,
             left:0,
+            height: 0
         },
         component: null,
         actionComponent: null,
+        actionStile: '',
         options: null,
         action: null,
         timer: null
@@ -91,7 +97,16 @@ export default {
         },
         classe(){
             return this.display ? '' : 'hidden'
+        },
+        
+        actionPosition(){
+            console.log ( this.$refs )
+            if ( this.$refs.floatingDropdown ){
+                console.log ( this.$refs.floatingDropdown )
+            }
+            return false
         }
+
     },
     watch:{
         scroll(v){
@@ -100,7 +115,8 @@ export default {
                 try {
                     let el = document.getElementById ( this.editor.current.id )
                     let coords = el.getBoundingClientRect()
-                    this.containerCoords.top = coords.top - 32  
+                    this.containerCoords.top = coords.top - v
+                    this.actionStile = `top:${this.coords.top - this.containerCoords.height}px;left:${this.coords.left}px;`
                 } catch ( err ){
                     return
                 }
@@ -108,9 +124,20 @@ export default {
         },
         '$store.state.editor.current.id' : function(){
             this.actionComponent = null
+            this.containerCoords.top = this.containerCoords.top - this.scroll
         }
     },
     methods:{
+        actionComponentPosition(h){
+            if ( h ){
+                this.containerCoords.height = h
+                if ( this.containerCoords.top > 250 ){
+                    this.actionStile = `top:${this.coords.top-this.scroll-h -8}px;left:${this.coords.left}px;`
+                } else {
+                    this.actionStile = `top:${this.coords.top-this.scroll-8}px;left:${this.coords.left}px;`
+                }
+            }
+        },
         createDocument(){
             const component = new Block()
             const block = new Element().Flexbox({direction:'col'})
@@ -121,13 +148,19 @@ export default {
             this.$store.dispatch ( 'setCurrent' , block )
         },
         setCurrent ( element ){
+            //console.log ( this.$refs.mainEditor.scrollTop )
+            
             element.css.css = this.$clean ( element.css.css )
             this.$store.dispatch ( 'setCurrent' , element )
             this.action = null
         },
         getCoords(id){
             let el = document.querySelector('#' + id )
-            return el.getBoundingClientRect()
+            try {
+                return el.getBoundingClientRect()
+            } catch ( err ){
+                return null
+            }
         },
         editContent(){
             return this.elementContent ? 
@@ -144,7 +177,7 @@ export default {
         this.timer = null
     },
     mounted(){
-        
+        this.actionStile = `top:${this.coords.top-this.scroll-8}px;left:${this.coords.left}px;`
         //Autosave if is set to true in settings
         let vm = this
         let settings = JSON.parse ( window.localStorage.getItem ( 'whoobe-settings') )
@@ -173,9 +206,11 @@ export default {
         editorBus.$on ( 'floatingElement' , (id) => {
             this.component = () => import ( '@/components/blocks/components/BlockFloating.vue')
             let coords = this.getCoords(id)
-            this.containerCoords = {
-                top: coords.top - 32,
-                left: coords.left
+            if ( coords ){
+                this.containerCoords = {
+                    top: coords.top - 32,
+                    left: coords.left
+                }
             }
             
         })
@@ -194,10 +229,8 @@ export default {
             this.action = action.icon
             this.actionComponent = () => import ( '@/components/blocks/components/' + action.action )
             let coords = this.getCoords ( 'floating' )
-            this.coords = {
-                top: coords.bottom + this.scroll,
-                left: coords.left
-            }
+            this.coords.top = coords.top + this.scroll - 32
+            this.coords.left = coords.left
             this.options = action.options
         })
 
@@ -255,9 +288,16 @@ export default {
         // }
         //this.$dialogBus ( 'pages' )
         if ( !this.editor.page ) this.$router.push('/')
+        this.setCurrent ( this.editor.document )
+        this.action = null
+        this.actionComponent = null
+        this.$editorBus ( 'floatingElement' , this.editor.document.id )
 
-        // let slider = new Element().createElement('Slider')
-        // console.log ( slider )
+        this.$refs.mainEditor.addEventListener ( 'scroll' , (e) => {
+            this.scroll = e.target.scrollTop
+            //this.scrollTop =  e.target.scrollTop 
+        })
+        this.$refs.mainEditor.style.overflowY = 'auto'
     }
 
 }

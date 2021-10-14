@@ -42,6 +42,7 @@ export default {
             //this.editor.current && this.editor.current.id === this.$attrs.doc.id ? 
             //    css += ' border border-red-500 ' : css += ' border border-dashed hover:border-red-500'
             this.$attrs.doc.tag === 'document' ? css += ' p-2' : null
+            css = css.replace ( 'modal' , '')
             return  css
         },
         stile(){
@@ -72,6 +73,7 @@ export default {
     methods:{
         classeElement(block){
             let cl = block.css.css.replace('hidden','')
+            cl.replace ( 'modal' , '')
             return cl
         },
         component(block){

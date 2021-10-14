@@ -1,16 +1,10 @@
 <template>
   <div id="app" class="bg-white grid w-screen min-h-screen overflow-x-hidden bg-no-repeat bg-cover bg-center">
     <router-view/>
-    
+    <component :is="desktop.component" v-if="desktop.component" class="absolute top-0 left-0 w-screen h-screen mt-8"/>
+  
     <Tabs ref="whoobeTabs" v-if="!$store.state.editor.preview"/>
     <DesktopSidebarLeft v-if="sidebarLeft"/>
-    
-    <!-- <Dialog v-if="dialogComponent" :width="width" @close="dialogComponent=null">
-      <div slot="title">{{title}}</div>
-      <div slot="content">
-        <component :is="dialogComponent" @close="dialogComponent=null" :options="options"></component>
-      </div>
-    </Dialog> -->
     <Dialog/>
     <Notification/>
     <Modal/>
@@ -34,24 +28,34 @@ export default {
     width: 'w-1/4',
     sidebarLeft: false,
     loading: false,
-    options: null
+    options: null,
+    component: null
   }),
   components: {
+    'PagePreview'   : () => import ( '@/components/blocks/preview/BlockPreview.vue'),
     'Tabs'          : () => import ( '@/components/desktop/Tabs.vue' ),
     'Events'        : () => import ( '@/components/common/Events.vue' ),
     'DesktopSidebarLeft' : () => import ( '@/components/desktop/DesktopSidebarLeft.vue'),
     'Notification'  : () => import ( '@/components/common/Notification.vue' ),
   },
   computed:{
-    ...mapState ( ['editor'] ),
+    ...mapState ( ['desktop','editor'] ),
     
   },
-  methods:{
-    
+  watch:{
+    // '$store.state.desktop.tabs':function(tabs){
+    //   if ( !tabs.length ) return
+    //   if ( tabs.length ){
+    //     if ( this.desktop.currentTab > -1 ){
+    //       if ( tabs[this.desktop.currentTab].type === 'component' ){
+    //         this.component = tabs[this.desktop.currentTab].object
+    //       }
+    //     }
+    //   }
+    // }
   },
   mounted(){
-    console.log ( this.$route )
-    window.localStorage.setItem  ( 'whoobe-autosave-timeout' , 1000*60*5 )
+    //window.localStorage.setItem  ( 'whoobe-autosave-timeout' , 1000*60*5 )
     const groups = new Element().Groups()
     this.$store.dispatch ( 'elements' , groups )
 
@@ -64,16 +68,12 @@ export default {
       this.loading =! this.loading
     })
 
-    editorBus.$on ( 'createPage' , (document) => {
-        let page = new Block()
-        const block = new Element().Flexbox({direction:'col'}).setIcon('dashboard').setTag('document')
-        page.json.blocks = block
-        page.name = 'A new page'
-        this.$store.dispatch ( 'setPage' , page )
-        this.$store.dispatch ( 'setCurrent' , block )
-        this.$store.dispatch ( 'document' , block )
-        this.$dialogBus ( 'settingsPage' )
-        this.$router.push ( 'editor' )
+    eventBus.$on ( 'confirmYesNo' , ( context  ) => {
+      console.log ( context  )
+      // if ( context === 'importDB' && confirm ){
+      //   this.$importDB()
+      // }
+      dialogBus.$emit ( 'closeDialog' )
     })
 
 

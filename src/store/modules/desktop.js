@@ -4,6 +4,7 @@ const desktop =  {
         message: '',
         filter: '',
         tabs: [],
+        component: null,
         cloudinary_image: null,
         error: null,
         currentTab: 0,
@@ -47,6 +48,9 @@ const desktop =  {
             //set desktop status to open when reload
             console.log ( 'update tabs' , state.tabs )
             window.localStorage.setItem('whoobe-desktop',JSON.stringify(state.tabs))
+        },
+        component ( state , component ){
+            state.component = component
         },
         loading ( state , payload ){
             state.loading = payload
@@ -97,6 +101,9 @@ const desktop =  {
         },
         removeTab ( { commit } , index ){
             commit ( 'removeTab' , index )
+        },
+        component ( { commit } , component ){
+            commit ( 'component' , component )
         },
         loading ( { commit } , payload ){
             commit ( 'loading' , payload ? payload : false )

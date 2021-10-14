@@ -1,5 +1,5 @@
 <template>
-    <div class="w-56 bg-white p-1 flex flex-col" v-if="$store.state.editor.current">
+    <div ref="blockAction" class="w-56 bg-white p-1 flex flex-col" v-if="$store.state.editor.current">
         <label>Font</label>
         <select v-model="$store.state.editor.current.font" class="w-full">
             <option value=""></option>
@@ -33,7 +33,7 @@ export default {
         },
         sizes(){
             return classes.textSize
-        }
+        },
     },
     watch: {
         fontSelected(fnt){
@@ -46,6 +46,8 @@ export default {
         }
     },
     mounted(){
+        let position = this.$refs.blockAction.getBoundingClientRect()
+        this.$emit('position',position.height)
         let cls = this.$store.state.editor.current.css.css
         if ( cls ){
             let a = cls.split(' ').filter ( a => { return a })
@@ -59,6 +61,7 @@ export default {
             })
             this.entryCss = b
         }
+        
     }
    
 }

@@ -425,7 +425,12 @@ export default class Element {
 
     inputElement(){
         this.element = 'input'
-        
+        this.data.attributes = {
+            name: '',
+            id: '',
+            placeholder: '',
+            required: false
+        }
         this.placeholder = ''
         this.content = ''
         this.value = ''
@@ -444,35 +449,40 @@ export default class Element {
     InputEmail(){
         this.inputElement()
         this.type = 'email'
-        this.tag = 'email'
+        this.tag = 'input'
         this.placeholder = 'Email'
         return this
     }
 
     InputNumber(){
         this.inputElement()
-        this.tag = 'number'
+        this.tag = 'input'
         this.type = 'number'
         return this
     }
 
     InputHidden(){
         this.inputElement()
-        this.tag = 'hidden'
+        this.tag = 'input'
         this.type = 'hidden'
         return this
     }
 
     InputCheckbox(){
         this.inputElement()
-        this.tag = 'checkbox'
+        this.tag = 'input'
         this.type = 'checkbox'
         return this
     }
 
     InputTextarea(){
+        this.data.attributes = {
+            name: '',
+            id: '',
+            placeholder: ''
+        }
         this.element = 'textarea'
-        this.tag = 'textarea'
+        this.tag = 'input'
         this.type = 'textarea'
         this.placeholder = 'type here'
         return this

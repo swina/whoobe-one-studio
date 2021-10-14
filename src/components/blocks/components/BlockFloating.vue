@@ -1,5 +1,5 @@
 <template>
-     <div ref="floatingBarElement" v-if="$store.state.editor.current && $attrs.coords" class="h-8 flex items-center absolute justify-center bg-white text-black shadow text-xs px-2 cursor-pointer -mt-10" :style="coordinate">
+     <div ref="floatingBarElement" v-if="$store.state.editor.current && $attrs.coords" class="h-8 flex items-center absolute z-highest justify-center bg-white text-black shadow text-xs px-2 cursor-pointer -mt-10" :style="coordinate">
         <small class="chip bg-blue-400 capitalize">{{$store.state.editor.current.element}}</small>
         <m-icon class="floating-icon text-xl" icon="expand_less" @click="$editorBus('moveBlock',1)"/>
         <m-icon class="floating-icon text-xl" icon="add" v-if="$store.state.editor.current.type==='container'" @click="$eventBus('sidebar','elements')"/>
@@ -27,6 +27,8 @@ export default {
             //{ icon: 'expand_less' , title: 'Move up' , action: 'moveBlock,1' , filter : null},
             { icon: 'edit' , title: 'Edit content' , action: 'BlockEditContent' , filter: null },
             { icon: 'photo' , title: 'Icon' , action : 'BlockIconFinder' , filter: 'IconifyIcon' },
+            { icon: 'settings' , title: 'Attributes' , action: 'BlockInput' , filter : 'input' },
+            { icon: 'settings' , title: 'Attributes' , action: 'BlockInput' , filter : 'textarea' },
             { icon: 'format_size' , title: 'Font' , action: 'BlockFont'  },
             { icon: 'title' , title: 'Heading' , action: 'BlockHeading' , filter: 'h' },
             { icon: 'format_color_text' , title: 'Color' , action: 'BlockTextColor' , options: { context: 'textcolor' }, filter: null },
@@ -34,8 +36,9 @@ export default {
             //{ icon: 'brush' , title: 'Customize' , action: 'customizeBlock' , filter : null },
             { icon: 'photo' , title: 'Image' , action: 'BlockImageUrl' , filter : null },
             { icon: 'link' , title: 'Link' , action: 'BlockLink' , filter: null },
-
-            { icon: 'menu' , title: 'More...' , action: 'BlockContextMenu' , filter: null },
+            { icon: 'download' , title: 'Import block' , action: 'BlockImport' , filter: 'container' },
+            { icon: 'upload' , title: 'Export block' , action: 'BlockExport' , filter: 'container' }
+            // { icon: 'menu' , title: 'More...' , action: 'BlockContextMenu' , filter: null },
             //{ icon: 'delete' , title: 'Remove' , action: 'deleteBlock' , filter: null },
         ],
         position: {},
@@ -45,7 +48,10 @@ export default {
     }),
     methods:{
         isIconEnabled( icon ){
-            return icon.filter ? icon.filter.includes ( this.$store.state.editor.current.element ) : true
+            return icon.filter ? 
+                icon.filter.includes ( this.$store.state.editor.current.element ) 
+                    ? true :
+                        icon.filter.includes ( this.$store.state.editor.current.type ) ? true : false : true
         },
         classe ( icon ){
             return icon === this.currentIcon ?

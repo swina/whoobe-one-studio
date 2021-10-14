@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div ref="blockAction" class="">
         <input class="p-2" placeholder="search icon ..." type="text" v-model="search" @keydown="searchIcon($event)"/>
         <div v-if="icons" class="z-modal w-1/3 h-1/4 overflow-y-auto bg-white shadow flex flex-row flex-wrap bg-white cursor-pointer">
             <template v-for="icon in icons">
@@ -38,6 +38,10 @@ export default {
             this.$emit('close')
             this.icons = null
         }
+    },
+    mounted(){
+        let position = this.$refs.blockAction.getBoundingClientRect()
+        this.$emit('position',position.height)
     }
 }
 </script>

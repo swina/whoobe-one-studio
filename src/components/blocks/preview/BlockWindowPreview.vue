@@ -6,18 +6,18 @@
             <m-icon icon="smartphone" class="text-3xl  mr-4" @click="mode='smartphone'"/>
             <m-icon v-if="mode!='fullscreen'" icon="flip_camera_android" class="m-auto text-3xl" @click="orientation=!orientation"/>
         </div>
-        <div class="flex flex-col overflow-y-auto absolute inset-0 mt-10" v-if="mode==='fullscreen'">
+        <div class="flex flex-col overflow-y-auto absolute inset-0 mt-10 laptop-view" v-if="mode==='fullscreen'">
             <BlockContainer 
                 v-if="doc" 
                 :doc="doc" 
                 :key="doc.id" 
                 id="content"/>
         </div>
-        <div :class="mode==='fullscreen'?'hidden':''" class="text-center text-gray-300">
+        <div :class="mode==='fullscreen'?'hidden':''" v-if="mode!='fullscreen'" class="text-center text-gray-300">
             <!-- <m-icon icon="laptop" class="text-3xl" @click="mode='fullscreen'"/>
             <m-icon icon="tablet" class="text-3xl" @click="mode='tablet'"/><m-icon icon="smartphone" class="text-3xl" @click="mode='smartphone'"/>
             <m-icon icon="flip_camera_android" class="m-auto text-3xl" @click="orientation=!orientation"/> -->
-            <iframe :style="previewFrame" src="/?preview=true" class="m-auto border-8 overflow-x-hidden border-black rounded-xl">
+            <iframe :style="previewFrame" src="'/?preview=true'" class="m-auto border-8 overflow-x-hidden border-black rounded-xl">
             </iframe>
         </div>
         <div ref="contextMenu" class="fixed z-highest shadow bg-white shadow absolute flex flex-col w-64 cursor-pointer" :class="classe" @mouseleave="display=!display">
@@ -112,7 +112,7 @@ export default {
         }
     },
     methods:{
-       
+        
         contextmenu(e){
             e.preventDefault()
             this.display = true

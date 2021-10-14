@@ -50,6 +50,13 @@ async function importDefault (){
                 console.log ( err )
             }
         })
+        dbs.data.data[1].rows.forEach ( row => {
+            try {
+                db.addSettings ( row )
+            } catch ( err ){
+                console.log ( err )
+            }
+        })
         return true
     } catch ( err ){
         console.error ( err )

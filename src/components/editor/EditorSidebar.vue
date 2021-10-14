@@ -3,7 +3,7 @@
         <!-- <div class="top-0 left-0">
             <EditorSidebarTabs/>
         </div> -->
-        <div class="p-1 shadow-lg bg-purple-900 text-white capitalize flex flex-row items-center text-base cursor-pointer" @click="$emit('close')">
+        <div class="p-1 shadow-lg bg-indigo-500 text-white capitalize flex flex-row items-center text-base cursor-pointer" @click="$emit('close')">
             <span>{{ tab }}</span>
             <m-icon icon="chevron_right" class="absolute right-0 text-white text-xl"/>
         </div>

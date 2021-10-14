@@ -15,8 +15,8 @@
             :data-icon="element.tag==='iconify'?element.data.icon:null"
             @click="eventClick">
         </component> -->
+            <!-- :id="element.anchor ? element.anchor : element.id" -->
         <component 
-            :id="element.anchor ? element.anchor : element.id"
             :ref="element.id"
             :is="component" 
             :class="classe" 
@@ -26,7 +26,6 @@
             :src="element.image && element.image.url?$imageURL(element.image):'no-image.png'"
             :alt="element.image && element.image.alt?element.image.alt:element.element"
             :title="element.image && element.image.caption?element.image.caption:element.element"
-            :placeholder="element.placeholder"
             :data-icon="element.tag==='iconify'?element.data.icon:null"
             @click="eventClick">
         </component>
@@ -103,7 +102,11 @@ export default {
         if ( this.element.element != 'img' ) this.$refs[this.element.id].removeAttribute('src')
         if ( this.element.element != 'img' ) this.$refs[this.element.id].removeAttribute('alt')
         if ( this.element.element != 'img' && !this.element.link ) this.$refs[this.element.id].removeAttribute('title')
-        
+        if ( this.element.tag === 'input'){
+            Object.keys(this.element.data.attributes).forEach( attribute => {
+                this.$refs[this.element.id].setAttribute ( attribute , this.element.data.attributes[attribute] )
+            })
+        }
     }
 }
 </script>

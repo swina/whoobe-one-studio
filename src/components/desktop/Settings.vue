@@ -30,7 +30,8 @@ export default {
         newCategory: '',
         settings: {
             autosave: false,
-            autosaveTimeout: 5
+            autosaveTimeout: 5,
+            categories: ['Lead','Landing page','Subscribe page','Header','Footer','Hero','Homepage','Shop' , 'Feature'].sort()
         }
     }),
     

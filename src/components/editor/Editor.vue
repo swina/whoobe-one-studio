@@ -5,7 +5,7 @@
             <div class="w-full grid grid-cols-12 relative">
                 <div class="col-span-12 relative md:col-span-12 lg:col-span-12 mr-10 min-h-screen pb-20" :class="classe">
                     <!-- {{ sidebar }} {{ sidebarName }} -->
-                    <div class="flex flex-col overflow-y-auto absolute inset-0 mb-10" ref="blockEditor">
+                    <div class="flex flex-col absolute inset-0 mb-10" ref="blockEditor">
                         <BlockEditor :scroll="scrollTop"/>
                     </div>
                 </div>
@@ -63,27 +63,12 @@ export default {
     },
     mounted(){
         editorBus.$on ( 'preview' , () => {
-            this.display = false
+            //this.display = false
         })
         dialogBus.$on ( 'closeDialog' , () => {
             this.display = true
         })
-        //create block as component
-        // editorBus.$on ( 'createComponent' , () => {
-        //     let component = new Block()
-        //     const block = new Element().Flexbox({direction:'col'}).setIcon('dashboard').setTag('document')
-        //     this.$store.dispatch ( 'document' , block )
-        //     this.$store.dispatch ( 'setCurrent' , block )
-        //     this.$dialogBus ( 'createComponent' )
-        // })
-
-        //create document
-        // editorBus.$on ( 'createDocument' , () => {
-        //     const block = new Element().Flexbox({direction:'col'}).setIcon('dashboard').setTag('document')
-        //     this.$store.dispatch ( 'document' , block )
-        //     this.$store.dispatch ( 'setCurrent' , block )
-        //     this.$dialogBus ( 'createComponent' )
-        // })
+        
         eventBus.$on('sidebar', (sidebar) =>{
             if ( !this.sidebar ){
                 this.sidebar = true
@@ -135,7 +120,6 @@ export default {
         //move block
         editorBus.$on ( 'moveBlock' , (up) => {
             if ( !this.editor.current ) return
-            console.log ( this.editor.current )
             let component = this.editor.document
             var parent = jp.parent ( component , '$..blocks[?(@.id=="' + this.editor.current.id + '")]' )
             if ( parent.length === 1 ) return
@@ -148,9 +132,9 @@ export default {
             if ( i > 0 ){
                 let obj = Object.assign({},this.editor.current)
                 parent.splice(i,1)
-                parent.splice(i-up,0,obj)
+                parent.splice(i-1,0,obj)
             }
-            //this.$store.dispatch ( 'setCurrent' , null )
+            this.$store.dispatch ( 'setCurrent' , null )
         })
         
         //copy block to clipboard
@@ -179,17 +163,10 @@ export default {
 
         //preview block 
         editorBus.$on ( 'preview' , (mode) => {
-            //if ( mode === 'fullscreen' ){
                 this.$store.dispatch ( 'preview' , true )
                 window.localStorage.setItem('whoobe-preview',JSON.stringify(this.editor.document))
                 window.localStorage.setItem('whoobe-page',JSON.stringify(this.editor.page))
-                this.$dialogBus ( 'pagePreview' , (this.editor.document , mode) )
-
-                //window.localStorage.setItem('moka-settings', JSON.stringify(this.moka.settings))
-                //let route = this.$router.resolve({path: '/preview'});
-                //let w = window.open(route.href, 'whoobe','width=' + window.screen.availWidth );
-                //w.focus()
-            //}
+                this.$dialogBus ( 'blockPreview' , (this.editor.document , mode) )
         })
 
         
@@ -217,6 +194,10 @@ export default {
             this.$exportDocument()
         })
 
+        
+
+        
+
         // editorBus.$on ( 'exportBlock' , () => {
         //     this.$exportDocument(true,'whoobe-block','block')
         // })
@@ -225,9 +206,9 @@ export default {
         //     dialogBus.$emit ( 'importDialog' )
         // })
 
-        this.$refs.blockEditor.addEventListener ( 'scroll' , (e) => {
-            this.scrollTop =  e.target.scrollTop 
-        })
+        // this.$refs.blockEditor.addEventListener ( 'scroll' , (e) => {
+        //     this.scrollTop =  e.target.scrollTop 
+        // })
 
 
         

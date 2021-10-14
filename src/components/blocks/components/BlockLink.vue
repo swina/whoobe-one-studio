@@ -1,5 +1,5 @@
 <template>
-    <div ref="editorLink" class="fixed z-highest border bg-white shadow absolute h-20 flex flex-col items-center p-1">
+    <div ref="editorLink" class="fixed z-highest border bg-white shadow absolute flex flex-col items-center p-1">
         <div class="flex items-center mt-1">
             <m-icon icon="link"/><input v-if="$store.state.editor.current" class="ml-2 p-1 rounded w-56 text-lg" v-model="$store.state.editor.current.link"/>
             <m-icon icon="keyboard_return" class="bg-indigo-500 text-white p-1 rounded ml-1" @click="$emit('input',link)"/>
@@ -25,9 +25,11 @@ export default {
         }
     },
     mounted(){
+        
         this.link = this.$attrs.link
         let coords = this.$refs.editorLink.getBoundingClientRect()
-        if ( coords.right > window.innerWidth - 300 ){
+        this.$emit('position',coords.height)
+        if ( coords.right > window.innerWidth - 200 ){
             this.$refs.editorLink.style.left = coords.left - 100 + 'px'
         }
     }

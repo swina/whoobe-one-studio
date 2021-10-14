@@ -30,6 +30,11 @@ const routes = [
     component: Editor
   },
   {
+    path: '/templates',
+    name: 'Templates',
+    component: () => import ( '@/components/blocks/gallery/PagesGallery.vue')
+  },
+  {
     path: '/preview',
     name: 'Preview',
     component: Preview

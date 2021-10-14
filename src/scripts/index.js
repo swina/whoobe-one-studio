@@ -27,7 +27,7 @@ import { eventBus , dialogBus , editorBus } from '@/main'
 
 export default {
     install: function (Vue) {
-
+        
         
         Vue.prototype.$loading = (flag=true) => {
             eventBus.$emit ( 'loading' , flag )

@@ -1,6 +1,6 @@
 <template>
-    <div v-if="pages" class="relative">
-        <div class="ml-16 py-2 mb-2 w-screen flex items-center">
+    <div v-if="pages" class="absolute top-0 mt-8 bg-white w-screen min-h-screen">
+        <div class="py-2 mb-2 bg-gray-200 w-screen z-modal hidden md:flex md:flex-row items-center">
             <m-icon icon="add" css="icon-button cursor-pointer text-2xl border" @click="$editorBus('createPage')" 
             title="Create a new page"/>
             <m-icon icon="download" css="border icon-button cursor-pointer text-2xl" @click="importDB()" title="Import Pages"/>
@@ -8,7 +8,8 @@
             <!-- <button @click="$editorBus('createPage')">Create new</button> -->
             <label>Category</label> 
             <select v-model="category" class="capitalize bg-white rounded">
-                <option v-for="cat in categories" :value="cat">{{ cat }}</option>
+                <option value="" selected>All</option>
+                <option class="px-1 py-1" v-for="cat in categories" :value="cat">{{ cat }}</option>
             </select>
             <label>Search</label>
             <input type="text" v-model="search" @keydown="searchPages($event)"/>
@@ -20,7 +21,7 @@
         <transition name="fade">
             <div class="absolute inset-0 min-h-screen my-12 pb-64 flex flex-row flex-wrap px-6 items-center justify-center cursor-pointer overflow-y-auto">
                 <template v-for="(page,index) in pages">
-                    <div :key="index+skip" class="relative shadow mx-6 my-4 rounded border-t-8 border-gray-500" :title="page"  @click="openPage(page),$dialogBus('closeDialog'),$router.push('editor')">
+                    <div :key="index+skip" class="relative shadow mx-6 my-4 rounded border-t-8 border-gray-500" :title="page.name" >
                         <div class="flex flex-col items-center justify-center w-80 h-80" :title="page.name">
                             <img v-if="page.image" :src="imagePage(page)" class="w-full" :class="getImageInfo(page.image)"/>
                             <!-- <img v-if="!page.image" src="no-image.png" class="w-20 h-20 object-center"/> -->
@@ -29,15 +30,19 @@
                         <div class="w-full absolute bottom-0 p-1 bg-gray-200 text-black mt-1">{{ page.name }}</div>
                         <!-- <img v-if="image.image" :src="$imageURL(image.image)" class="h-32 w-48 object-cover shadow-lg"/>
                         <div v-if="!image.image" class="flex flex-col items-center h-32 w-48 shadow-lg">{{ image.name }}</div> -->
+                        <div class="absolute inset-0 opacity-0 bg-black hover:bg-opacity-50 hover:opacity-100 flex flex-row items-center justify-around">
+                            <button class="btn btn-purple rounded" @click="openPage(page),$dialogBus('closeDialog')">Edit</button>
+                            <button class="btn btn-purple rounded" @click="previewPage(page)">Preview</button>
+                        </div>
                     </div>
                 </template>
             </div>
         </transition>
-        <div v-if="!filter" class="absolute left-0 top-0 w-20 h-screen flex flex-col items-start justify-center">
-            <m-icon icon="chevron_left" class="text-6xl" @click="skip>0?skip=skip-limit:null"/>
+        <div v-if="!filter" class="absolute mt-20 left-0 top-0 w-20 h-screen flex flex-col items-start justify-center">
+            <m-icon icon="chevron_left" class="-mt-20 text-6xl" @click="skip>0?skip=skip-limit:null"/>
         </div>
-        <div v-if="!filter" class="absolute right-0 top-0 w-20 h-screen flex flex-col items-end justify-center">
-            <m-icon icon="chevron_right" class="text-6xl" @click="(skip+limit) < total ? skip=skip+limit : null"/>
+        <div v-if="!filter" class="absolute mt-20 right-0 top-0 w-20 h-screen flex flex-col items-end justify-center">
+            <m-icon icon="chevron_right" class="-mt-20 text-6xl" @click="(skip+limit) < total ? skip=skip+limit : null"/>
         </div>
     </div>
 </template>
@@ -62,13 +67,17 @@ export default {
         categories(){
             //let data =  [ ...new Set ( this.dataset.map ( a => { return a.category } ) ) ]
             //this.category = data[0]
-           return ['','Lead','Landing page','Subscribe page','Header','Footer','Hero','Homepage','Shop' , 'Feature']
+            return JSON.parse ( window.localStorage.getItem ( 'whoobe-settings') ).categories.sort()
+            //return ['','Lead','Landing page','Subscribe page','Header','Footer','Hero','Homepage','Shop' , 'Feature']
         }
     },
     watch:{
         category(c){
+           
                 this.skip = 0
+                
                 this.$getPages(this.category.toLowerCase(),this.limit,this.skip).then ( pages => { this.pages = pages })
+            
         },
         skip(value){
             this.$getPages(this.category.toLowerCase(),this.limit,this.skip).then ( pages => { this.pages = pages })
@@ -97,7 +106,7 @@ export default {
             return 'no-image.png'
         },
         openPage(page){
-            if ( !this.$attrs.options.mode ){
+            if ( !this.$route.fullPath.includes('mode') ){
                 this.$store.dispatch ( 'setPage' , page )
                 this.$store.dispatch ( 'document' , page.json.blocks )
             } else {
@@ -113,6 +122,11 @@ export default {
                 object: page,
                 type: 'editor'
             })
+            //this.$dialogBus ( 'closeDialog' )
+        },
+        previewPage ( page ){
+            window.localStorage.setItem ( 'whoobe-preview' , JSON.stringify ( page ))
+            this.$dialogBus('pagePreview','fullscreen')
         },
         getPages(){
             this.$getPages(this.category,this.limit,this.skip).then ( pages => { this.pages = pages })
@@ -146,7 +160,7 @@ export default {
         this.$dbCount().then ( res => {
             this.total = res
         })
-        this.category = this.categories[0]
+        //this.category = this.categories[0]
         this.$getPages(this.category,this.limit,this.skip).then ( pages => { this.pages = pages })
         
     }

@@ -10,41 +10,78 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
     name: 'Tabs',
     computed:{
+        ...mapState ( ['desktop'] ),
         isPreview(){
-            console.log ( this.$route.path )
             return this.$route.path.includes( 'preview' ) ? 'hidden' : ''
         }
     },
     watch:{
         '$store.state.desktop.tabs':function(value){
             if ( value.length ){
-                this.$store.dispatch ( 'currentTab' , value.length - 1)
-                this.$store.dispatch ( 'setPage' , value[value.length-1].object )
-                this.$store.dispatch ( 'document' , value[value.length-1].object.json.blocks )
+                console.log ( value )
+                if ( value[value.length - 1].type === 'editor' ){
+                    this.$store.dispatch ( 'currentTab' , value.length - 1)
+                    this.$store.dispatch ( 'setPage' , value[value.length-1].object )
+                    this.$store.dispatch ( 'document' , value[value.length-1].object.json.blocks )
+                    this.$store.dispatch ( 'component' , ()=>import('@/components/editor/Editor.vue') )
+                } 
+                if ( value[value.length - 1].type === 'component' ){
+                    console.log  ( 'loading component ...')
+                    this.$store.dispatch ( 'component' , value[value.length-1].object )
+                }
             } else {
+                this.$store.dispatch ( 'component' , null )
                 this.home()
             }
             this.$dialogBus ( 'closeDialog' )
+        },
+        '$store.state.desktop.currentTab':function(index){
+            if ( index < 0 ) return
+            let tab = this.desktop.tabs[index]
+            if ( tab.type === 'editor' ){
+                this.$store.dispatch ( 'setPage' , tab.object )
+                this.$store.dispatch ( 'document' , tab.object.json.blocks )
+                this.$store.dispatch ( 'component' , ()=>import('@/components/editor/Editor.vue') )
+            }
+            if ( tab.type === 'component' ){
+                this.$store.dispatch ( 'component' , tab.object )
+            }
+
         }
     },
     methods:{
         home(){
             this.$store.dispatch ( 'currentTab' , -1 )
-            this.$router.push ( '/' )
+            //this.$router.push ( '/' )
+            this.$store.dispatch ( 'component' , null )
         },
         activeTab(index){
             return index === this.$store.state.desktop.currentTab ? 'bg-gray-200 text-black' : 'bg-purple-900'
         },
+        switchTab(){
+            if ( value[value.length - 1].type === 'editor' ){
+                    this.$store.dispatch ( 'currentTab' , value.length - 1)
+                    this.$store.dispatch ( 'setPage' , value[value.length-1].object )
+                    this.$store.dispatch ( 'document' , value[value.length-1].object.json.blocks )
+                    this.$store.dispatch ( 'component' , ()=>import('@/components/editor/Editor.vue') )
+                } 
+                if ( value[value.length - 1].type === 'component' ){
+                    console.log  ( 'loading component ...')
+                    this.$store.dispatch ( 'component' , value[value.length-1].object )
+                }
+        },
         openTab ( tab , index ){
             this.$store.dispatch ( 'currentTab' , index )
-            this.$store.dispatch ( 'setPage' , tab.object )
-            this.$store.dispatch ( 'document' , tab.object.json.blocks )
-            if ( this.$route.path === '/' ){
-                this.$router.push ( 'editor')
-            }
+            // this.$store.dispatch ( 'currentTab' , index )
+            // this.$store.dispatch ( 'setPage' , tab.object )
+            // this.$store.dispatch ( 'document' , tab.object.json.blocks )
+            // if ( this.$route.path === '/' ){
+            //    this.$router.push ( 'editor')
+            // }
         },
         removeTab(index){
             this.$store.dispatch ( 'removeTab' , index )

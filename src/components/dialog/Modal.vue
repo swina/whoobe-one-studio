@@ -36,10 +36,17 @@ export default {
             this.topBar = true
             this.options = { html: 'Do you want to save before to close?'}
         }),
+        modalBus.$on ( 'confirmYesNo' , (html,context) => {
+            this.dialogComponent = () => import ( '@/components/common/ConfirmYesNo.vue')
+            this.title = 'Confirm'
+            this.width = 'w-1/3 h-auto'
+            this.topBar = true
+            this.options = { html: 'Do you want to save before to close?' , context: context }
+        }),
         modalBus.$on ( 'viewHTML' , (html) => {
             this.dialogComponent = () => import ( '@/components/blocks/components/BlockHtml.vue')
             this.title = 'HTML source'
-            this.width = 'w-3/4 h-3/4'
+            this.width = 'w-3/4 h-auto'
             this.topBar = true
             this.options = { html: html}
         }),

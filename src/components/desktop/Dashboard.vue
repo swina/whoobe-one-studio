@@ -14,14 +14,15 @@ export default {
     name: 'Dashboard',
     data:()=>({
         menu: [
-            { label: 'New Page' , icon: 'auto_fix_high' , action: 'startEmpty' },
-            { label: 'Editor' , icon: 'web' , action: 'startDefault' },
-            { label: 'Library' , icon: 'library_books' , action: 'pages' },
-            { label: 'Import' , icon: 'download' , action: 'import' },
-            { label: 'Backup' , icon: 'health_and_safety' , action: 'export' },
+            { label: 'Empty Page' , icon: 'auto_fix_high' , action: 'startEmpty' },
+            { label: 'Lead Page' , icon: 'web' , action: 'startDefault' },
+            { label: 'Templates' , icon: 'library_books' , action: 'pages' },
+            //{ label: 'Import' , icon: 'download' , action: 'importDB' },
+            { label: 'Backup' , icon: 'health_and_safety' , action: 'exportDB' },
             { label: 'Settings' , icon: 'settings' , action: 'settings'},
 
-        ]
+        ],
+        
     }),
     methods:{
         openDialog(dialog){

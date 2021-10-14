@@ -19,7 +19,8 @@ export default {
     },
     mounted(){
         let coords = this.$refs.contentEditor.getBoundingClientRect()
-        if ( coords.right > window.innerWidth - 300 ){
+        this.$emit('position',coords.height)
+        if ( coords.right > window.innerWidth - 200 ){
             this.$refs.contentEditor.style.left = coords.left - 200 + 'px'
         }
         if ( this.$store.state.editor.current.element === 'p' ){

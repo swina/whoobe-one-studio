@@ -17,7 +17,7 @@ export class Database extends Dexie {
     // string; the ++ for the index on the id field indicates that "id" is an
     // auto-incrementing primary key, while the "done" field is just a regukar
     // IndexedDB index.
-    this.version(1).stores({
+    this.version(2).stores({
       pages: '++id,name,category,description,*tags',
       settings: 'id'
     });

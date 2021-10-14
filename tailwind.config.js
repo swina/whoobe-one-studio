@@ -70,12 +70,12 @@ module.exports = {
           '107' : '107',
           '108' : '108',
           '109' : '109', 
-          'max': '10000000',
-          'top': '999999999',
-          'xtop'    : '999999999999999999',
-          '2xtop'   : '9999999999999999999',
-          'highest' : '99999999999999999999',
-          'modal' : '999999999999999999999999'
+          'max': '1000',
+          'top': '1001',
+          'xtop'    : '1002',
+          '2xtop'   : '2000',
+          'highest' : '3000',
+          'modal' : '4000'
         },
         lineHeight : {
           '11' : '2.75rem',
@@ -185,12 +185,21 @@ module.exports = {
         '.btn': {
           padding: '.5rem 1rem',
           fontWeight: '600',
+          border: '0'
         },
         '.btn-blue': {
           backgroundColor: '#3490dc',
           color: '#fff',
           '&:hover': {
             backgroundColor: '#2779bd'
+          },
+        },
+        '.btn-purple': {
+          backgroundColor: '#581c87',
+          color: '#fff',
+          '&:hover': {
+            backgroundColor: '#fff',
+            color: '#581c87'
           },
         },
         '.btn-red': {

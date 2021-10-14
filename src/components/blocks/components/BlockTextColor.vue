@@ -68,6 +68,7 @@ export default {
         })
         
         let coords = this.$refs.blockColor.getBoundingClientRect()
+        this.$emit ( 'position' , coords.height )
         if ( coords.right > window.innerWidth - 200 ){
             this.$refs.blockColor.style.left = coords.left - (coords.width * 2) + 'px'
         }

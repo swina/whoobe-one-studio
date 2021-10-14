@@ -1,5 +1,6 @@
 <template>
-    <component :is="semantic" v-if="$attrs.doc" :ref="$attrs.doc.id" :class="classe" class="" :style="stile"  :id="$attrs.doc.anchor ? $attrs.doc.anchor : $attrs.doc.id" @click="eventClick">
+    <component :is="semantic" v-if="$attrs.doc" :ref="$attrs.doc.id" :class="classe" class="" :style="stile"   @click="eventClick">
+        <!-- :id="$attrs.doc.anchor ? $attrs.doc.anchor : $attrs.doc.id" -->
         <template v-for="block in $attrs.doc.blocks">
             <BlockContainerPreview v-if="!block.link && block && block.type === 'container'" :doc="block" :key="block.id"/>
 

@@ -7,12 +7,11 @@
             </div>
         </div> -->
         <div class="modal w-5/6" v-if="!$store.state.editor.preview">
-            <div class="w-full md:w-1/2 lg:w-1/3 py-10 m-auto cursor-pointer relative flex items-center justify-center p-4 text-white rounded-lg shadow-xl" style="font-family:'Barlow Condensed'">
+            <div class="w-full md:w-1/2 lg:w-1/3 py-10 m-auto cursor-pointer relative flex flex-col items-center justify-center p-4 text-white rounded-lg shadow-xl" style="font-family:'Barlow Condensed'">
                 <h1 class="m-auto">whoobe<span class="text-purple-500 font-bold">One</span>  <m-icon icon="bubble_chart" class="text-3xl text-yellow-500"/></h1>
-                <!-- <div class="absolute bottom-0 text-gray-700">Click to start</div> -->
+                <div class="text-base text-gray-400 -mb-8">no-code page builder</div>
             </div>
             <transition name="fade">
-                
                 <Dashboard v-if="start"/>
             </transition>
         </div>
@@ -45,7 +44,6 @@ export default {
         }
     },
     mounted(){
-        
         eventBus.$on ( 'dbImported' , ()=>{
             this.start = true
         })
