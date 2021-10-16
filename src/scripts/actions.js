@@ -13,12 +13,11 @@ const createEmptyBlock = () => {
     store.dispatch ( 'setPage' , page )
     store.dispatch ( 'setCurrent' , block )
     store.dispatch ( 'document' , block )
-    //this.$dialogBus ( 'settingsPage' )
     store.dispatch ( 'add_tab' , {
         label: page.name,
-        object: page 
+        object: page,
+        type: 'editor'
     })
-    router.push ( 'editor' )
 }
 
 const openDefaultBlock = () => {
@@ -26,9 +25,9 @@ const openDefaultBlock = () => {
     store.dispatch ( 'document' , page.json.blocks )
     store.dispatch ( 'add_tab' , {
         label: page.name ,
-        object: page 
+        object: page,
+        type: 'editor'
     })
-    router.push ( 'editor' )
 }
 
 const test = () => {

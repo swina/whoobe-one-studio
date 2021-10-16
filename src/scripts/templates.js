@@ -1,26 +1,64 @@
 "use strict";
 import Element from './ElementsClass'
 
+const templatesIcons = {
+    'Empty'             : { icon: 'highlight_alt' , template: 'empty'},
+    'Navbar'            : { icon: 'more_horiz' , template: 'navbar' },
+    'Call To Action'    : { icon: 'call_to_action' , template: 'cta'},
+    'Call To Action Hor': { icon: 'call_to_action' , template: 'ctaHorizontal' },
+    'Info Card'         : { icon: 'art_track' , template: 'infoCard' },  
+    'Feature'           : { icon: 'featured_video' , template: 'feature'},
+    'Hero'              : { icon: 'art_track' , template: 'hero' },
+    'Team'              : { icon: 'people_alt' , template: 'team'},
+    'Simple form'       : { icon: 'call_to_action' , template: 'simpleForm' },
+    'Rounded Input'     : { icon: 'input' , template: 'roundedInput'},
+    'Input Icon'        : { icon: 'input' , template: 'inputIcon' },
+    'Input Icon(R)'     : { icon: 'input' , template: 'inputIconR' },
+    'Article'           : { icon: 'article' , template: 'article'},
+    'Classic Page'      : { icon: 'web' , template: 'classicPage'},
+    'Blog Homepage'     : { icon: 'web' , template: 'blog' }
+}
+
 const templates = {
-    'Empty'        : 'empty',
-    'Classic Page' : 'classicPage',
-    'Blog Homepage': 'blog',
-    'Call To Action' : 'cta',
-    'Feature'       : 'feature'
+    'Empty'             : 'empty',
+    'Navbar'            : 'navbar',
+    'Call To Action'    : 'cta',
+    'Call To Action Hor': 'ctaHorizontal',
+    'Info Card'         : 'infoCard',  
+    'Feature'           : 'feature',
+    'Team'              : 'team',
+    'Simple form'       : 'simpleForm',
+    'Rounded Input'     : 'roundedInput',
+    'Input Icon'        : 'inputIcon',
+    'Input Icon(R)'     : 'inputIconR',
+    'Article'           : 'article',
+    'Classic Page'      : 'classicPage',
+    'Blog Homepage'     : 'blog'
 }
 export default class Template {
     constructor(){
         this.blocks = []
         this.templates = templates
+        this.templatesIcon = templatesIcons
     }
 
 
     Build(name){
         return  name === 'empty'        ? this.empty() :
+                name === 'article'      ? this.article() :
                 name === 'classicPage'  ? this.classicPage() : 
                 name === 'blog'         ? this.blog() : 
+                name === 'navbar'       ? this.navbar() :
+                name === 'infoCard'     ? this.infoCard() :
+                name === 'hero'         ? this.hero() :
                 name === 'cta'          ? this.cta() : 
-                name === 'feature'      ? this.feature() : null
+                name === 'ctaHorizontal'? this.ctaHorizontal() : 
+                name === 'feature'      ? this.feature() :
+                name === 'team'         ? this.team() : 
+                name === 'simpleForm'   ? this.simpleForm() : 
+                name === 'roundedInput' ? this.roundedInput() : 
+                name === 'inputIcon'    ? this.inputIcon() :
+                name === 'inputIconR'    ? this.inputIconRight() :null
     }   
 
     empty(){
@@ -68,12 +106,28 @@ export default class Template {
         return this
     }
 
+    navbar(){
+        let container = new Element().Grid().Cols(12).setCss('w-full bg-white shadow-lg')
+        let logo = new Element().Flexbox({direction:'col',colspan:3}).setCss('items-center justify-center')
+        let title = new Element().Heading(2).setContent('Title')
+        logo.blocks.push ( title )
+        let menu = new Element().Flexbox({direction:'row',colspan:9}).setCss('items-center justify-center')
+        for ( var n=0 ; n < 3 ; n++ ){
+            let menu_item = new Element().InlineText().setCss('border-b border-transparent hover:border-black mx-6').setContent('Item_' + (parseInt(n)+1))
+            menu.blocks.push ( menu_item )
+        }
+        container.blocks.push ( logo )
+        container.blocks.push ( menu )
+        this.blocks.push ( container )
+        return this
+    }
+
     cta(){
-        let container = new Element().Grid().Cols(12).setCss('h-1/3 w-full')
+        let container = new Element().Grid().Cols(12).setCss('w-full bg-white shadow-lg')
         let flexbox = new Element().Flexbox({direction:'col',colspan:12}).setCss('w-full items-center justify-center')
         let title = new Element().Heading(2).setContent('Call To Action')
         let payoff = new Element().Heading(4).setContent('Some CTA description')
-        let button = new Element().Button()
+        let button = new Element().Button().setCss ( 'px-4 py-2 bg-blue-500')
         container.blocks.push ( flexbox )
         flexbox.blocks.push ( title )
         flexbox.blocks.push ( payoff )
@@ -82,14 +136,163 @@ export default class Template {
         return this
     }
 
+    ctaHorizontal(){
+        let container = new Element().Grid().Cols(12).setCss('w-full bg-white shadow-lg')
+        let flexboxL = new Element().Flexbox({direction:'col',colspan:8}).setCss('w-full items-center justify-center')
+        let flexboxR = new Element().Flexbox({direction:'col',colspan:4}).setCss('w-full items-center justify-center')
+        let title = new Element().Heading(2).setContent('Call To Action')
+        let payoff = new Element().Heading(4).setContent('Some CTA description')
+        let button = new Element().Button().setCss ( 'px-4 py-2 bg-blue-500')
+        container.blocks.push ( flexboxL )
+        container.blocks.push ( flexboxR )
+        flexboxL.blocks.push ( title )
+        flexboxL.blocks.push ( payoff )
+        flexboxR.blocks.push ( button )
+        this.blocks.push ( container )
+        return this
+    }
+
+    card(){
+        let container = new Element().Flexbox({direction:'col'}).setCss ( 'w-64 justify-center items-center shadow')
+        let content = new Element().Flexbox({direction:'col'}).setCss ( 'w-full p-4 justify-start')
+        container.blocks.push ( content )
+        return container
+    }
+
+    _iconInput(iconName='mi:home',type='text',name=''){
+        let container = new Element().Flexbox({direction:'row'})
+        let inputField
+        if ( type === 'text')
+            inputField = new Element().InputText().setCss('rounded-r-lg')
+        if ( type === 'email' )
+            inputField = new Element().InputEmail().setCss('rounded-r-lg')
+
+        let icon = new Element().Iconify().setCss('rounded-l-lg w-10 h-10 flex justify-center items-center text-2xl text-gray-200 border border-r-0')
+        icon.data.icon = iconName
+        name ? inputField.data.attributes.name =  name : null
+        container.blocks.push ( icon )
+        container.blocks.push ( inputField )
+        return container
+    }
+
+    article(){
+        let container = new Element().Flexbox({direction:'col'}).setCss ( 'justify-start items-start')
+        let title = new Element().Heading(1)
+        let subtitle = new Element().InlineText().setCss ( 'italic text-sm' )
+        let content = new Element().Paragraph().setCss ( 'my-4 px-4')
+        container.blocks = [ title , subtitle , content ]
+        this.blocks.push ( container )
+        return this
+    }
+
+    simpleForm(){
+        let container = new Element().Flexbox({direction:'col'}).setCss ( 'justify-center items-center shadow')
+        let content = new Element().Flexbox({direction:'col'}).setCss ( 'w-full p-4 justify-start')
+        let btn = new Element().Button().setCss('px-4 py-2 rounded bg-blue-400 text-white hover:bg-blue-700 my-4').setContent('Send')
+
+        content.blocks.push ( new Element().InlineText().setContent('Name') )
+        let name = this._iconInput('wpf:name')
+        content.blocks.push ( name )
+
+        content.blocks.push ( new Element().InlineText().setContent('Address') )
+        let address = this._iconInput('entypo:address')
+        content.blocks.push ( address )
+
+        content.blocks.push ( new Element().InlineText().setContent('Email') )
+        let email = this._iconInput('mi:email','email')
+        content.blocks.push ( email )
+
+        content.blocks.push ( btn )
+        container.blocks.push ( content )
+        this.blocks.push ( container )
+        return this
+    }
+
+    infoCard(){
+        let container = new Element().Flexbox({direction:'col'}).setCss ( 'w-64 justify-center items-center shadow')
+        let content = new Element().Flexbox({direction:'col'}).setCss ( 'w-full p-4 justify-start')
+        let img = new Element().Image().setCss ( 'w-full h-auto object-cover' )
+        img.image.url = 'https://res.cloudinary.com/moodgiver/image/upload/v1633344243/adventure_woman_rujic1.webp'
+        let title = new Element().Heading(4).setContent('Info Card').setCss('border-b-2')
+        let description = new Element().Paragraph()
+        let btn = new Element().Button().setCss ( 'my-4 px-4 py-2 bg-blue-500').setContent('Read more')
+        container.blocks.push ( img )
+        content.blocks.push ( title )
+        content.blocks.push ( description )
+        content.blocks.push ( btn )
+        container.blocks.push ( content )
+        this.blocks.push ( container )
+        return this
+    }
+
+    hero(){
+        let grid = new Element().Grid().Cols(2).setCss('w-full p-2 md:p-20')
+        let flexLeft = new Element().Flexbox({direction:'col'}).setCss('h-1/2 p-4 items-start justify-center')
+        let flexRight = new Element().Flexbox({direction:'col'}).setCss('h-1/2 bg-contain bg-no-repeat bg-center')
+        let title = new Element().Heading(1).setContent('I am a Hero').setCss('font-bold')
+        let description = new Element().Paragraph().setCss('text-lg my-2')
+        let cta = new Element().Button().setContent('Click Me').setCss('px-4 py-2 rounded bg-blue-400 text-white hover:bg-blue-700 my-4')
+        flexRight.image.url = 'https://res.cloudinary.com/moodgiver/image/upload/v1617306150/Web_design_SVG_tsvcpl.svg'
+        flexLeft.blocks = [ title, description , cta]
+        grid.blocks = [ flexLeft , flexRight ]
+        this.blocks.push ( grid )
+        return this
+    }
+
     feature(){
-        let container = new Element().Flexbox({direction:'col'}).setCss ( 'justify-center items-center shadow px-6 py-4')
-        let icon = new Element().Icon().setContent('home')
-        let title = new Element().Heading(4).setContent('Feature')
-        let description = new Element().InlineText().setContent('Lore ipsum lore ipsum lore ipsum')
+        let container = new Element().Flexbox({direction:'col'}).setCss ( 'w-full md:w-56 justify-center items-center shadow px-6 py-4')
+        let icon = new Element().Iconify().setCss('text-3xl')
+        icon.data.icon = 'mi:laptop'
+        let title = new Element().Heading(4).setContent('Feature').setCss('my-8')
+        let description = new Element().Paragraph().setCss ( 'text-center' )
         container.blocks.push ( icon )
         container.blocks.push ( title )
         container.blocks.push ( description )
+        this.blocks.push ( container )
+        return this
+    }
+
+    team(){
+        let container = new Element().Flexbox({direction:'col'}).setCss ( 'w-56 justify-center items-center shadow px-6 py-4')
+        let img = new Element().Image().setCss ( 'rounded-full h-40 w-40 object-cover' )
+        img.image.url = 'https://res.cloudinary.com/moodgiver/image/upload/v1608198254/thumbnail_fashion_1_d66f5610d2.jpg'
+        let title = new Element().Heading(4).setContent('Sara Doe').setCss('mt-8 border-b-2')
+        let description = new Element().InlineText().setCss ( 'text-center capitalize' ).setContent ( 'CEO' )
+        container.blocks.push ( img )
+        container.blocks.push ( title )
+        container.blocks.push ( description )
+        this.blocks.push ( container )
+        return this
+    }
+
+    roundedInput(){
+        let container = new Element().Flexbox({direction:'row'})
+        let inputField = new Element().InputText().setCss('rounded-l-lg')
+        let btn = new Element().Button().setCss('rounded-r-lg')
+        container.blocks.push ( inputField )
+        container.blocks.push ( btn )
+        this.blocks.push ( container )
+        return this
+    }
+
+    inputIcon(){
+        let container = new Element().Flexbox({direction:'row'})
+        let inputField = new Element().InputText().setCss('rounded-r-lg')
+        let icon = new Element().Iconify().setCss('rounded-l-lg w-10 h-10 flex justify-center items-center text-2xl text-gray-200 border border-r-0')
+        icon.data.icon = 'mi:email'
+        container.blocks.push ( icon )
+        container.blocks.push ( inputField )
+        this.blocks.push ( container )
+        return this
+    }
+
+    inputIconRight(){
+        let container = new Element().Flexbox({direction:'row'})
+        let inputField = new Element().InputText().setCss('rounded-l-lg')
+        let icon = new Element().Iconify().setCss('rounded-r-lg w-10 h-10 flex justify-center items-center text-2xl text-gray-200 border border-l-0')
+        icon.data.icon = 'mi:email'
+        container.blocks.push ( inputField )
+        container.blocks.push ( icon )
         this.blocks.push ( container )
         return this
     }

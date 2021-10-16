@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-gray-800 w-screen min-h-screen">
+    <div class="bg-gray-800 w-screen h-screen max-h-screen">
         <!-- <div class="h-10 w-screen bg-bluegray-200 flex flex-row items-center" v-if="start">
             <m-icon icon="menu" css="icon-button z-modal" @click="$eventBus('desktopSidebarLeft','main')" title="Main menu"/>
             <div class="ml-6 flex flex-row items-center">
@@ -46,15 +46,6 @@ export default {
     mounted(){
         eventBus.$on ( 'dbImported' , ()=>{
             this.start = true
-        })
-        this.$dbCount().then ( res => {
-            if ( !res ){
-                this.start = false
-            } else {
-                this.$settings().then ( res => {
-                    window.localStorage.setItem ( 'whoobe-settings', JSON.stringify(res[0]) )
-                })
-            }
         })
 
     }

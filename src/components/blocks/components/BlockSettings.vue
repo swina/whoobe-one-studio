@@ -28,7 +28,7 @@ export default {
     }),
     computed:{
         categories(){
-            return JSON.parse ( window.localStorage.getItem ( 'whoobe-settings') ).categories
+            return this.$store.state.editor.settings.categories.sort()//JSON.parse ( window.localStorage.getItem ( 'whoobe-settings') ).categories
         }
     },
     methods:{

@@ -14,6 +14,7 @@
         <m-icon icon="tablet" css="icon-button" @click="$editorBus('preview','tablet')" title="Tablet Preview"/>
         <m-icon icon="smartphone" css="icon-button" @click="$editorBus('preview','smartphone')" title="Smartphone Preview"/> -->
         <div class="border-r h-10 mx-1"></div>
+        <m-icon icon="settings" class="icon-button" @click="$dialogBus('settingsPage')"/>
         <m-icon icon="save" css="icon-button" @click="$savePage()" title="Save template"/>
         <m-icon icon="file_copy" css="icon-button" title="Save as" @click="saveAs()"/>
         <m-icon icon="download" css="icon-button" @click="$editorBus('importPage','page')" title="Import template"/>

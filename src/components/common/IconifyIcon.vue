@@ -25,8 +25,13 @@ export default {
         selected(){
             if ( !this.$attrs.block ) return this.$attrs.class
             if ( this.$attrs.mode ) return this.$attrs.block.css.css
+            //let border =  'border border-dashed border-green-500'
+            let borderUnselected = ' border border-dashed border-transparent hover:border-green-500 '
+            if ( this.$attrs.block.css.css.includes ( 'border') ){
+                borderUnselected = ' hover:border-green-500 '
+            }
             return this.$store.state.editor.current && this.$store.state.editor.current.id === this.$attrs.block.id ?
-                'border border-dashed border-green-500' : ' border border-dashed border-transparent hover:border-green-500 '
+                    'border border-dashed border-green-500' : borderUnselected
         },
         component(){
             return Icon

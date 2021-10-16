@@ -220,6 +220,7 @@ export default {
                 animations: animations,
                 tags: page.tags.join(',')
             }
+            console.log ( whoobeone )
             let data = "const whoobe = " + JSON.stringify(whoobeone) + ';export default whoobe'
             const blob = new Blob([data],{type: 'application/js'})
             FileSaver.saveAs(blob,'whoobe.js')

@@ -1,7 +1,7 @@
 <template>
-  <div id="app" class="bg-white grid w-screen min-h-screen overflow-x-hidden bg-no-repeat bg-cover bg-center">
+  <div id="app" class="bg-white grid w-screen h-screen max-h-screen overflow-x-hidden bg-no-repeat bg-cover bg-center">
     <router-view/>
-    <component :is="desktop.component" v-if="desktop.component" class="absolute top-0 left-0 w-screen h-screen mt-8"/>
+    <component :is="desktop.component" v-if="desktop.component" class="desktop-component absolute top-0 left-0"/>
   
     <Tabs ref="whoobeTabs" v-if="!$store.state.editor.preview"/>
     <DesktopSidebarLeft v-if="sidebarLeft"/>
@@ -86,11 +86,11 @@ export default {
     this.$settings().then ( res => {
         if ( res.length ){
             settings = res[0]
-            if ( settings.categories ){
+            if ( !settings.categories ){
                 settings.categories = ['Lead','Landing page','Subscribe page','Header','Footer','Hero','Homepage','Shop' , 'Feature'].sort()
             }
         }
-        window.localStorage.setItem ( 'whoobe-settings' , settings )
+        this.$store.dispatch ( 'settings' , settings)
     })
 
 
@@ -148,7 +148,7 @@ export default {
 <style>
 body {
   background: rgb(214, 214, 214);
-  overflow:hidden;
+  /* overflow:hidden; */
 }
 
 ::-webkit-scrollbar {

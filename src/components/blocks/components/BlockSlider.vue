@@ -1,38 +1,27 @@
 <template>
     <div v-if="slider" :class="'z-modal z-' + $attrs.level">
-        <div class="flex z-modal">
-            <button @click="addSlide">Add slide</button>
-            <template v-for="(slide,index) in slider.blocks">
-                <button class="px-2 border hover:bg-blue-200" :key="index" @click="currentIndex=index" :class="currentIndex===index?'bg-blue-500':''">Slide {{ index+1 }}</button>
-            </template>
-            {{ currentIndex }}
-        </div>
-        <div :class="slider.css.container" class="h-1/2 w-full">
-        <div v-if="currentIndex>-1">
-            {{ slider.blocks[currentIndex].id }}
-            <BlockContainer 
-                :doc="slider.blocks[currentIndex]" 
-                :key="'slide_' + currentIndex" :level="parseInt($attrs.level)+1"/>
-        </div>
-        <!-- <BlockContainer 
-            v-if="currentIndex && (block.type === 'container' || block.tag ==='container' || block.tag === 'blocks')" 
-            :doc="$attrs.doc.blocks[currentIndex]" 
-            :key="block.id" :level="parseInt($attrs.level)+1"/> -->
-        </div>
-        <!-- <div :class="classe" type="container" class="relative dragula-container cursor-pointer p-1" :style="stile" :id="$attrs.doc.id" :ref="$attrs.doc.id">
-            {{ $attrs.doc.blocks.length ? null : $attrs.doc.element }}
-            <template v-for="block in $attrs.doc.blocks">
-                <BlockContainer v-if="block.type === 'container' || block.tag ==='container' || block.tag === 'blocks'" :doc="block" :key="block.id" :level="parseInt($attrs.level)+1"/>
-                <BlockElement v-if="block && block.type != 'container' && block.tag != 'iconify' && block.tag != 'container'" :element="block" :key="block.id" :level="parseInt($attrs.level)+1" @selected="setFloating"/>
-                <IconifyIcon v-if="block.tag==='iconify'" :class="classeElement(block)" :block="block" @selected="setFloating"/>
-            </template>
-            <div class="block-selector absolute inset-0" :class="selector" @click="setCurrent($attrs.doc)" @mouseenter="float()" @mouseleave="nofloat()" :data-block-tag="$attrs.doc.semantic||$attrs.doc.tag">
-                
+        <div class="flex z-modal border border-gray-300 pb-10">
+            <m-icon icon="settings" @click="$store.dispatch('setCurrent',slider)" class="icon-button"/><button @click="addSlide" class="btn bg-gray-200">Add slide</button>
+            <div v-if="slider.blocks" class="flex">
+                <template v-for="(slide,index) in slider.blocks">
+                    <IconButton class="px-2 border btn  hover:bg-blue-500 hover:text-white text-xs" :class="currentIndex===index?'btn-purple':'bg-gray-200'"  :text="'Slide ' + (index+1)" icon="close" @click="currentIndex=index,$store.dispatch('setCurrent',slide)" @close="slider.blocks.splice(index,1),$store.dispatch('setCurrent',null),currentIndex=slider.blocks.length-1"/>
+                </template>
             </div>
-            <div id="elementSelector"></div>
-        </div> -->
+        </div>
+        <div v-if="slider.blocks.length" :class="slider.css.container" class="w-full border-2 border-dashed border-blue-400">
+            <!-- {{ slider.blocks[currentIndex]}} -->
+            
+                <BlockContainer 
+                    :doc="slider.blocks[currentIndex]" 
+                    :key="'slide_' + currentIndex" :level="parseInt($attrs.level)+1"/>
+            
+        
+        </div>
+        
     </div>
-
+    <!-- <pre v-if="slider">
+        {{ slider }}
+    </pre> -->
 </template>
 
 <script>
@@ -41,7 +30,7 @@ import { mapState } from 'vuex'
 export default {
     name: 'BlockSlider',
     data:()=>({
-        currentIndex : null,
+        currentIndex : 0,
         slider: null
     }),
     components:{

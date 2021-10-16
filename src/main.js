@@ -45,6 +45,9 @@ Vue.component ( 'MIcon' , MaterialIcon )
 import IconifyIcon from '@/components/common/IconifyIcon.vue'
 Vue.component ( 'IconifyIcon' , IconifyIcon )
 
+import IconButton from '@/components/common/IconButton.vue'
+Vue.component ( 'IconButton' , IconButton )
+
 import Palette from '@/components/common/Palette.vue'
 Vue.component ( 'Palette' , Palette )
 

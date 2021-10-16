@@ -24,21 +24,21 @@ const routes = [
     name: 'Main',
     component: Main
   },
-  {
-    path: '/editor',
-    name: 'Editor',
-    component: Editor
-  },
-  {
-    path: '/templates',
-    name: 'Templates',
-    component: () => import ( '@/components/blocks/gallery/PagesGallery.vue')
-  },
-  {
-    path: '/preview',
-    name: 'Preview',
-    component: Preview
-  },
+  // {
+  //   path: '/editor',
+  //   name: 'Editor',
+  //   component: Editor
+  // },
+  // {
+  //   path: '/templates',
+  //   name: 'Templates',
+  //   component: () => import ( '@/components/blocks/gallery/PagesGallery.vue')
+  // },
+  // {
+  //   path: '/preview',
+  //   name: 'Preview',
+  //   component: Preview
+  // },
   { path: "*", component: Main }
 ]
 

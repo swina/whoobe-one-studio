@@ -10,6 +10,12 @@
             :css="allCss" 
             :front="frontColor" 
             :hover="hoverColor"/>
+        <!-- <background-color v-if="$store.state.editor.current && $attrs.options.context==='bgcolor'" 
+            :attr="$attrs.options.context" 
+            @css="setColor" 
+            :css="allCss" 
+            :front="frontColor" 
+            :hover="hoverColor"/> -->
         <!-- <m-icon icon="keyboard_return" class="absolute right-0 mr-2 h-6 w-6 bg-indigo-500 text-white p-1 rounded ml-1" @click="saveColor"/>
         <div class="clear-both">{{ opened }}</div> -->
     </div>
@@ -28,7 +34,8 @@ export default {
         hoverColor: ''
     }),
     components: {
-        'TextColor' : () => import ( '@/components/blocks/tailwind/controls/tailwind.color.vue')
+        'TextColor' : () => import ( '@/components/blocks/tailwind/controls/tailwind.color.vue'),
+        'BackgroundColor' : () => import (  '@/components/blocks/tailwind/controls/tailwind.bgcolor.vue' )
     },
     computed:{
          colors(){
@@ -56,8 +63,8 @@ export default {
             this.colors.forEach ( color => {
                 if ( cl.includes ( color ) ){
                     if ( cl.indexOf('hover') > -1 ){
-                        this.currentColor = cl
-                        this.hoverColor = cl
+                        this.currentColor = cl.replace('hover:','')
+                        this.hoverColor = cl.replace('hover:','')
                     } else {
                         this.currentColor = cl
                         this.frontColor = cl

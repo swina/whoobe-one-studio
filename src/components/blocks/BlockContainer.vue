@@ -4,7 +4,7 @@
         <template v-for="block in $attrs.doc.blocks">
             <BlockContainer 
                 v-if="block.type === 'container' || block.tag ==='container' || block.tag === 'blocks'" :doc="block" :key="block.id" :level="parseInt($attrs.level)+1"/>
-            <Slider v-if="block.type === 'slider'" :doc="block"/>
+            <Slider v-if="block.type === 'slider'" :doc="block" :level="parseInt($attrs.level)+1"/>
             <BlockElement v-if="block && block.type != 'slider' && block.type != 'container' && block.tag != 'iconify' && block.tag != 'container'" :element="block" :key="block.id" :level="parseInt($attrs.level)+1" @selected="setFloating"/>
             <IconifyIcon v-if="block.tag==='iconify'" :class="classeElement(block)" :block="block" @selected="setFloating"/>
         </template>

@@ -1,5 +1,5 @@
 <template>
-<div class="overflow-hidden mt-10" v-if="display">
+<div class="overflow-hidden max-h-screen h-screen mt-0 inset-0 editor-main-container" v-if="display" style="max-height:100vh;margin:0;">
     <div class="editor-container min-h-screen top-0 right-0 left-0 bottom-0 flex flex-row">
         <div class="w-full overflow-y-hidden overflow-x-hidden">
             <div class="w-full grid grid-cols-12 relative">

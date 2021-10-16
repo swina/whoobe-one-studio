@@ -58,10 +58,12 @@ p > pre {
   @apply bg-transparent text-base;
 }
 
+button { width: fit-content; }
+/*
 button {
     @apply bg-gray-700 text-white text-sm leading-4 px-2 py-1 border border-transparent rounded-none outline-none;
     width: fit-content;
-}
+ }
 
 button:focus {
   @apply outline-none;
@@ -110,7 +112,7 @@ button.light {
 
 button.light:hover {
   @apply bg-gray-700 text-white;
-}
+} */
 
 /*mr-2 mt-1 capitalize w-24 border hover:bg-blue-400 hover:text-white border-blue-400 focus:bg-gray-600 focus:text-white focus:outline-none bg-white text-blue-400 rounded-none*/
 

@@ -47,7 +47,7 @@ export default {
         },
         saveSettings(){
             this.$saveSettings(this.settings)
-            window.localStorage.setItem ( 'whoobe-settings' , JSON.stringify ( this.settings ) )
+            this.$store.dispatch ( 'settings' , this.settings ) //window.localStorage.setItem ( 'whoobe-settings' , JSON.stringify ( this.settings ) )
         }
     },
     mounted(){

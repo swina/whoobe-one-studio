@@ -1,119 +1,73 @@
 <template>
     <div>
-        Gradient
-        <div class="flex flex-row justify-between">
-            <div>
-                From  
-                <div :class="'mb-1 w-8 h-8 border-2 rounded-full ' + color('from')" @click="getColor('from')"></div>
-            </div>
-            <div>
-                Via
-                <div :class="'mb-1 w-8 h-8 border-2 rounded-full ' + color('via')" @click="getColor('via')"></div>    
-            </div>
-            <div>
-                To
-                <div :class="'mb-1 w-8 h-8 border-2 rounded-full ' + color('to')" @click="getColor('to')"></div>
-            </div>
+        Presets
+        <div class="flex flex-wrap w-full justify-start cursor-pointer">
+            <template v-for="gradient in presets">
+                <div class="h-8 w-8 mx-1 mb-1" :title="gradient" :class="gradient + direction" @click="setCSS(gradient)"></div>
+            </template>
         </div>
-        Direction                            
-        <select class="nodark" v-model="direction" @change="update">
-            <option value="">reset</option>
-            <option v-for="(dr,index) in directions" :value="dr.value" :key="dr.label">{{dr.label}}</option>
-        </select>
-        <div :class="'w-full border my-1 h-10 ' + direction + ' ' + Object.values ( twgradient ).join( ' ' )"></div>
-        <transition name="slidedown">
-            <Palette v-if="palette" css="" @close="palette=!palette" @color="setColor"/>
-        </transition>
+        <button class="btn" @click="clearGradient">Clear</button><button class="btn" @click="randomGradient">Random</button>
     </div>
 </template>
 
 <script>
 import classes from '@/scripts/tw.classes'
 export default {
+    name: 'TailwindBGGradient',
     data:()=>({
-        twgradient: {
-            direction: '',
-            from: '',
-            via: '',
-            to: '',
-        },
-        gradients: [ 'from' , 'to' , 'via'],        
-        direction: '',
-        directions : [
-            
-            { label: 'Top'          , value: 'bg-gradient-to-t'     },
-            { label: 'Top Right'    , value: 'bg-gradient-to-tr'    },
-            { label: 'Right'        , value: 'bg-gradient-to-r'     },
-            { label: 'Bottom Right' , value: 'bg-gradient-to-br'    },
-            { label: 'Bottom'       , value: 'bg-gradient-to-b'     },
-            { label: 'Bottom Left'  , value: 'bg-gradient-to-bl'    },
-            { label: 'Left'         , value: 'bg-gradient-to-l'     },
-            { label: 'Top Left'     , value: 'bg-gradient-to-tl'    }
-        ],
-        palette: false,
-        currentCss: '',
-        target: null
+        allCss:'',
+        direction: ' bg-gradient-to-bl',
+        presets: [
+            ' from-white to-black ',
+            ' from-blue-800 to-pink-700 ',
+            ' from-orange-300 to-red-900 ',
+            ' from-blue-300 to-blue-900 ',
+            ' from-green-300 to-blue-900 ',
+            ' from-white to-blue-300 ',
+            ' from-red-200 to-red-700 ',
+            ' from-lime-400 to-red-700 ',
+            ' from-pink-400 to-black ',
+            ' from-white to-red-700 ',
+            ' from-yellow-100 to-gray-800 ',
+            ' from-yellow-300 to-black ',
+        ]
     }),
-    props: [ 'css' ],// 'gradient','from','to','via'],
+    props: [ 'css' ],
     computed:{
         colors(){
             return classes.colors
+        },
+        gradients(){
+            return classes.gradients
         }
     },
-    mounted(){
-        if ( !this.css ) return
-        let allCss = this.css
-        let classi = allCss.split(' ')
-        classi.forEach ( (cl,index) => {
-            if ( cl.replaceAll(' ','') != ' '){
-                this.gradients.forEach ( gr => {
-                    if ( cl.indexOf ( gr ) > -1 ){
-                        this.colors.forEach ( color => {
-                            if ( cl.indexOf ( gr + '-' + color) > - 1 ){
-                                this.twgradient[gr] = cl
-                            }
-                        })
-                    }
-                    // if ( cl.indexOf ( gr ) > - 1 ){
-                    //     this.twgradient[gr] = cl
-                    //     allCss = allCss.replace(cl,'')
-                    // }
-                })
-            }
+    // mounted(){
+    //     if ( !this.css ) return
+    //     let allCss = this.css
+    //     let classi = allCss.split(' ')
+    //     classi.forEach ( (cl,index) => {
+    //         if ( cl.replaceAll(' ','') != ' '){
+    //             this.gradients.forEach ( gr => {
+    //                 if ( cl.indexOf ( gr ) > -1 ){
+    //                     this.colors.forEach ( color => {
+    //                         if ( cl.indexOf ( gr + '-' + color) > - 1 ){
+    //                             this.twgradient[gr] = cl
+    //                         }
+    //                     })
+    //                 }
+    //             })
+    //         }
             
             
-        })
-        this.directions.forEach ( dr => {
-                if ( this.css.indexOf ( dr.value ) > -1 ){
-                    this.direction = dr.value
-                    allCss = allCss.replace(dr.value,'')
-                }
-        })
-        //this.$emit ( 'input' , Object.values(this.twgradient).join(' ') )
-        /*
-        this.direction ?
-            this.$emit ( 'input' , Object.values(this.twgradient).join(' ') ) :
-                    this.$emit ('input','')
-        this.$emit('css', this.twgradient.from )
-        this.$emit('css', this.twgradient.to )
-        this.$emit('css', this.twgradient.via )
-        this.$emit('css', this.direction )
-        */
-        //this.$emit ( 'input' , Object.values(this.twgradient).join(' '))
-        /*
-        this.twgradient.gradient = this.gradient
-        this.twgradient.from = this.from
-        this.twgradient.to = this.to
-        this.twgradient.via = this.via
-        this.directions.forEach ( (values,index) => {
-            if ( this.gradient === values.value ) { this.direction = index }
-        })
-        this.$emit('input' , Object.values(this.twgradient).join(' ') )
-        //this.twgradient.from = this.twgradient.from ? this.twgradient.from.replace('bg','from') : ''
-        //this.twgradient.to = this.twgradient.to ? this.twgradient.to.replace('bg','to') : ''
-        //this.twgradient.via = this.twgradient.via ? this.twgradient.via.replace('bg','via') : ''
-        */
-    },
+    //     })
+    //     this.directions.forEach ( dr => {
+    //             if ( this.css.indexOf ( dr.value ) > -1 ){
+    //                 this.direction = dr.value
+    //                 allCss = allCss.replace(dr.value,'')
+    //             }
+    //     })
+       
+    // },
     watch:{
         
         
@@ -134,53 +88,41 @@ export default {
         */
     },
     methods:{
-        update(){
-            if ( !this.direction )  { 
-                let nogradient = {
-                    direction: '',
-                    gradient: '',
-                    from: '',
-                    to: '',
-                    via: ''
+        setCSS(css){
+            this.clearGradient()
+            this.$store.state.editor.current.css.css += css + this.direction
+        },
+        clearGradient(){
+            if ( !this.css ) return 
+            this.allCss = this.css
+            let classi = this.css.split(' ')
+            classi.forEach ( (cl,i) => {
+                if ( cl.includes('from-') || cl.includes('to-') || cl.includes('via-') ){
+                    this.allCss = this.allCss.replace ( cl , '')
                 }
-                this.$emit ( 'input' , Object.values(nogradient).join(' ') )
-                this.$emit('css','')
-                return
-            }
-            this.twgradient.direction = this.direction
-            this.$emit ( 'input' , Object.values(this.twgradient).join(' ') )
-            this.$emit ( 'css' , Object.values(this.twgradient).join(' ') )
-            
+            })
+            this.$store.state.editor.current.css.css = this.allCss
         },
-        color(attr){
-            return this.twgradient[attr] ? this.twgradient[attr].replace(attr,'bg') : ''
-        },
-        getColor(mode){
-            this.target = mode
-            this.palette =! this.palette
-        },
-        setColor(color,tone){
-
-            this.palette = false
-            if ( color ){
-                let t = tone ? '-' + tone : ''
-                
-                    this.target === 'from' ? this.twgradient[this.target] = 'from-' + color + t :
-                        this.target === 'to' ? this.twgradient[this.target] = 'to-' + color + t : 
-                            this.target === 'via' ? this.twgradient[this.target] = 'via-' + color + t : '' 
-
-                //this.twgradient.gradient = this.directions[this.direction].value
-                //this.$emit ( 'gradient' , this.twgradient )
-                this.update()
-                /*
-                this.direction ?
-                    this.$emit ( 'input' , Object.values(this.twgradient).join(' ') ) :
-                        this.$emit ('input','')
-                this.$emit('css', this.$clean(Object.values(this.twgradient).join(' ')))
-                */
-            }
-
+        randomGradient(){
+            let color1 = parseInt(Math.random() * (this.colors.length - 0) + 0);
+            let color2 = parseInt(Math.random() * (this.colors.length - 0) + 0);
+            let gradient1 = parseInt(Math.random() * (9 - 1) + 1)*100;
+            let gradient2 = parseInt(Math.random() * (9 - 1) + 1)*100;
+            let gradient = ' from-' + this.colors[color1] + '-' + gradient1 + ' to-' + this.colors[color2] + '-' + gradient2 + ' '
+            this.clearGradient()
+            this.$store.state.editor.current.css.css += gradient + this.direction
+            this.presets.push ( gradient )
         }
+    },
+    mounted(){
+        if ( !this.css ) return
+        let classi = this.css.split(' ')
+        classi.forEach ( cl => {
+            if ( cl.includes ( 'bg-gradient-to') ){
+                this.direction = cl
+            }
+        })
+        this.allCss = this.css
     }
 }
 </script>

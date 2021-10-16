@@ -1,8 +1,14 @@
 <template>
-    <div v-if="templates">
-        <template v-for="template in Object.keys(templates)">
-            <div class="p-2 bg-gray-200 hover:bg-indigo-500 hover:text-white cursor-pointer border-b" @click="library(templates[template])">{{template}}</div>
+    <div v-if="templates" class="absolute min-h-screen top-0 overflow-y-auto w-full">
+        <div class="flex flex-wrap items-center justify-center">
+        <template v-for="template in Object.keys(templatesIcon)">
+            <div :key="template" class="bg-gray-100 m-1 hover:bg-gray-300 flex flex-col items-center h-16 w-16 ml-01 text-xs justify-center text-center text-gray-500 rounded hover:text-indigo-500 shadow" @click="library(templatesIcon[template].template)" :title="template">
+                <m-icon css="material-icons text-3xl" :icon="templatesIcon[template].icon"/>
+                <span class="text-xs" style="font-size:.5rem">{{ template }}</span>
+            </div>
+            <!-- <div class="p-1 bg-gray-200 hover:bg-indigo-500 hover:text-white cursor-pointer border-b" @click="library(templates[template])">{{template}}</div> -->
         </template>
+        </div>
     </div>
 </template>
 
@@ -18,14 +24,19 @@ export default {
     computed:{
         templates(){
             return new Template().templates
+        },
+        templatesIcon(){
+            return new Template().templatesIcon
         }
+
     },
     methods:{
         library(name){
             this.template =  new Template().Build(name)
             if ( !this.template ) return 
             this.template.blocks.forEach ( block => {
-                 this.$store.state.editor.document.blocks.push ( block )
+                this.$store.state.editor.current.blocks.push ( block )
+                //this.$store.state.editor.document.blocks.push ( block )
             })
             // if ( template === 'classicPage' ){
                 

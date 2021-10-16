@@ -1,5 +1,5 @@
 <template>
-    <Editor/>
+    <Editor class="h-screen"/>
 </template>
 
 <script>

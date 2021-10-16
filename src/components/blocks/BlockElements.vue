@@ -2,7 +2,7 @@
     <div v-if="editor.elements" class="relative">
 
       <template v-for="group in editor.elements">
-        <div :key="group.label" class="capitalize cursor-pointer p-2 text-gray-700 text-base" :class="gr===group.label?'bg-bluegray-300 text-gray-200':''" @click="gr===group.label?gr=null:gr=group.label">
+        <div :key="group.label" class="capitalize flex items-center cursor-pointer p-2 text-gray-700 text-base" :class="gr===group.label?'bg-bluegray-300 text-gray-200':''" @click="gr===group.label?gr=null:gr=group.label">
           {{ group.label }}
           <m-icon class="absolute right-0 m-1" :icon="gr===group.label?'expand_less':'expand_more'"/>
         </div>
@@ -18,6 +18,13 @@
         
       
       </template>
+      <div key="grouped" class="capitalize cursor-pointer items-center flex p-2 text-gray-700 text-base" :class="gr==='grouped'?'bg-bluegray-300 text-gray-200':''" @click="gr==='grouped'?gr=null:gr='grouped'">
+          Grouped
+          <m-icon class="absolute right-0 m-1" :icon="gr==='grouped'?'expand_less':'expand_more'"/>
+      </div>
+      <div v-if="gr==='grouped'" class="relative w-full cursor-pointer">
+        <BlockLibrary/>
+      </div>
     </div>
 </template>
 
@@ -27,6 +34,9 @@ import { editorBus } from '@/main'
 import Element from '@/scripts/ElementsClass'
 export default {
     name: 'BlockElements',
+    components: {
+      'BlockLibrary' : () => import ( '@/components/blocks/components/BlockLibrary.vue')
+    },
     data:()=>({
         gr: '',
         el: null

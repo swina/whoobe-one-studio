@@ -6,7 +6,7 @@
             <span class="ml-6 text-gray-800 " v-if="editor.page">{{ editor.page.name }} <span class="chip bg-gray-800 text-white p-1">{{ editor.page.category }}</span></span>
             <m-icon icon="settings" class="ml-4" @click="$dialogBus('settingsPage')"/>
             <m-icon icon="remove_red_eyes" class="ml-4" @click="$editorBus('preview','fullscreen')"/>
-            <span class="absolute right-0 mr-12">{{ parseInt(containerCoords.top) }} {{ parseInt(containerCoords.height) }} {{ parseInt(containerCoords.top-containerCoords.height) }}</span>
+            <span class="absolute right-0 mr-12">X:{{ parseInt(containerCoords.left)-editorOffsetX }} Y:{{ parseInt(containerCoords.top + scroll - editorOffsetY ) }} </span>
         </div>
         <div class="p-4 mt-16 pb-20">
             <BlockContainer v-if="editor.document" 
@@ -67,6 +67,8 @@ export default {
         elementContent: false,
         floatingID : null,
         display: true,
+        editorOffsetX:16,
+        editorOffsetY:88,
         coords: {
             top: 0,
             left: 0,
@@ -132,9 +134,9 @@ export default {
             if ( h ){
                 this.containerCoords.height = h
                 if ( this.containerCoords.top > 250 ){
-                    this.actionStile = `top:${this.coords.top-this.scroll-h -8}px;left:${this.coords.left}px;`
+                    this.actionStile = `top:${this.coords.top-this.scroll-h}px;left:${this.coords.left}px;`
                 } else {
-                    this.actionStile = `top:${this.coords.top-this.scroll-8}px;left:${this.coords.left}px;`
+                    this.actionStile = `top:0px;left:${this.coords.left}px;`//`top:${this.coords.top-this.scroll-8}px;left:${this.coords.left}px;`
                 }
             }
         },
@@ -180,8 +182,8 @@ export default {
         this.actionStile = `top:${this.coords.top-this.scroll-8}px;left:${this.coords.left}px;`
         //Autosave if is set to true in settings
         let vm = this
-        let settings = JSON.parse ( window.localStorage.getItem ( 'whoobe-settings') )
-        if ( settings.autosave ){
+        let settings = this.$store.state.editor.settings //JSON.parse ( window.localStorage.getItem ( 'whoobe-settings') )
+        if ( settings.autosave && this.editor.page.id != 0 ){
             this.timer = window.setInterval( () => {
                 vm.$savePage()
             },parseInt(settings.autosaveTimeout)*1000*60)
@@ -208,7 +210,7 @@ export default {
             let coords = this.getCoords(id)
             if ( coords ){
                 this.containerCoords = {
-                    top: coords.top - 32,
+                    top: coords.top + 8,
                     left: coords.left
                 }
             }
@@ -229,7 +231,7 @@ export default {
             this.action = action.icon
             this.actionComponent = () => import ( '@/components/blocks/components/' + action.action )
             let coords = this.getCoords ( 'floating' )
-            this.coords.top = coords.top + this.scroll - 32
+            this.coords.top = coords.top + this.scroll
             this.coords.left = coords.left
             this.options = action.options
         })

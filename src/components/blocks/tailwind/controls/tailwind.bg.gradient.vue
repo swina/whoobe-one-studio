@@ -48,21 +48,22 @@ export default {
             this.$emit('css', this.color.front + ' ' )
             this.palette = false
         },
-        update(css){
-            if ( !css.length ) return
-            this.allCss = css
-            let classes = this.allCss.split(' ')
-            classes.forEach ( cl => {
-                this.colors.forEach ( color => {
-                    if ( cl.indexOf ( color ) ){
-                            this.allCss = this.allCss.replace(cl,'')
-                            this.color.front = cl
-                            this.$emit('css',cl)
-                    }
-                })
+        // update(css){
+        //     if ( !css.length ) return
+        //     this.allCss = css
+        //     let classes = this.allCss.split(' ')
+        //     classes.forEach ( cl => {
 
-            })
-        }
+        //         this.colors.forEach ( color => {
+        //             if ( cl.indexOf ( color ) ){
+        //                     this.allCss = this.allCss.replace(cl,'')
+        //                     this.color.front = cl
+        //                     this.$emit('css',cl)
+        //             }
+        //         })
+
+        //     })
+        // }
     },
     
     mounted(){
@@ -70,16 +71,12 @@ export default {
         this.allCss = this.css
         let classes = this.allCss.split(' ')
         classes.forEach ( cl => {
-            this.colors.forEach ( color => {
-                if ( cl.indexOf ( color ) > -1 ){
-                    this.allCss = this.allCss.replace(cl,'')
-                    this.color.front = cl
-                    this.$emit('css',cl)
-                }
-            })
-
+            if ( cl.indexOf ( this.attr ) === 0  ){
+                this.color.front = cl.replace(this.attr,'bg')
+                this.allCss = this.allCss.replace (cl,'')
+            }
         })
-        this.$emit('input', this.color.front )
+        //this.$emit('input', this.color.front )
     }
 }
 </script>

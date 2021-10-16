@@ -20,6 +20,11 @@ export default {
         doc(){
             return JSON.parse ( window.localStorage.getItem ( 'whoobe-preview' ) ).json.blocks 
         }
+    },
+    mounted(){
+        console.log ( this.$refs )
     }
 }
 </script>
+
+

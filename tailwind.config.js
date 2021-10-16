@@ -183,9 +183,18 @@ module.exports = {
     plugin(function({ addComponents }) {
       const buttons = {
         '.btn': {
-          padding: '.5rem 1rem',
-          fontWeight: '600',
-          border: '0'
+          padding: '.3rem .5rem',
+          outline: 'none',
+          fontWeight: '200',
+          border: '1px solid #ddd',
+          borderRadius: '0px',
+        },
+        '.btn-black': {
+          backgroundColor: '#000',
+          color: '#fff',
+          '&:hover': {
+            backgroundColor: '#777'
+          },
         },
         '.btn-blue': {
           backgroundColor: '#3490dc',

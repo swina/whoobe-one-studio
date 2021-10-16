@@ -20,9 +20,11 @@ export default {
         doc(){
             document.querySelector('meta[name="viewport"]').setAttribute("content",  "width=368,initial-scale=1.0") 
             this.$store.dispatch ( 'preview' , true )
-            console.log ( this.$store.state.editor.preview )
             return JSON.parse(window.localStorage.getItem('whoobe-preview'))
         }
     }
 }
 </script>
+<style>
+    body { overflow-y: auto; }
+</style>

@@ -2,7 +2,7 @@
     <div class="relative z-highest h-full">
         <div v-if="editor.current" class="border-r border-b">
             <template v-for="group in groups">
-                <div :key="group.label" class="capitalize cursor-pointer p-2 text-gray-700 text-base" :class="gr===group.label?'bg-bluegray-300 text-gray-200':''" @click="setControl(group)" v-if="isEnabled(group)">
+                <div :key="group.label" class="flex items-center capitalize cursor-pointer p-2 text-gray-700 text-base" :class="gr===group.label?'bg-bluegray-300 text-gray-200':''" @click="setControl(group)" v-if="isEnabled(group)">
                     {{ group.label }}
                     <m-icon class="absolute right-0 m-1" icon="chevron_right"/>
                 </div>
@@ -62,6 +62,7 @@ export default {
         'Color'         : () => import ( './controls/tailwind.color.vue') ,
         'Button'        : () => import ( './controls/tailwind.button.vue') ,
         'BgGradient'    : () => import ( './controls/tailwind.bg.gradient.vue') ,
+        'BgGradientPresets' : () => import ( './controls/tailwind.gradient.vue') ,
         'Width'         : () => import ( './controls/tailwind.width.vue') ,
         'Height'        : () => import ( './controls/tailwind.height.vue') ,
         'BgPosition'    : () => import ( './controls/tailwind.bgposition.vue') ,

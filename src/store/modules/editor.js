@@ -1,5 +1,6 @@
 const editor = {
     state: {
+        settings: null,
         elements: null,
         document: null,
         project: null,
@@ -21,6 +22,9 @@ const editor = {
         customizeTab: null
     },
     mutations: {
+        settings ( state , payload ){
+            state.settings = payload
+        },
         elements ( state , elements ){
             state.elements = elements
         },
@@ -130,6 +134,9 @@ const editor = {
         },
         customizeTab ( { commit } , payload ){
             commit ( 'customizeTab' , payload )
+        },
+        settings ( { commit } , payload ){
+            commit ( 'settings' , payload )
         }
     }
 

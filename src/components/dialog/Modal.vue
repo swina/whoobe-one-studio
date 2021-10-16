@@ -1,6 +1,6 @@
 <template>
-    <div class="modal whoobe-modal w-full bg-white z-modal" :class="classe" v-if="dialogComponent">
-        <m-icon class="absolute top-0 right-0 m-1 z-modal bg-gray-800 text-white text-3xl" icon="close" @click="dialogComponent=null"/>
+    <div class="whoobe-modal w-full bg-white z-modal" :class="classe" v-if="dialogComponent">
+        <m-icon class="absolute top-0 right-0 h-10 w-10 z-modal bg-gray-800 text-white text-3xl" icon="close" @click="dialogComponent=null"/>
         <div class="h-10 w-full flex items-center text-white text-lg px-2 font-bold" :class="topBar?'bg-gray-800':'bg-transparent'">
             {{ title }}
        </div>
@@ -32,28 +32,35 @@ export default {
         modalBus.$on ( 'confirm' , (html) => {
             this.dialogComponent = () => import ( '@/components/common/Confirm.vue')
             this.title = 'Confirm'
-            this.width = 'w-1/4 h-auto'
+            this.width = 'w-1/4 h-auto modal'
             this.topBar = true
             this.options = { html: 'Do you want to save before to close?'}
         }),
         modalBus.$on ( 'confirmYesNo' , (html,context) => {
             this.dialogComponent = () => import ( '@/components/common/ConfirmYesNo.vue')
             this.title = 'Confirm'
-            this.width = 'w-1/3 h-auto'
+            this.width = 'w-1/3 h-auto modal'
             this.topBar = true
             this.options = { html: 'Do you want to save before to close?' , context: context }
         }),
         modalBus.$on ( 'viewHTML' , (html) => {
             this.dialogComponent = () => import ( '@/components/blocks/components/BlockHtml.vue')
             this.title = 'HTML source'
-            this.width = 'w-3/4 h-auto'
+            this.width = 'w-3/4 h-auto modal'
             this.topBar = true
             this.options = { html: html}
         }),
         modalBus.$on ( 'blockSettings' , () => {
             this.dialogComponent = () => import ( '@/components/blocks/components/BlockSettings.vue')
-            this.title = 'Page Settings'
+            this.title = 'Page Settings modal'
             this.width = 'w-1/4'
+            this.topBar = true
+            this.options = {}
+        })
+        modalBus.$on ( 'blocksGallery' , () => {
+            this.dialogComponent = () => import ( '@/components/blocks/gallery/ComponentsGallery.vue')
+            this.title = 'Components'
+            this.width = 'w-1/2 modal-top-right h-screen'
             this.topBar = true
             this.options = {}
         })

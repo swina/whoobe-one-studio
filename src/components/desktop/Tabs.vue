@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed top-0 left-0 h-8 items-center bg-purple-900 w-screen flex flex-wrap" v-if="$store.state.desktop.tabs" :class="isPreview">
+    <div class="fixed top-0 left-0 h-8 items-center bg-purple-900 w-screen z-modal flex flex-wrap" v-if="$store.state.desktop.tabs" :class="isPreview">
         <m-icon icon="home" class="h-8 w-8 items-center justify-center flex text-white" @click="home"/>
         <template v-for="(tab,index) in $store.state.desktop.tabs">
             <div :class="activeTab(index)" class="hover:bg-purple-400 text-white px-2 flex items-center cursor-pointer h-8">

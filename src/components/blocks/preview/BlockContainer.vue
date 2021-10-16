@@ -4,12 +4,12 @@
         <template v-for="block in $attrs.doc.blocks">
             <BlockContainerPreview v-if="!block.link && block && block.type === 'container'" :doc="block" :key="block.id"/>
 
-            <BlockElement v-if="!block.link && block && block.type != 'container' && block.tag !='iconify' && !block.link" :element="block" :key="block.id"/>
-
+            <BlockElement v-if="!block.link && block && block.type != 'container' && block.type != 'slider' && block.tag !='iconify' && !block.link" :element="block" :key="block.id"/>
+            <SliderPreview v-if="block.type === 'slider'" :slider="block"/>
             <a v-if="block.link" :href="block.link">
                 <BlockContainerPreview v-if="block && block.type === 'container'" :doc="block" :key="block.id"/>
 
-                <BlockElement v-if="block && block.type != 'container' && block.tag !='iconify'" :element="block" :key="block.id"/>
+                <BlockElement v-if="block && block.type != 'container'&& block.type != 'slider' && block.tag !='iconify'" :element="block" :key="block.id"/>
                 <IconifyIcon v-if="block.tag === 'iconify'" mode="render" :block="block"/>
             </a>
             
@@ -31,7 +31,8 @@ export default {
         elementLink: false
     }),
     components:{
-        'BlockElement'  : () => import ('@/components/blocks/preview/BlockElement.vue')
+        'BlockElement'  : () => import ('@/components/blocks/preview/BlockElement.vue'),
+        'SliderPreview'        : () => import ('@/components/blocks/preview/BlockSlider.vue')
     },
     computed:{
         classe(){

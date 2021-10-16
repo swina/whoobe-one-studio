@@ -17,7 +17,7 @@
             <!-- <m-icon icon="laptop" class="text-3xl" @click="mode='fullscreen'"/>
             <m-icon icon="tablet" class="text-3xl" @click="mode='tablet'"/><m-icon icon="smartphone" class="text-3xl" @click="mode='smartphone'"/>
             <m-icon icon="flip_camera_android" class="m-auto text-3xl" @click="orientation=!orientation"/> -->
-            <iframe :style="previewFrame" src="'/?preview=true'" class="m-auto border-8 overflow-x-hidden border-black rounded-xl">
+            <iframe ref="previewFrame" :style="previewFrame" src="'/?preview=true'" class="m-auto border-8 overflow-x-hidden border-black rounded-xl">
             </iframe>
         </div>
         <div ref="contextMenu" class="fixed z-highest shadow bg-white shadow absolute flex flex-col w-64 cursor-pointer" :class="classe" @mouseleave="display=!display">
@@ -137,7 +137,7 @@ export default {
             this.$exportBuild ( html )
         },
         async print() {
-            //this.$loading()
+            this.$loading()
             let el , options
             el = document.querySelector('#content')
             options = { type: "dataURL" , useCORS: true , scale: 0.50 }
@@ -145,6 +145,7 @@ export default {
             this.printScreen = screenshot
             this.editor.page.image = screenshot
             this.$savePage()
+            this.$loading()
             //this.$addPageImage(screenshot)
             //this.$exportImage ( screenshot )
             //this.$loading(false)
@@ -263,21 +264,7 @@ export default {
     },
     mounted(){
         this.$store.dispatch ( 'preview' , true )
-        // if ( this.$route.params.slug ){
-        //     this.$api.service ( 'articles' ).find ( { query : { slug : this.$route.params.slug }} ).then ( res => {
-        //         let mydoc = res.data[0].blocks.json
-        //         this.$mapState().editor.current = mydoc
-        //         this.$mapState().editor.component = JSON.parse(window.localStorage.getItem('whoobe-component'))
-        //         this.doc = mydoc
-        //     })
-        // } else {
-        //     this.doc = JSON.parse(window.localStorage.getItem('whoobe-preview'))
-        // }
-        // let width = window.localStorage.getItem ( 'whoobe-preview-mode' )
-        // if ( width ){
-        //     window.resizeTo (width ? width : window.screen.availWidth , window.screen.availHeight)
-            
-        // }
+        
         this.doc = this.$store.state.editor.document
         document.title = 'whoobe'
         document.addEventListener('keydown', (e) => {
@@ -285,6 +272,13 @@ export default {
         })
         this.mode = this.$attrs.options.mode
         //this.$eventBus ( 'notification' , 'Press Escape to close the preview')
+        if ( this.mode != 'fullscreen' ){
+            console.log ( this.$refs.previewFrame.contendDocument.head )
+            let style = document.createElement('style')
+            style.textContent = 'body { overflow-y: auto; }'
+            this.$refs.previewFrame.contentDocument.body.appendChild(style)
+        }
     }
 }
 </script>
+

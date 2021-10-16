@@ -76,6 +76,7 @@ const twgroups = [
         { name: 'BgGradient' , attr: 'via' , title: 'gradient via' , css: 'float-left' , group: true },
         { name: 'BgGradient' , attr: 'to' , title: 'gradient to' , css: 'float-left' , group: true },
         { name: 'Options' , attr: 'gradient' , title: 'direction' , css: 'flex w-full' , group: true },
+        { name: 'BgGradientPresets' , attr: 'gradientPreset' , title: 'Presets' , css: 'flex w-full' , group: true },
     ]},
     { label: 'padding', components : [ 
         { name: 'Range' , attr: 'padding' , title: 'all'},
