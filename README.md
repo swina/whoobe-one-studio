@@ -21,6 +21,8 @@ WhoobeOne Studio is a component visual builder for TailwindCSS (required 2.0 min
 
 ## Editor tools
 
+<img src="https://res.cloudinary.com/moodgiver/image/upload/v1634145505/whoobe-one-editor-01_f4bnjw.jpg" width="600" style="margin:auto;"/>
+
 ### Editor Dashboard
 
 Clicking on any element created you have access to a floating bar set in the up left corner of the element. Controls available are :

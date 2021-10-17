@@ -2,7 +2,7 @@
     <div ref="mainEditor" id="mainEditor" class="bg-gray-100 min-h-screen text-black" :classe="display" v-if="display && editor.page && editor.document">
         <div class="h-8 mt-8 p-1 bg-gray-200 text-gray-800 w-full fixed flex flex-row items-center left-0 top-0 z-2xtop shadow">
             <!-- <m-icon icon="menu" css="icon-button z-modal" @click="$eventBus('desktopSidebarLeft','main')" title="Main menu"/> -->
-            <m-icon icon="web" css="icon-button text-black z-modal" @click="$dialogBus('pages')" title="Templates"/>
+            <!-- <m-icon icon="web" css="icon-button text-black z-modal" @click="$dialogBus('pages')" title="Templates"/> -->
             <span class="ml-6 text-gray-800 " v-if="editor.page">{{ editor.page.name }} <span class="chip bg-gray-800 text-white p-1">{{ editor.page.category }}</span></span>
             <m-icon icon="settings" class="ml-4" @click="$dialogBus('settingsPage')"/>
             <m-icon icon="remove_red_eyes" class="ml-4" @click="$editorBus('preview','fullscreen')"/>
@@ -17,7 +17,7 @@
         <component 
             :is="actionComponent"
             ref="floatingDropdown" 
-            class="z-highest bg-white absolute shadow border border-black" 
+            class="z-highest bg-white modal shadow border border-black" 
             id="floatingAction"
             :coords="coords"
             :scroll="scroll"
@@ -26,8 +26,8 @@
             :options="options"
             v-if="editor.current"
             @position="actionComponentPosition"
-            @close="actionComponent=null"
-            :style="actionStile"/> 
+            @close="actionComponent=null"/>
+            <!-- :style="actionStile"/>  -->
 
         <BlockFloating 
             :is="component" 
@@ -119,6 +119,7 @@ export default {
                     let coords = el.getBoundingClientRect()
                     this.containerCoords.top = coords.top - v
                     this.actionStile = `top:${this.coords.top - this.containerCoords.height}px;left:${this.coords.left}px;`
+                    
                 } catch ( err ){
                     return
                 }

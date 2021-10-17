@@ -12,7 +12,7 @@
         <div class="block-selector absolute inset-0" :class="selector" @click="setCurrent($attrs.doc)" @mouseenter="float()" @mouseleave="nofloat()" :data-block-tag="$attrs.doc.semantic||$attrs.doc.tag">
             
         </div>
-        <div id="elementSelector"></div>
+        <div id="elementSelector" class="hidden absolute inset-0"></div>
     </div>
 </template>
 
@@ -39,8 +39,6 @@ export default {
             this.block = this.$attrs.doc
             let css = Object.values ( this.$attrs.doc.css ).join ( ' ' )
             css += ' z-' + this.$attrs.level
-            //this.editor.current && this.editor.current.id === this.$attrs.doc.id ? 
-            //    css += ' border border-red-500 ' : css += ' border border-dashed hover:border-red-500'
             this.$attrs.doc.tag === 'document' ? css += ' p-2' : null
             css = css.replace ( 'modal' , '')
             return  css

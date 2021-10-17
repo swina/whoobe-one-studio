@@ -1,6 +1,8 @@
 <template>
-    <div ref="blockAction" class="w-56 bg-white p-1 flex flex-col" v-if="$store.state.editor.current">
-        <label>Font</label>
+    <div ref="blockAction" class="w-56 bg-white flex flex-col" v-if="$store.state.editor.current">
+        <div class="p-1 bg-gray-200 w-full" @click="$emit('close')">Font</div>
+        <div class="p-1">
+        <label>Family</label>
         <select v-model="$store.state.editor.current.font" class="w-full">
             <option value=""></option>
             <option value="Arial">sans-serif</option>
@@ -13,6 +15,7 @@
             <option value=""></option>
             <option v-for="size in sizes" :value="size">{{size.replace('text-','')}}</option>
         </select>
+        </div>
         <!-- <TailwindTextFont :stile="$store.state.editor.current.style" @stile="setStyle" @clearStile="clearStyle"/> -->
     </div>
 </template>

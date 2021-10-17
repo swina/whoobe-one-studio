@@ -1,7 +1,7 @@
 <template>
     <div ref="blockAction" class="">
         <input class="p-2" placeholder="search icon ..." type="text" v-model="search" @keydown="searchIcon($event)"/>
-        <div v-if="icons" class="z-modal w-1/3 h-1/4 overflow-y-auto bg-white shadow flex flex-row flex-wrap bg-white cursor-pointer">
+        <div v-if="icons" class="z-modal w-full overflow-y-auto bg-white shadow flex flex-row flex-wrap bg-white cursor-pointer">
             <template v-for="icon in icons">
                 <div class="w-auto h-8 m-2 text-center hover:bg-gray-200" @click="setIcon(icon)">
                     <i class="iconify text-2xl" :data-icon="icon"></i>

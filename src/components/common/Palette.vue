@@ -1,12 +1,12 @@
 <template>
-<div class="absolute top-0 bg-gray-700 text-white p-2 w-full z-50 cursor-pointer right-0">
+<div class="fixed top-0 bg-gray-700 text-white p-2 w-full z-modal cursor-pointer right-0">
     
         <div class="flex flex-row justify-start">
             <div>
                 <div>Palette</div>
                 <div class="flex flex-row m-auto mb-2">
                     
-                    <i class="material-icons border border-black text-xl font-bold rounded-full h-6 w-6 mr-2 bg-transparent text-red-500" title="transparent" @click="$emit('color','','')">clear</i>
+                    <i class="material-icons border border-black text-xl font-bold rounded-full h-6 w-6 mr-2 bg-transparent text-red-500 flex items-center justify-center" title="transparent" @click="$emit('color','','')">clear</i>
                     <div class="border border-black rounded-full  w-6 h-6 mr-2 bg-white" title="white" @click="$emit('color','white','')"></div>
                     <div class="border border-black rounded-full  w-6 h-6 mr-2 bg-black" title="black" @click="$emit('color','black','')"></div>
                 </div>

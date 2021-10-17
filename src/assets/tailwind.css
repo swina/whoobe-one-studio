@@ -285,11 +285,27 @@ pre {
   position: fixed;  
 }
 
+.modal-left {
+  top:0;
+  left:0;
+  transform: translateY(50%);
+  position: fixed;  
+}
+
+.modal-right {
+  top:0;
+  right:0;
+  transform: translateY(50%);
+  position: fixed;  
+}
+
 .modal-top-left {
   top:0;
   left:0;
   position: fixed;  
 }
+
+
 
 .modal-top-right {
   top:0;

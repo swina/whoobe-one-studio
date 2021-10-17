@@ -1,5 +1,5 @@
 <template>
-        <div class="overflow-x-hidden absolute">
+        <div class="overflow-x-hidden">
             <div class="overflow-y-auto flex flex-col">
             <BlockContainer 
                 v-if="doc" 

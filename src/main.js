@@ -25,6 +25,12 @@ export const editorBus = new Vue();
 //create an error eventBus
 export const errorBus = new Vue();
 
+import Iconify from '@iconify/iconify';
+Iconify.disableCache('all');
+
+import { disableCache } from '@iconify/vue2';
+// disable caching 
+disableCache('all');
 
 import Loading from '@/components/common/Loading.vue'
 Vue.component ( 'Loading' , Loading )
@@ -53,8 +59,7 @@ Vue.component ( 'Radio' , Radio )
 import Slider from '@/components/blocks/components/BlockSlider.vue'
 Vue.component ( 'Slider' , Slider )
 
-import Iconify from '@iconify/iconify';
-Iconify.enableCache('all', false);
+
 
 import VueHtml2Canvas from "vue-html2canvas";
 Vue.use(VueHtml2Canvas);

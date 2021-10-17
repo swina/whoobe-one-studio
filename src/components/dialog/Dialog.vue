@@ -183,13 +183,13 @@ export default {
                 object: () => import ( '@/components/blocks/gallery/PagesGallery.vue' ),
                 type: 'component'
             })
-            // this.dialogComponent = () => import ( '@/components/blocks/gallery/PagesGallery.vue')
-            // this.title = 'Templates'
-            // this.width = 'w-screen h-screen'
-            // this.topBar = true
-            // this.options = { mode: mode }
-            // this.traceDialogs( 'pages' )
+        })
 
+        dialogBus.$on ( 'shortcuts' , () => {
+            this.dialogComponent = () => import ( '@/components/blocks/components/BlockShortcuts.vue')
+            this.width = 'w-1/2'
+            this.options = null
+            this.title = 'Keyboard Shortcuts'
         })
 
         

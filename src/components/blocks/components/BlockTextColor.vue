@@ -1,6 +1,6 @@
 <template>
-    <div ref="blockColor" class="absolute z-modal w-64 flex flex-col justify-center items-center shadow">
-        <div class="bg-gray-200 w-full p-1">
+    <div ref="blockColor" class="absolute z-modal w-64 -mt-20 flex flex-col justify-center items-center shadow">
+        <div class="bg-gray-200 w-full p-1" @click="$emit('close')">
             <span v-if="$attrs.options.context==='textcolor'">Text Color</span>
             <span v-else>Fill Color</span>
         </div>

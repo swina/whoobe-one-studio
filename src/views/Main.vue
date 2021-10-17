@@ -36,8 +36,8 @@ export default {
     }),
     computed:{
         preview (){
-            console.log ( window.localStorage.getItem ( 'whoobe-preview-mode' ) )
-            return window.localStorage.getItem ( 'whoobe-preview-mode' )
+            if ( !window.localStorage.getItem ( 'whoobe-preview-mode') ) return false
+            return window.localStorage.getItem ( 'whoobe-preview-mode' ) 
         }
     },
     methods:{
