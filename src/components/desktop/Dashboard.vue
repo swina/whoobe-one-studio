@@ -14,13 +14,14 @@ export default {
     name: 'Dashboard',
     data:()=>({
         menu: [
-            { label: 'Empty Page' , icon: 'auto_fix_high' , action: 'startEmpty' },
-            { label: 'Lead Page' , icon: 'web' , action: 'startDefault' },
+            { label: 'Empty Editor' , icon: 'auto_fix_high' , action: 'startEmpty' },
+            //{ label: 'Default' , icon: 'web' , action: 'startDefault' },
             { label: 'Templates' , icon: 'library_books' , action: 'pages' },
             //{ label: 'Import' , icon: 'download' , action: 'importDB' },
-            { label: 'Backup' , icon: 'health_and_safety' , action: 'exportDB' },
+            //{ label: 'Backup' , icon: 'health_and_safety' , action: 'exportDB' },
             { label: 'Settings' , icon: 'settings' , action: 'settings'},
-
+            { label: 'Github' , icon: 'archive' , action: 'linkToGithub'},
+            //{ label: 'Docs' , icon: 'help' , action: 'linkToDocumentation'}
         ],
         
     }),

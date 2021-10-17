@@ -1,5 +1,5 @@
 {
-  "name": "whoobe-studio",
+  "name": "whoobe-studio-one",
   "version": "0.0.1",
   "private": true,
   "main": "main.js",
@@ -11,8 +11,6 @@
     "build-whoobe-api": "vue-cli-service build --target lib --name WhoobeSave ./src/components/moka/moka.save.component.vue --dest ./public/plugins/whoobe-save"
   },
   "dependencies": {
-    "@feathersjs/client": "^5.0.0-pre.5",
-    "@feathersjs/socketio-client": "^4.5.11",
     "@tiptap/extension-image": "^2.0.0-beta.15",
     "@tiptap/starter-kit": "^2.0.0-beta.117",
     "@tiptap/vue-2": "^2.0.0-beta.57",
@@ -26,27 +24,19 @@
     "file-saver": "^2.0.5",
     "gsap": "^3.5.1",
     "jsonpath": "^1.1.0",
-    "quill-image-drop-module": "^1.0.3",
-    "quill-image-extend-module": "^1.1.2",
-    "quill-image-resize-module": "^3.0.0",
     "register-service-worker": "^1.7.1",
     "socket.io-client": "^4.1.3",
     "vue": "^2.6.11",
     "vue-blob-json-csv": "^0.1.7",
     "vue-custom-element": "^3.3.0",
-    "vue-draggable-resizable": "^2.2.0",
     "vue-file-agent": "^1.7.3",
     "vue-html2canvas": "^0.0.4",
-    "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.2.0",
-    "vue-simple-svg": "^2.0.2",
     "vue-upload-component": "^2.8.20",
-    "vuedraggable": "^2.24.1",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
     "@iconify/iconify": "^2.0.1",
-    "@iconify/vue": "1",
     "@iconify/vue2": "^1.0.0",
     "@vue/cli-plugin-babel": "^4.5.0",
     "@vue/cli-plugin-pwa": "^4.5.0",

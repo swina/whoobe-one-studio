@@ -1,5 +1,5 @@
 <template>
-    <div v-if="templates" class="absolute min-h-screen top-0 overflow-y-auto w-full">
+    <div v-if="templates" class="absolute min-h-screen top-0 mt-8 overflow-y-auto w-full">
         <div class="flex flex-wrap items-center justify-center">
         <template v-for="template in Object.keys(templatesIcon)">
             <div :key="template" class="bg-gray-100 m-1 hover:bg-gray-300 flex flex-col items-center h-16 w-16 ml-01 text-xs justify-center text-center text-gray-500 rounded hover:text-indigo-500 shadow" @click="library(templatesIcon[template].template)" :title="template">

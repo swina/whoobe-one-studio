@@ -17,7 +17,7 @@
             <!-- <m-icon icon="laptop" class="text-3xl" @click="mode='fullscreen'"/>
             <m-icon icon="tablet" class="text-3xl" @click="mode='tablet'"/><m-icon icon="smartphone" class="text-3xl" @click="mode='smartphone'"/>
             <m-icon icon="flip_camera_android" class="m-auto text-3xl" @click="orientation=!orientation"/> -->
-            <iframe ref="previewFrame" :style="previewFrame" src="'/?preview=true'" class="m-auto border-8 overflow-x-hidden border-black rounded-xl">
+            <iframe ref="previewFrame" :style="previewFrame" src="/" class="m-auto border-8 overflow-x-hidden border-black rounded-xl">
             </iframe>
         </div>
         <div ref="contextMenu" class="fixed z-highest shadow bg-white shadow absolute flex flex-col w-64 cursor-pointer" :class="classe" @mouseleave="display=!display">
@@ -55,6 +55,9 @@
             </div>
             
         </div>
+        <div v-if="svgString">
+            <img :src="svgString"/>
+        </div>
         <Modal v-if="modal" title="Preview" :topbar="true" component="blocks/components/BlockHtml.vue" @close="modal=!modal" :options="options"/>
     </div>
 </template>
@@ -75,7 +78,8 @@ export default {
         display: false,
         modal: false,
         options: null,
-        mode:'xs'
+        mode:'xs',
+        svgString: null
     }),
     components: {
         //WhoobePreviewContextMenu , MokaEditorPreview , WhoobePreviewHtml , WhoobePreviewPrintscreen ,
@@ -108,6 +112,15 @@ export default {
             if ( this.mode === 'tablet' ){
                 
                 return this.orientation ? "width:" + 768*scale + "px;height:" + 1024*scale +"px;" : "width:" + 1024*scale + "px;height:" + 768*scale + "px;"
+            }
+        }
+    },
+    watch: {
+        mode(value){
+            if ( value === 'tablet' || value === 'smartphone' ){
+                window.localStorage.setItem('whoobe-preview-mode',true)
+            } else {
+                window.localStorage.setItem('whoobe-preview-mode',false)
             }
         }
     },
@@ -260,7 +273,7 @@ export default {
                 .then(function(buf){return new File([buf], fileName, {type:mimeType});})
             );
         },
-        
+       
     },
     mounted(){
         this.$store.dispatch ( 'preview' , true )

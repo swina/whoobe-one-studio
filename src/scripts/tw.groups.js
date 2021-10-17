@@ -25,7 +25,7 @@ const twgroups = [
         { name: 'Options' , attr: 'flexorder' , title: 'order'}
     ]},
     {
-        label: 'box align / justify' , filter: ['grid','flex','menu'] , components: [
+        label: 'box align / justify' , filter: ['grid','flex','menu','document'] , components: [
             { name: 'Options' , attr: 'alignitems' , title: 'Align items' },
             { name: 'Options' , attr: 'aligncontent' , title: 'Align content' },
             { name: 'Options' , attr: 'alignself' , title: 'Align self' },

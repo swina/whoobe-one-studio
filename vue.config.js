@@ -15,22 +15,15 @@ module.exports = {
     
   },
   */
-  productionSourceMap: false,
-  configureWebpack: {
-    plugins: [
-      new webpack.ProvidePlugin({
-        'window.Quill': 'quill/dist/quill.js',
-        'Quill': 'quill/dist/quill.js'
-      }),
-      
-    ]
+  pwa : {
+    themeColor : '#7618b1',
+    msTileColor: '#000000',
+    favicon32: 'img/icons/favicon-32x32.png',
+    favicon16: 'img/icons/favicon-16x16.png',
+    appleTouchIcon: 'img/icons/apple-touch-icon.png',
+    maskIcon: 'img/icons/safari-pinned-tab.svg',
+    msTileImage: 'img/icons/mstile-144x144.png'
   },
-  chainWebpack: config => {
-    config.module
-      .rule('graphql')
-      .test(/\.gql$/)
-      .use('graphql-tag/loader')
-      .loader('graphql-tag/loader')
-      .end()
-  }
+  productionSourceMap: false,
+  
 }

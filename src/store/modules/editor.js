@@ -121,6 +121,7 @@ const editor = {
             commit ( 'autosave' , blocks )
         },
         preview ( { commit } , preview ){
+            //window.localStorage.setItem('whoobe-preview-mode',preview)
             commit ( 'preview' , preview )
         },
         export ( { commit } , payload ){

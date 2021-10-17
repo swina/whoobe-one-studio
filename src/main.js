@@ -4,6 +4,9 @@ import store from './store'
 import router from './router'
 import '@/assets/tailwind.css'
 
+
+import './registerServiceWorker'
+
 import scripts from '@/scripts'
 Vue.use(scripts)
 
@@ -22,13 +25,6 @@ export const editorBus = new Vue();
 //create an error eventBus
 export const errorBus = new Vue();
 
-// //Vue.use(vueCustomElement);
-// if ( !window.localStorage.getItem('whoobe-cms') ){
-//   window.localStorage.setItem('whoobe-cms' , process.env.VUE_APP_API_URL )
-//   window.localStorage.setItem('whoobe-mode' , process.env.VUE_APP_LOCAL )
-//}
-
-//import './registerServiceWorker'
 
 import Loading from '@/components/common/Loading.vue'
 Vue.component ( 'Loading' , Loading )

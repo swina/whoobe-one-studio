@@ -53,6 +53,7 @@ export default {
     mounted(){
 
         dialogBus.$on ( 'closeDialog' , () => {
+            window.localStorage.setItem('whoobe-preview-mode',false)
             this.closeDialog()
         })
         
@@ -64,6 +65,10 @@ export default {
             actions.openDefaultBlock()
         })
         
+        dialogBus.$on ( 'linkToGithub' , () => {
+            window.open ( 'https://github.com/swina/whoobe-one-studio' )
+        })
+
         dialogBus.$on ( 'importDB' , () => {
             modalBus.$emit ( 'confirmYesNo' , ( 'Importing new data will overwrite all current data' , 'importDB' ))
         })

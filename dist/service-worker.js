@@ -14,10 +14,10 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.e28e68f3b4d3515084585e149e146d73.js"
+  "/precache-manifest.42c337632cfb504ca1d8b85bbea5f7a9.js"
 );
 
-workbox.core.setCacheNameDetails({prefix: "whoobe-studio"});
+workbox.core.setCacheNameDetails({prefix: "whoobe-studio-one"});
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {

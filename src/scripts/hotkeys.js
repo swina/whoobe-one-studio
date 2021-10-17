@@ -94,7 +94,7 @@ window.addEventListener("keydown", e => {
 
     // alt+n mobile view
     if ( e.altKey && e.code === 'KeyM' ){
-        window.localStorage.setItem ( 'whoobe-preview-mode' , 365 )
+        //window.localStorage.setItem ( 'whoobe-preview-mode' , 365 )
         editorBus.$emit ( 'preview' , 'fullscreen' )
     }
 

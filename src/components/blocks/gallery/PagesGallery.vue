@@ -2,9 +2,9 @@
     <div v-if="pages" class="pages-gallery bg-white w-screen overflow-hidden max-h-screen h-screen mt-0 inset-0 ">
         <div class="py-1 mt-8 bg-gray-200 shadow w-screen z-modal hidden md:flex md:flex-row items-center">
             <m-icon icon="add" css="icon-button cursor-pointer text-2xl border" @click="$dialogBus('startEmpty')" 
-            title="Create a new page"/>
-            <m-icon icon="download" css="border icon-button cursor-pointer text-2xl" @click="importDB()" title="Import Pages"/>
-            <m-icon icon="health_and_safety" css="border icon-button cursor-pointer text-2xl" @click="$saveDB()" title="Backup Pages"/>
+            title="Create a new template"/>
+            <m-icon icon="download" css="border icon-button cursor-pointer text-2xl" @click="importDB()" title="Import templates DB"/>
+            <m-icon icon="health_and_safety" css="border icon-button cursor-pointer text-2xl" @click="$saveDB()" title="Backup templates"/>
             <label>Category</label> 
             <select v-model="category" class="capitalize bg-white rounded">
                 <option value="" selected>All</option>
@@ -148,6 +148,9 @@ export default {
     mounted(){
         this.$dbCount().then ( res => {
             this.total = res
+            if ( !res ){
+
+            }
         })
         //this.category = this.categories[0]
         this.$getPages(this.category,this.limit,this.skip).then ( pages => { this.pages = pages })

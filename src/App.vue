@@ -58,7 +58,8 @@ export default {
     //window.localStorage.setItem  ( 'whoobe-autosave-timeout' , 1000*60*5 )
     const groups = new Element().Groups()
     this.$store.dispatch ( 'elements' , groups )
-
+    //this.$store.dispatch ( 'preview' , false )
+    window.localStorage.removeItem ( 'whoobe-preview-mode' )
 
     eventBus.$on ( 'desktopSidebarLeft' , () => {
       this.sidebarLeft =! this.sidebarLeft
@@ -94,50 +95,7 @@ export default {
     })
 
 
-    // editorBus.$on ( 'savePage' , () => {
-    //     if ( this.editor.page && this.editor.document ){
-            
-    //         //this.editor.page.json.blocks = Object.assign ( {} , this.editor.document )
-
-    //         let page = new Block()
-    //         page.json.blocks = this.editor.document
-    //         console.log ( page.json.blocks )
-    //         page.purge()
-
-    //         let json = {
-    //             blocks : this.editor.document,
-    //             build: page.json.build
-    //         }
-    //         this.editor.page.json = JSON.stringify(json)
-    //         delete this.editor.page.blocks_id
-    //         if ( !this.editor.page.id ){
-    //             this.$api.service ( 'pages' )
-    //                 .create ( this.editor.page )
-    //                 .then ( res => {
-    //                     this.editor.page = res
-    //                     this.$eventBus ('notification' , 'Page saved successfully' )
-                        
-    //                 })
-    //                 .catch ( error => {
-    //                 this.$eventBus ( 'notification' , ('Error saving page','error') )
-    //                 console.log ( error )
-    //             })
-    //         } else {
-    //             this.$api.service ( 'pages' )
-    //                 .patch ( this.editor.page.id , this.editor.page )
-    //                 .then ( res => {
-    //                     this.$eventBus ('notification' , 'Page updated successfully' )
-    //                     console.log ( res )
-    //                 })
-    //                 .catch ( error => {
-    //                     this.$eventBus ( 'notification' , ('Error saving page','error') )
-    //                     console.log ( error )
-    //                 })
-    //         }
-    //     } else {
-    //         this.$eventBus ( 'notification' , 'No page to save')
-    //     }
-    // })
+    
 
     
   }

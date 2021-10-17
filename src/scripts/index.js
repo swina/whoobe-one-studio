@@ -1,16 +1,6 @@
 import Vue from 'vue'
-// import utils from './utils.js'
-// import editor from './editor.js'
-//import actions from './actions.js'
-//import classes from './tw.classes.js'
-//import components from './components'
-// Vue.use(utils)
-// Vue.use(editor)
-//Vue.use(actions)
 
 
-// import api from './feathers.js'
-// Vue.use(api)
 import database from './database'
 Vue.use ( database )
 
