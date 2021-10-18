@@ -3,7 +3,7 @@
         <small class="chip bg-blue-400 capitalize">{{$store.state.editor.current.element}}</small>
         <!-- <m-icon class="floating-icon text-xl" icon="expand_less" @click="$editorBus('moveBlock',1)"/>
         <m-icon class="floating-icon text-xl" icon="add" v-if="$store.state.editor.current.type==='container'" @click="$eventBus('sidebar','elements')"/> -->
-        <Iconify class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="icomoon-free:move-up" @click="$editorBus('moveBlock',1)" title="Move up"/>
+        <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="icomoon-free:move-up" @click="$editorBus('moveBlock',1)" title="Move up"/>
         <i-icon v-if="$store.state.editor.current.type==='container'" class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="la:elementor" @click="$eventBus('sidebar','elements')" title="Add element"/>
         <!-- <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="akar-icons:edit"/>
         <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="akar-icons:diamond"/>

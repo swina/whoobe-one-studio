@@ -1,5 +1,5 @@
 <template>
-    <div v-if="slider" :class="'z-modal z-' + $attrs.level">
+    <div v-if="slider" :class="'z-modal z-' + $attrs.level + ' ' +  Object.values(slider.css).join(' ')">
         <div class="flex z-modal border border-gray-300 pb-10">
             <m-icon icon="settings" @click="$store.dispatch('setCurrent',slider)" class="icon-button"/><button @click="addSlide" class="btn bg-gray-200">Add slide</button>
             <div v-if="slider.blocks" class="flex">
