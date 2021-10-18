@@ -32,13 +32,10 @@ export default {
         'Dashboard' : () => import ( '@/components/desktop/Dashboard.vue' )
     },
     data:()=>({
-        start: true
+        start: true,
+        preview: false
     }),
     computed:{
-        preview (){
-            if ( !window.localStorage.getItem ( 'whoobe-preview-mode') ) return false
-            return window.localStorage.getItem ( 'whoobe-preview-mode' ) 
-        }
     },
     methods:{
         pages(){
@@ -54,6 +51,11 @@ export default {
             console.log ( res )
             !res ? this.start = false : this.start = true
         })
+        console.log ( window.localStorage.getItem ( 'whoobe-preview-mode') )
+        //!window.localStorage.getItem ( 'whoobe-preview-mode' ) ? this.preview = false : this.preview = true
+        
+        
+
     }
 }
 </script>

@@ -1,11 +1,12 @@
 <template>
-    <div class="modal z-modal w-full bg-white" :class="classe" v-if="dialogComponent">
-        <m-icon class="absolute top-0 right-0 z-highest bg-gray-800 h-10 w-10 flex items-center justify-center text-white text-3xl" icon="close" @click="closeDialog"/>
-        <div class="h-10 w-full flex items-center text-white text-lg px-2 font-bold" :class="topBar?'bg-gray-800':'bg-transparent'">
+    <div ref="dialogContainer" class="modal z-modal w-full bg-white" :class="classe">
+        
+        <div ref="dialogHeader" class="cursor-move h-10 w-full flex items-center text-white text-base px-2" :class="topBar?'bg-purple-800':'bg-transparent'">
             {{ title }}
-       </div>
-        <div class="p-2">
-            <component :is="dialogComponent" :options="options" @close="dialogComponent=null"/>
+            <m-icon class="cursor-pointer absolute top-0 right-0 z-highest text-gray-100 mt-1 text-2xl" icon="close" @click="closeDialog"/>
+        </div>
+        <div class="p-2" id="winbox">
+            <component v-if="dialogComponent" :is="dialogComponent" :options="options" @close="dialogComponent=null"/>
         </div>
     </div>
 </template>
@@ -15,7 +16,7 @@ import Element from '@/scripts/ElementsClass'
 import Block from '@/scripts/BlocksClass'
 import { eventBus , dialogBus , modalBus , editorBus } from '@/main'
 import actions from '@/scripts/actions'
-
+import WinBox from 'winbox'
 export default {
     name: 'DialogEvents',
     data:()=>({
@@ -30,6 +31,7 @@ export default {
         classe(){
             let cls = this.width
             this.topBar ? cls += ' shadow rounded' : null
+            this.dialogComponent ? null : cls += ' hidden'
             return cls
         }
     },
@@ -78,6 +80,7 @@ export default {
         })
 
         dialogBus.$on ( 'settings' , () => {
+            
             this.dialogComponent = () => import ('@/components/desktop/Settings.vue')
             this.title = 'Settings'
             this.width = 'w-full md:w-1/2 lg:w-1/3 h-auto'
@@ -192,6 +195,27 @@ export default {
             this.title = 'Keyboard Shortcuts'
         })
 
+
+        const wrapper = this.$refs.dialogContainer
+        let header = this.$refs.dialogHeader;
+
+        function onDrag({movementX, movementY}){
+            let getStyle = window.getComputedStyle(wrapper);
+            let leftVal = parseInt(getStyle.left);
+            let topVal = parseInt(getStyle.top);
+            wrapper.style.left = `${leftVal + movementX}px`;
+            wrapper.style.top = `${topVal + movementY}px`;
+        }
+
+        header.addEventListener("mousedown", ()=>{
+            header.classList.add("active");
+            header.addEventListener("mousemove", onDrag);
+        });
+
+        document.addEventListener("mouseup", ()=>{
+            header.classList.remove("active");
+            header.removeEventListener("mousemove", onDrag);
+        });
         
 
         

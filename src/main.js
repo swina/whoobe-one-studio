@@ -44,6 +44,9 @@ Vue.component ( 'Modal' , Modal )
 import MaterialIcon from '@/components/common/MaterialIcon.vue'
 Vue.component ( 'MIcon' , MaterialIcon )
 
+import IIcon from '@/components/common/Iconify.vue'
+Vue.component ( 'IIcon' , IIcon )
+
 import IconifyIcon from '@/components/common/IconifyIcon.vue'
 Vue.component ( 'IconifyIcon' , IconifyIcon )
 

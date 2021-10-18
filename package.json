@@ -33,7 +33,8 @@
     "vue-html2canvas": "^0.0.4",
     "vue-router": "^3.2.0",
     "vue-upload-component": "^2.8.20",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "winbox": "^0.2.0"
   },
   "devDependencies": {
     "@iconify/iconify": "^2.0.1",

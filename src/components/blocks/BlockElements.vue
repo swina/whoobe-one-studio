@@ -2,14 +2,14 @@
     <div v-if="editor.elements" class="relative">
 
       <template v-for="group in editor.elements">
-        <div :key="group.label" class="capitalize flex items-center cursor-pointer p-2 text-gray-700 text-base" :class="gr===group.label?'bg-bluegray-300 text-gray-200':''" @click="gr===group.label?gr=null:gr=group.label">
+        <div :key="group.label" class="capitalize flex items-center cursor-pointer hover:bg-gray-500 hover:text-white p-2 text-gray-700 text-base" :class="gr===group.label?'bg-bluegray-300 text-gray-200':''" @click="gr===group.label?gr=null:gr=group.label">
           {{ group.label }}
           <m-icon class="absolute right-0 m-1" :icon="gr===group.label?'expand_less':'expand_more'"/>
         </div>
         
         <div v-if="gr===group.label" class="flex flex-row flex-wrap justify-center cursor-pointer p-2">
           <template v-for="element in group.elements">
-              <div :key="element.name" class="bg-gray-100 m-1 hover:bg-gray-300 flex flex-col items-center h-16 w-16 ml-01 text-xs justify-center text-center  text-gray-500 rounded hover:text-indigo-500 shadow" @click="createElement(element)">
+              <div :key="element.name" class="bg-white m-1 hover:bg-gray-100 flex flex-col items-center h-16 w-16 ml-01 text-xs justify-center text-center  text-gray-500 rounded hover:text-purple-600 shadow" @click="createElement(element)">
                 <m-icon css="material-icons text-3xl" :icon="element.icon"/>
                 {{ element.name }}
               </div>

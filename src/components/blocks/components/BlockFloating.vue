@@ -1,43 +1,58 @@
 <template>
      <div ref="floatingBarElement" v-if="$store.state.editor.current && $attrs.coords" class="h-8 flex items-center absolute z-highest justify-center bg-white text-black shadow text-xs px-2 cursor-pointer -mt-10" :style="coordinate">
         <small class="chip bg-blue-400 capitalize">{{$store.state.editor.current.element}}</small>
-        <m-icon class="floating-icon text-xl" icon="expand_less" @click="$editorBus('moveBlock',1)"/>
-        <m-icon class="floating-icon text-xl" icon="add" v-if="$store.state.editor.current.type==='container'" @click="$eventBus('sidebar','elements')"/>
+        <!-- <m-icon class="floating-icon text-xl" icon="expand_less" @click="$editorBus('moveBlock',1)"/>
+        <m-icon class="floating-icon text-xl" icon="add" v-if="$store.state.editor.current.type==='container'" @click="$eventBus('sidebar','elements')"/> -->
+        <Iconify class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="icomoon-free:move-up" @click="$editorBus('moveBlock',1)" title="Move up"/>
+        <i-icon v-if="$store.state.editor.current.type==='container'" class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="la:elementor" @click="$eventBus('sidebar','elements')" title="Add element"/>
+        <!-- <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="akar-icons:edit"/>
+        <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="akar-icons:diamond"/>
+        <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="carbon:text-font"/>
+        <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="fluent:text-color-24-regular"/>
+        <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="fluent:color-fill-24-regular"/>
+        <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="akar-icons:image"/>
+        <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="akar-icons:link-chain"/> -->
+        <template v-for="icon in icons">
+            <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" :icon="icon.icon" @click="$editorBus('editorAction',icon,$event),currentIcon=icon.icon" :title="icon.title" v-if="isIconEnabled(icon)" :key="icon.icon"/>
+        </template>
+        <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="ci:trash-empty"/>
+        
         <!--
         <m-icon class="floating-icon text-xl" icon="edit" @click="$editorBus('editContent')"/>
         <m-icon class="floating-icon text-xl" icon="brush"  @click="$editorBus('customizeBlock')"/>
         <m-icon v-if="$store.state.editor.current.element === 'img'" class="floating-icon text-xl" icon="photo"  @click="$editorBus('imageURL')"/>
         <m-icon class="floating-icon text-xl" icon="link" @click="$editorBus('linkBlock')"/>
         <m-icon class="floating-icon text-xl" icon="delete" @click="$editorBus('deleteBlock')"/> -->
-        <template v-for="icon in icons">
+        <!-- <template v-for="icon in icons">
             <m-icon class="floating-icon text-xl" :class="'hover:text-indigo-500'":icon="icon.icon" @click="$editorBus('editorAction',icon,$event),currentIcon=icon.icon" :title="icon.title" v-if="isIconEnabled(icon)" :classe="classe(icon.icon)"/>
         </template>
-        <m-icon class="floating-icon text-xl" icon="delete" @click="$editorBus('deleteBlock',1)"/>
+        <m-icon class="floating-icon text-xl" icon="delete" @click="$editorBus('deleteBlock',1)"/> -->
         <small class="chip bg-lime-400" v-if="$store.state.editor.current.gsap.animation" @click="$eventBus('sidebar','animation')">{{$store.state.editor.current.gsap.animation}}</small>
     </div>
 </template>
 
 <script>
 import { editorBus } from '@/main'
+
 export default {
     name: 'BlockFloatingBarBlock',
     data:()=>({
         currentIcon: '',
         icons: [
-            //{ icon: 'expand_less' , title: 'Move up' , action: 'moveBlock,1' , filter : null},
-            { icon: 'edit' , title: 'Edit content' , action: 'BlockEditContent' , filter: null },
-            { icon: 'photo' , title: 'Icon' , action : 'BlockIconFinder' , filter: 'IconifyIcon' },
+            { icon: 'akar-icons:edit' , title: 'Edit content' , action: 'BlockEditContent' , filter: null },
+            { icon: 'akar-icons:diamond' , title: 'Icon' , action : 'BlockIconFinder' , filter: 'IconifyIcon' },
             { icon: 'settings' , title: 'Attributes' , action: 'BlockInput' , filter : 'input' },
             { icon: 'settings' , title: 'Attributes' , action: 'BlockInput' , filter : 'textarea' },
-            { icon: 'format_size' , title: 'Font' , action: 'BlockFont'  },
-            { icon: 'title' , title: 'Heading' , action: 'BlockHeading' , filter: 'h' },
-            { icon: 'format_color_text' , title: 'Color' , action: 'BlockTextColor' , options: { context: 'textcolor' }, filter: null },
-            { icon: 'format_color_fill' , title: 'Fill Color' , action: 'BlockTextColor' , options: { context: 'bgcolor' } , filter: null },
-            //{ icon: 'brush' , title: 'Customize' , action: 'customizeBlock' , filter : null },
-            { icon: 'photo' , title: 'Image' , action: 'BlockImageUrl' , filter : null },
-            { icon: 'link' , title: 'Link' , action: 'BlockLink' , filter: null },
-            { icon: 'download' , title: 'Import block' , action: 'BlockImport' , filter: 'container' },
-            { icon: 'upload' , title: 'Export block' , action: 'BlockExport' , filter: 'container' }
+            { icon: 'carbon:text-font' , title: 'Font' , action: 'BlockFont'  },
+            { icon: 'bx:bx-heading' , title: 'Heading' , action: 'BlockHeading' , filter: 'h' },
+            { icon: 'fluent:text-color-24-regular' , title: 'Text Color' , action: 'BlockTextColor' , options: { context: 'textcolor' }, filter: null },
+            { icon: 'fluent:color-fill-24-regular' , title: 'Fill Color' , action: 'BlockTextColor' , options: { context: 'bgcolor' } , filter: null },
+            { icon: 'akar-icons:image' , title: 'Image' , action: 'BlockImageUrl' , filter : null },
+            { icon: 'akar-icons:link-chain' , title: 'Link' , action: 'BlockLink' , filter: null },
+            { icon: 'ant-design:download-outlined' , title: 'Import block' , action: 'BlockImport' , filter: 'container' },
+            { icon: 'ant-design:upload-outlined' , title: 'Export block' , action: 'BlockExport' , filter: 'container' }
+            //{ icon: 'ci:trash-empty' , title: 'Delete block' , action: 'BlockExport' , filter: 'container' }
+            
             // { icon: 'menu' , title: 'More...' , action: 'BlockContextMenu' , filter: null },
             //{ icon: 'delete' , title: 'Remove' , action: 'deleteBlock' , filter: null },
         ],

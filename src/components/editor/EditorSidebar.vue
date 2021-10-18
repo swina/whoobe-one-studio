@@ -1,9 +1,9 @@
 <template>
-    <div class="relative w-full darkTheme z-highest h-screen overflow-hidden border-r border-white">
+    <div class="relative w-full bg-white z-highest h-screen overflow-hidden border-r border-white">
         <!-- <div class="top-0 left-0">
             <EditorSidebarTabs/>
         </div> -->
-        <div class="p-1 shadow-lg bg-indigo-500 text-white capitalize flex flex-row items-center text-base cursor-pointer" @click="$emit('close')">
+        <div class="p-1 shadow-lg bg-gray-600 text-white capitalize flex flex-row items-center text-base cursor-pointer" @click="$emit('close')">
             <span>{{ tab }}</span>
             <m-icon icon="chevron_right" class="absolute right-0 text-white text-xl"/>
         </div>
@@ -11,13 +11,13 @@
             <BlockElements v-if="tab==='elements'"/>
             <BlockCustomize v-if="tab==='customize'" :css="editor.current.css.css" :cid="editor.current.id" :key="editor.current.id"/>
             <BlockCss v-if="tab==='css'"/>
-            <BlockLibrary v-if="tab==='wizard'"/>
+            <BlockLibrary v-if="tab==='snippets'"/>
             <BlockComponents v-if="tab==='library'"/>
-            <BlockEvents v-if="tab==='events'"/>
+            <!--<BlockEvents v-if="tab==='events'"/>-->
             <BlockAlpine v-if="tab==='alpine'" :element="editor.current" :key="editor.current.id"/>
             <BlockAnimation v-if="tab==='animation'"/>
 
-            <BlockSettings v-if="tab==='settings'"/>
+            <!--<BlockSettings v-if="tab==='settings'"/>-->
             <BlockTree v-if="tab==='tree'"/>
         </div>
         <div v-else class="flex h-full w-full items-center justify-center text-xl">

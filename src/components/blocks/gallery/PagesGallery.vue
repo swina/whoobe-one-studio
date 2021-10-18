@@ -1,6 +1,6 @@
 <template>
     <div v-if="pages" class="pages-gallery bg-white w-screen overflow-hidden max-h-screen h-screen mt-0 inset-0 ">
-        <div class="py-1 mt-8 bg-gray-200 shadow w-screen z-modal hidden md:flex md:flex-row items-center">
+        <div class="py-1 mt-8 bg-white shadow w-screen z-modal hidden md:flex md:flex-row items-center">
             <m-icon icon="add" css="icon-button cursor-pointer text-2xl border" @click="$dialogBus('startEmpty')" 
             title="Create a new template"/>
             <m-icon icon="download" css="border icon-button cursor-pointer text-2xl" @click="importDB()" title="Import templates DB"/>
@@ -106,11 +106,12 @@ export default {
                 let importedBlock = page.json.blocks
                 this.$store.state.editor.current.blocks.push ( importedBlock )
             }
-            this.$store.state.desktop.tabs.push ( {
-                label: page.name,
-                object: page,
-                type: 'editor'
-            })
+            this.$store.dispatch( 'add_tab' , { label: page.name , object: page , type: 'editor'})
+            // this.$store.state.desktop.tabs.push ( {
+            //     label: page.name,
+            //     object: page,
+            //     type: 'editor'
+            // })
             //this.$dialogBus ( 'closeDialog' )
         },
         previewPage ( page ){

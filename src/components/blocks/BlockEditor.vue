@@ -1,20 +1,21 @@
 <template>
     <div ref="mainEditor" id="mainEditor" class="bg-gray-100 min-h-screen text-black" :classe="display" v-if="display && editor.page && editor.document">
-        <div class="h-8 mt-8 p-1 bg-gray-200 text-gray-800 w-full fixed flex flex-row items-center left-0 top-0 z-2xtop shadow">
+        <div class="h-8 mt-8 p-1 bg-white text-gray-800 w-full fixed flex flex-row items-center left-0 top-0 z-2xtop shadow cursor-pointer">
             <!-- <m-icon icon="menu" css="icon-button z-modal" @click="$eventBus('desktopSidebarLeft','main')" title="Main menu"/> -->
             <!-- <m-icon icon="web" css="icon-button text-black z-modal" @click="$dialogBus('pages')" title="Templates"/> -->
-            <span class="ml-6 text-gray-800 " v-if="editor.page">{{ editor.page.name }} <span class="chip bg-gray-800 text-white p-1">{{ editor.page.category }}</span></span>
-            <m-icon icon="settings" class="ml-4" @click="$dialogBus('settingsPage')"/>
-            <m-icon icon="remove_red_eyes" class="ml-4" @click="$editorBus('preview','fullscreen')"/>
+            <span class="ml-6 text-gray-800 chip bg-white" v-if="editor.page">{{ editor.page.name }} <span class="chip bg-purple-800 text-white p-1">{{ editor.page.category }}</span></span>
+            <i-icon icon="carbon:settings" class="text-gray-400 ml-4 text-2xl hover:text-purple-600" @click="$dialogBus('settingsPage')" title="Template settings"/>
+            <i-icon icon="codicon:open-preview" class="text-gray-400 ml-4 text-2xl hover:text-purple-600" @click="$editorBus('preview','fullscreen')" title="Preview"/>
+            <i-icon icon="gg:shortcut" class="text-gray-400 ml-4 text-2xl hover:text-purple-600" @click="$dialogBus('shortcuts')" title="Shortcuts"/>
             <span class="absolute right-0 mr-12">X:{{ parseInt(containerCoords.left)-editorOffsetX }} Y:{{ parseInt(containerCoords.top + scroll - editorOffsetY ) }} </span>
         </div>
-        <div class="p-4 mt-16 pb-20">
+        <div class="p-4 mt-24 pb-20">
             <BlockContainer v-if="editor.document" 
                 :doc="editor.document" 
                 @current="setCurrent"
                 level="10"/>
         </div>
-        <component 
+        <!-- <component 
             :is="actionComponent"
             ref="floatingDropdown" 
             class="z-highest bg-white modal shadow border border-black" 
@@ -26,8 +27,17 @@
             :options="options"
             v-if="editor.current"
             @position="actionComponentPosition"
-            @close="actionComponent=null"/>
+            @close="actionComponent=null"/> -->
             <!-- :style="actionStile"/>  -->
+        <BlockFloatingAction 
+            v-if="editor.current"
+            class="z-modal bg-white modal" 
+            :coords="coords"
+            :scroll="scroll"
+            :title="actionTitle"
+            :component="actionComponent" 
+            :options="options" 
+            @close="actionComponent=null"/>
 
         <BlockFloating 
             :is="component" 
@@ -57,6 +67,7 @@ export default {
         'BlockLink'         : () => import ( '@/components/blocks/components/BlockLink.vue'),
         'BlockFloating'     : () => import ( '@/components/blocks/components/BlockFloating.vue'),
         'BlockEditContent'  : () => import ( '@/components/blocks/components/BlockEditContent.vue'),
+        'BlockFloatingAction' : () => import ( '@/components/blocks/components/BlockFloatingAction.vue'),
     },
     // props: [ 'scroll' ],
     data:()=>({
@@ -84,6 +95,7 @@ export default {
         component: null,
         actionComponent: null,
         actionStile: '',
+        actionTitle: '',
         options: null,
         action: null,
         timer: null
@@ -229,12 +241,14 @@ export default {
         })
 
         editorBus.$on ( 'editorAction' , ( action ) => {
+            this.actionTitle = action.title
             this.action = action.icon
             this.actionComponent = () => import ( '@/components/blocks/components/' + action.action )
             let coords = this.getCoords ( 'floating' )
             this.coords.top = coords.top + this.scroll
             this.coords.left = coords.left
             this.options = action.options
+            
         })
 
         editorBus.$on ( 'importComponent' , ( component ) => {
@@ -301,6 +315,8 @@ export default {
             //this.scrollTop =  e.target.scrollTop 
         })
         this.$refs.mainEditor.style.overflowY = 'auto'
+
+        
     }
 
 }

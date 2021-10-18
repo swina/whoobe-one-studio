@@ -12,7 +12,7 @@
         <div class="block-selector absolute inset-0" :class="selector" @click="setCurrent($attrs.doc)" @mouseenter="float()" @mouseleave="nofloat()" :data-block-tag="$attrs.doc.semantic||$attrs.doc.tag">
             
         </div>
-        <div id="elementSelector" class="hidden absolute inset-0"></div>
+        <!-- <div id="elementSelector" class="hidden absolute inset-0"></div> -->
     </div>
 </template>
 
@@ -79,8 +79,8 @@ export default {
             return block.hasOwnProperty('level') ? 'h' + block.level : block.element
         },
         setCurrent(block){
-            let sel = document.getElementById('elementSelector')
-            sel.classList = ''
+            //let sel = document.getElementById('elementSelector')
+            //sel.classList = ''
             // this.$editorBus('floatingElement',block.id) 
             // let coords = this.$refs[this.block.id].getBoundingClientRect()
             this.editor.current && this.editor.current.id === block.id ?

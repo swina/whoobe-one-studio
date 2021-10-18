@@ -1,8 +1,8 @@
 <template>
     <div class="fixed top-0 left-0 h-8 items-center bg-purple-900 w-screen z-modal flex flex-wrap" v-if="$store.state.desktop.tabs" :class="isPreview">
-        <m-icon icon="home" class="h-8 w-8 items-center justify-center flex text-white" @click="home"/>
+        <m-icon icon="menu" class="h-8 w-8 items-center justify-center flex text-white" @click="home"/>
         <template v-for="(tab,index) in $store.state.desktop.tabs">
-            <div :class="activeTab(index)" class="hover:bg-purple-400 text-white px-2 flex items-center cursor-pointer h-8">
+            <div :class="activeTab(index)" class="hover:bg-black text-white px-2 flex items-center cursor-pointer h-8">
                 <span  @click="openTab(tab,index)">{{ tab.label }}</span> <m-icon icon="close" class="ml-2" @click="removeTab(index)"/>
             </div>
         </template>
@@ -11,6 +11,7 @@
 
 <script>
 import { mapState } from 'vuex'
+
 export default {
     name: 'Tabs',
     computed:{
@@ -22,7 +23,6 @@ export default {
     watch:{
         '$store.state.desktop.tabs':function(value){
             if ( value.length ){
-                console.log ( value )
                 if ( value[value.length - 1].type === 'editor' ){
                     this.$store.dispatch ( 'currentTab' , value.length - 1)
                     this.$store.dispatch ( 'setPage' , value[value.length-1].object )
@@ -57,10 +57,11 @@ export default {
         home(){
             this.$store.dispatch ( 'currentTab' , -1 )
             //this.$router.push ( '/' )
-            this.$store.dispatch ( 'component' , null )
+            this.$eventBus ( 'desktopSidebarLeft' )
+            // this.$store.dispatch ( 'component' , null )
         },
         activeTab(index){
-            return index === this.$store.state.desktop.currentTab ? 'bg-gray-200 text-black' : 'bg-purple-900'
+            return index === this.$store.state.desktop.currentTab ? 'bg-white text-gray-400' : 'bg-purple-900'
         },
         switchTab(){
             if ( value[value.length - 1].type === 'editor' ){

@@ -1,10 +1,11 @@
 <template>
     <div class="w-screen" @contextmenu="contextmenu($event)">
-        <div class="absolute top-0 h-10 w-screen text-center text-gray-300 border-b">
-            <m-icon icon="laptop" class="text-3xl mr-4" @click="mode='fullscreen'"/>
+        <div class="absolute top-0 h-10 w-screen flex items-center text-center text-gray-300 border-b">
+            <div class="m-auto text-gray-500">Right click for more options</div>
+            <!-- <m-icon icon="laptop" class="text-3xl mr-4" @click="mode='fullscreen'"/>
             <m-icon icon="tablet" class="text-3xl mr-4" @click="mode='tablet'"/>
             <m-icon icon="smartphone" class="text-3xl  mr-4" @click="mode='smartphone'"/>
-            <m-icon v-if="mode!='fullscreen'" icon="flip_camera_android" class="m-auto text-3xl" @click="orientation=!orientation"/>
+            <m-icon v-if="mode!='fullscreen'" icon="flip_camera_android" class="m-auto text-3xl" @click="orientation=!orientation"/> -->
         </div>
         <div class="flex flex-col overflow-y-auto absolute inset-0 mt-10 laptop-view" v-if="mode==='fullscreen'">
             <BlockContainer 

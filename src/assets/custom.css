@@ -42,11 +42,11 @@
 }
 
 .icon-button {
-    @apply p-1 h-8 w-8 flex items-center justify-center text-3xl rounded mx-1;
+    @apply p-1 h-8 w-8 flex items-center justify-center text-xl text-gray-400 rounded mx-1;
 }
 
 .icon-button:hover {
-    @apply bg-indigo-600 text-white;
+    @apply text-purple-500;
 }
 
 [contenteditable] {

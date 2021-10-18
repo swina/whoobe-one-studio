@@ -1,5 +1,5 @@
 <template>
-    <div class="w-screen bg-bluegray-200 shadow z-modal h-10 flex items-center fixed bottom-0 px-2">
+    <div class="w-screen bg-white shadow z-modal h-10 flex items-center fixed bottom-0 px-2 cursor-pointer">
         <!-- <label>CSS</label>
         <input v-if="editor.current" type="text" class="editor-input" v-model="editor.current.css.css"/>
         <label>Container</label>
@@ -14,12 +14,12 @@
         <m-icon icon="tablet" css="icon-button" @click="$editorBus('preview','tablet')" title="Tablet Preview"/>
         <m-icon icon="smartphone" css="icon-button" @click="$editorBus('preview','smartphone')" title="Smartphone Preview"/> -->
         <div class="border-r h-10 mx-1"></div>
-        <m-icon icon="settings" class="icon-button" @click="$dialogBus('settingsPage')"/>
-        <m-icon icon="save" css="icon-button" @click="$savePage()" title="Save template"/>
-        <m-icon icon="file_copy" css="icon-button" title="Save as" @click="saveAs()"/>
-        <m-icon icon="download" css="icon-button" @click="$editorBus('importPage','page')" title="Import template"/>
-        <m-icon icon="upload" css="icon-button" @click="$exportDocument()" title="Export template"/>
-        <m-icon icon="delete" css="icon-button" @click="$deletePage()" title="Delete template"/>
+        <i-icon icon="carbon:settings" class="icon-button" @click="$dialogBus('settingsPage')"/>
+        <i-icon icon="bx:bx-save" class="icon-button" @click="$savePage()" title="Save template"/>
+        <i-icon icon="codicon:save-as" class="icon-button" title="Save as" @click="saveAs()"/>
+        <i-icon icon="ant-design:download-outlined" class="icon-button" @click="$editorBus('importPage','page')" title="Import template"/>
+        <i-icon icon="ant-design:upload-outlined" class="icon-button" @click="$exportDocument()" title="Export template"/>
+        <i-icon icon="ci:trash-empty" class="icon-button" @click="$deletePage()" title="Delete template"/>
         <!-- <m-icon icon="health_and_safety" css="icon-button" @click="$saveDB()" title="Backup Database"/> -->
         <!-- <m-icon icon="content_paste" css="icon-button" @click="$editorBus('pasteBlock','document')" title="Paste document"/> -->
         <div class="border-r h-10 mx-1 border-white"></div>
@@ -40,7 +40,7 @@
             <div class="bg-blue-400 h-10 text-white px-2 flex justify-center items-center animate-pulse" v-if="message">
                 <m-icon icon="notifications" class=""/><span class="">{{ message }}</span>
             </div>
-            <button class="text-xs flex font-light items-center h-10 btn btn-purple" @click="$editorBus('preview','fullscreen')" title="Full preview"><m-icon icon="remove_red_eye" css="mr-2"/>Preview</button> 
+            <button class="text-xs flex font-light items-center h-10 btn btn-purple" @click="$editorBus('preview','fullscreen')" title="Full preview"><i-icon icon="codicon:open-preview" class="text-2xl mr-2 icon-button" @click="$editorBus('preview','fullscreen')" title="Preview"/>Preview</button> 
             <!-- <span>whoobe-studio</span> <m-icon icon="bubble_chart" class="mx-2 animate-spin"/> -->
         </div>
     </div>

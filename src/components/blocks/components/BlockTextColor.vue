@@ -1,23 +1,15 @@
 <template>
-    <div ref="blockColor" class="absolute z-modal w-64 -mt-20 flex flex-col justify-center items-center shadow">
-        <div class="bg-gray-200 w-full p-1" @click="$emit('close')">
+    <div ref="blockColor" id="blockColor" class="w-64 flex flex-col w-full justify-center items-center shadow">
+        <!-- <div ref="actionHeader" class="bg-gray-200 w-full p-1">
             <span v-if="$attrs.options.context==='textcolor'">Text Color</span>
             <span v-else>Fill Color</span>
-        </div>
-        <text-color v-if="$store.state.editor.current" 
+        </div> -->
+        <text-color class="w-64 text-center justify-center" v-if="$store.state.editor.current" 
             :attr="$attrs.options.context" 
             @css="setColor" 
             :css="allCss" 
             :front="frontColor" 
             :hover="hoverColor"/>
-        <!-- <background-color v-if="$store.state.editor.current && $attrs.options.context==='bgcolor'" 
-            :attr="$attrs.options.context" 
-            @css="setColor" 
-            :css="allCss" 
-            :front="frontColor" 
-            :hover="hoverColor"/> -->
-        <!-- <m-icon icon="keyboard_return" class="absolute right-0 mr-2 h-6 w-6 bg-indigo-500 text-white p-1 rounded ml-1" @click="saveColor"/>
-        <div class="clear-both">{{ opened }}</div> -->
     </div>
 </template>
 
@@ -74,11 +66,13 @@ export default {
 
         })
         
-        let coords = this.$refs.blockColor.getBoundingClientRect()
-        this.$emit ( 'position' , coords.height )
-        if ( coords.right > window.innerWidth - 200 ){
-            this.$refs.blockColor.style.left = coords.left - (coords.width * 2) + 'px'
-        }
+        // let coords = this.$refs.blockColor.getBoundingClientRect()
+        // this.$emit ( 'position' , coords.height )
+        // if ( coords.right > window.innerWidth - 200 ){
+        //     this.$refs.blockColor.style.left = coords.left - (coords.width * 2) + 'px'
+        // }
+
+        
     }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
-    <div ref="imageURL" class="z-highest border bg-white shadow absolute flex flex-col items-start" :style="stile" v-if="$attrs.coords && $store.state.editor.current">
-        <div class="p-1 bg-gray-200 w-full" @click="$emit('close')">Image URL</div>
+    <div ref="imageURL" class="flex flex-col items-start" :style="stile" v-if="$attrs.coords && $store.state.editor.current">
+        <!-- <div class="p-1 bg-gray-200 w-full" @click="$emit('close')">Image URL</div> -->
         <div class="flex items-center p-1 justify-around w-full">
             <m-icon icon="photo"/>
             <input v-if="$store.state.editor.current" class="ml-2 p-1 w-3/4 rounded text-lg" v-model="$store.state.editor.current.image.url"/>

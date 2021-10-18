@@ -3,7 +3,7 @@
     <router-view/>
     <component :is="desktop.component" v-if="desktop.component" class="desktop-component absolute top-0 left-0"/>
   
-    <Tabs ref="whoobeTabs" v-if="!$store.state.editor.preview"/>
+    <Tabs ref="whoobeTabs"/>
     <DesktopSidebarLeft v-if="sidebarLeft"/>
     <Dialog/>
     <Notification/>
@@ -43,23 +43,17 @@ export default {
     
   },
   watch:{
-    // '$store.state.desktop.tabs':function(tabs){
-    //   if ( !tabs.length ) return
-    //   if ( tabs.length ){
-    //     if ( this.desktop.currentTab > -1 ){
-    //       if ( tabs[this.desktop.currentTab].type === 'component' ){
-    //         this.component = tabs[this.desktop.currentTab].object
-    //       }
-    //     }
-    //   }
-    // }
+    
+  },
+  beforeMount(){
+    window.localStorage.setItem ( 'whoobe-preview-mode' , false )
   },
   mounted(){
     //window.localStorage.setItem  ( 'whoobe-autosave-timeout' , 1000*60*5 )
     const groups = new Element().Groups()
     this.$store.dispatch ( 'elements' , groups )
     //this.$store.dispatch ( 'preview' , false )
-    window.localStorage.removeItem ( 'whoobe-preview-mode' )
+    
 
     eventBus.$on ( 'desktopSidebarLeft' , () => {
       this.sidebarLeft =! this.sidebarLeft

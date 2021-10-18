@@ -1,7 +1,7 @@
 <template>
-    <div class="flex flex-wrap p-12 items-center justify-center">
+   <div class="flex flex-wrap p-8 items-center justify-center">
         <template v-for="option in menu">
-            <div class="w-20 h-20 flex flex-col items-center justify-center shadow-xl bg-gray-700 rounded text-gray-500 m-4 hover:text-gray-400 cursor-pointer" :title="option.label" @click="openDialog(option.action)" :key="option.label">
+            <div class="w-20 h-20 flex flex-col items-center justify-center shadow-xl bg-gray-700 rounded text-gray-500 m-4 hover:text-gray-400 cursor-pointer" :title="option.label" @click="openDialog(option)" :key="option.label">
                 <m-icon :icon="option.icon" class="text-3xl"/>
                 <div>{{ option.label }}</div>
             </div>
@@ -14,7 +14,7 @@ export default {
     name: 'Dashboard',
     data:()=>({
         menu: [
-            { label: 'Empty Editor' , icon: 'auto_fix_high' , action: 'startEmpty' },
+            { label: 'Empty Editor' , icon: 'auto_fix_high' , action: 'startEmpty'  },
             //{ label: 'Default' , icon: 'web' , action: 'startDefault' },
             { label: 'Templates' , icon: 'library_books' , action: 'pages' },
             //{ label: 'Import' , icon: 'download' , action: 'importDB' },
@@ -27,7 +27,20 @@ export default {
     }),
     methods:{
         openDialog(dialog){
-            this.$dialogBus ( dialog )
+            let founded = false
+            if ( this.$store.state.desktop.tabs.length ){
+                this.$store.state.desktop.tabs.forEach ( (tab,i) => {
+                    if ( tab.label === dialog.label ){
+                        console.log ( tab.label , dialog.label )
+                        this.$store.dispatch('currentTab',i)
+                        founded = true
+                    }
+                })
+                if ( !founded )
+                    this.$dialogBus ( dialog.action )
+            } else {
+                this.$dialogBus ( dialog.action )
+            }
         }
     }
 }

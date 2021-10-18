@@ -29,10 +29,19 @@ const desktop =  {
             state.tabs = payload
         },
         add_tab ( state , payload ){
-            state.tabs.push ( payload )
-            state.currentTab = state.tabs.length-1
-            //set desktop status to open when reload
-            window.localStorage.setItem('whoobe-desktop',JSON.stringify(state.tabs))
+            let founded = false
+            state.tabs.forEach ( (tab,i) => {
+                console.log ( tab.label , payload.label )
+                if ( tab.label === payload.label ){
+                    state.currentTab = i
+                    founded = true
+                    return
+                }
+            })
+            if ( !founded ){
+                state.tabs.push ( payload )
+                state.currentTab = state.tabs.length-1
+            }
         },
         removeTab ( state , index ){
             state.tabs.splice ( index , 1 )
@@ -85,7 +94,8 @@ const desktop =  {
             commit ( 'tabs' , payload )
         },
         add_tab ( { commit } , payload  ){
-            commit ( 'add_tab' , payload )
+            
+                commit ( 'add_tab' , payload )
             //commit ( 'currentTab' , state.tabs.lenght-1)
         },
         cloudinary_image ( { commit } , payload ){

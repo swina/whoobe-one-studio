@@ -10,11 +10,11 @@
                     </div>
                 </div>
                 <transition name="slideright">
-                    <div v-if="sidebar" class="min-h-screen fixed z-modal right-0 top-0 mt-8 bg-bluegray-200 w-1/5 border-l pr-10">
+                    <div v-if="sidebar" class="min-h-screen fixed z-modal right-0 top-0 mt-8 bg-white w-1/5 border-l pr-10">
                         <EditorSidebar :tab="sidebarName" @close="sidebar=false,sidebarName=''"/>
                     </div>
                 </transition>
-                <div class="fixed bg-bluegray-200 z-modal mt-8 w-10 right-0 top-0 h-screen flex flex-col items-center justify-start text-center shadow">
+                <div class="fixed bg-white z-modal mt-8 w-10 right-0 top-0 h-screen flex flex-col items-center justify-start text-center shadow">
                     <div class="chip bg-black text-white my-1 text-xs px-1 rounded">Tools</div>
                     <!-- <div class="h-10 w-full mb-2 flex items-center bg-gray-200 text-white justify-center">
                         
@@ -59,7 +59,7 @@ export default {
     watch: {
         sidebar(value){
             //this.$editorBus('isSidebar',value)
-        }
+        },
     },
     mounted(){
         editorBus.$on ( 'preview' , () => {
@@ -85,7 +85,7 @@ export default {
             }
         })
 
-        
+       
         
 
         //duplicate block

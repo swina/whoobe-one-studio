@@ -3,7 +3,7 @@
         <input class="p-2" placeholder="search icon ..." type="text" v-model="search" @keydown="searchIcon($event)"/>
         <div v-if="icons" class="z-modal w-full overflow-y-auto bg-white shadow flex flex-row flex-wrap bg-white cursor-pointer">
             <template v-for="icon in icons">
-                <div class="w-auto h-8 m-2 text-center hover:bg-gray-200" @click="setIcon(icon)">
+                <div class="w-auto h-8 m-2 text-center hover:bg-gray-200" @click="setIcon(icon)"  :title="icon">
                     <i class="iconify text-2xl" :data-icon="icon"></i>
                 </div>
             </template>
