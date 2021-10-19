@@ -160,9 +160,6 @@ export default {
             this.editor.page.image = screenshot
             this.$savePage()
             this.$loading()
-            //this.$addPageImage(screenshot)
-            //this.$exportImage ( screenshot )
-            //this.$loading(false)
         },
         isprinted(){
             this.printScreen = false  
@@ -287,7 +284,6 @@ export default {
         this.mode = this.$attrs.options.mode
         //this.$eventBus ( 'notification' , 'Press Escape to close the preview')
         if ( this.mode != 'fullscreen' ){
-            console.log ( this.$refs.previewFrame.contendDocument.head )
             let style = document.createElement('style')
             style.textContent = 'body { overflow-y: auto; }'
             this.$refs.previewFrame.contentDocument.body.appendChild(style)

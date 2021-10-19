@@ -1,19 +1,19 @@
 <template>
-    <component :is="semantic" v-if="$attrs.doc" :ref="$attrs.doc.id" :class="classe" class="" :style="stile"   @click="eventClick">
+    <component :is="semantic" v-if="$attrs.doc" :ref="$attrs.doc.id" :class="classe" class="" :style="stile" :id="$attrs.doc.id"  @click="eventClick">
         <!-- :id="$attrs.doc.anchor ? $attrs.doc.anchor : $attrs.doc.id" -->
         <template v-for="block in $attrs.doc.blocks">
             <BlockContainerPreview v-if="!block.link && block && block.type === 'container'" :doc="block" :key="block.id"/>
 
-            <BlockElement v-if="!block.link && block && block.type != 'container' && block.type != 'slider' && block.tag !='iconify' && !block.link" :element="block" :key="block.id"/>
-            <SliderPreview v-if="block.type === 'slider'" :slider="block"/>
+            <BlockElement :id="block.id" v-if="!block.link && block && block.type != 'container' && block.type != 'slider' && block.tag !='iconify' && !block.link" :element="block" :key="block.id"/>
+            <SliderPreview :id="block.id" v-if="block.type === 'slider'" :slider="block"/>
             <a v-if="block.link" :href="block.link">
                 <BlockContainerPreview v-if="block && block.type === 'container'" :doc="block" :key="block.id"/>
 
-                <BlockElement v-if="block && block.type != 'container'&& block.type != 'slider' && block.tag !='iconify'" :element="block" :key="block.id"/>
+                <BlockElement :id="block.id" v-if="block && block.type != 'container'&& block.type != 'slider' && block.tag !='iconify'" :element="block" :key="block.id"/>
                 <IconifyIcon v-if="block.tag === 'iconify'" mode="render" :block="block"/>
             </a>
             
-            <IconifyIcon :ref="block.id" :key="block.id" v-if="!block.link && block.tag === 'iconify'" mode="render" :block="block"/>
+            <IconifyIcon :id="block.id" :ref="block.id" :key="block.id" v-if="!block.link && block.tag === 'iconify'" mode="render" :block="block"/>
             
         </template>
     </component>

@@ -5,7 +5,7 @@
             <m-icon icon="add" @click="addSlide" class="text-gray-200 mr-2" title="Add slide"/>
             <div v-if="slider.blocks" class="flex">
                 <template v-for="(slide,index) in slider.blocks">
-                    <IconButton class="px-2 border btn  hover:bg-blue-500 hover:text-white text-xs" :class="currentIndex===index?'btn-purple':'bg-gray-200'"  :text="'Slide ' + (index+1)" icon="close" @click="currentIndex=index,$store.dispatch('setCurrent',slide)" @close="slider.blocks.splice(index,1),$store.dispatch('setCurrent',null),currentIndex=slider.blocks.length-1"/>
+                    <IconButton class="px-2 border btn  hover:bg-blue-500 hover:text-white text-xs" :class="currentIndex===index?'btn-purple':'bg-gray-200 text-black'"  :text="'Slide ' + (index+1)" icon="close" @click="currentIndex=index,$store.dispatch('setCurrent',slide)" @close="slider.blocks.splice(index,1),$store.dispatch('setCurrent',null),currentIndex=slider.blocks.length-1"/>
                 </template>
             </div>
         </div>

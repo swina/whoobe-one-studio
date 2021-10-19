@@ -9,6 +9,7 @@ const templatesIcons = {
     'Info Card'         : { icon: 'art_track' , template: 'infoCard' },  
     'Feature'           : { icon: 'featured_video' , template: 'feature'},
     'Hero'              : { icon: 'art_track' , template: 'hero' },
+    'Slider'            : { icon: 'art_track' , template: 'slider' },
     'Team'              : { icon: 'people_alt' , template: 'team'},
     'Simple form'       : { icon: 'call_to_action' , template: 'simpleForm' },
     'Rounded Input'     : { icon: 'input' , template: 'roundedInput'},
@@ -27,6 +28,7 @@ const templates = {
     'Info Card'         : 'infoCard',  
     'Feature'           : 'feature',
     'Team'              : 'team',
+    'Slider'            : 'slider',
     'Simple form'       : 'simpleForm',
     'Rounded Input'     : 'roundedInput',
     'Input Icon'        : 'inputIcon',
@@ -51,6 +53,7 @@ export default class Template {
                 name === 'navbar'       ? this.navbar() :
                 name === 'infoCard'     ? this.infoCard() :
                 name === 'hero'         ? this.hero() :
+                name === 'slider'       ? this.slider() :
                 name === 'cta'          ? this.cta() : 
                 name === 'ctaHorizontal'? this.ctaHorizontal() : 
                 name === 'feature'      ? this.feature() :
@@ -294,6 +297,22 @@ export default class Template {
         container.blocks.push ( inputField )
         container.blocks.push ( icon )
         this.blocks.push ( container )
+        return this
+    }
+
+    slider(){
+        let slider = new Element().Slider().setCss('h-auto')
+        let grid = new Element().Grid().Cols(2).setCss('w-full p-2 md:p-20')
+        let flexLeft = new Element().Flexbox({direction:'col'}).setCss('h-1/2 p-4 items-start justify-center')
+        let flexRight = new Element().Flexbox({direction:'col'}).setCss('h-1/2 bg-contain bg-no-repeat bg-center')
+        let title = new Element().Heading(1).setContent('I am a Hero').setCss('font-bold')
+        let description = new Element().Paragraph().setCss('text-lg my-2')
+        let cta = new Element().Button().setContent('Click Me').setCss('px-4 py-2 rounded bg-blue-400 text-white hover:bg-blue-700 my-4')
+        flexRight.image.url = 'https://res.cloudinary.com/moodgiver/image/upload/v1617306150/Web_design_SVG_tsvcpl.svg'
+        flexLeft.blocks = [ title, description , cta]
+        grid.blocks = [ flexLeft , flexRight ]
+        slider.blocks.push ( grid )
+        this.blocks.push ( slider )
         return this
     }
 }
