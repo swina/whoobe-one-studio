@@ -1,32 +1,12 @@
 <template>
      <div ref="floatingBarElement" v-if="$store.state.editor.current && $attrs.coords" class="h-8 flex items-center absolute z-highest justify-center bg-white text-black shadow text-xs px-2 cursor-pointer -mt-10" :style="coordinate">
         <small class="chip bg-blue-400 capitalize">{{$store.state.editor.current.element}}</small>
-        <!-- <m-icon class="floating-icon text-xl" icon="expand_less" @click="$editorBus('moveBlock',1)"/>
-        <m-icon class="floating-icon text-xl" icon="add" v-if="$store.state.editor.current.type==='container'" @click="$eventBus('sidebar','elements')"/> -->
         <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="icomoon-free:move-up" @click="$editorBus('moveBlock',1)" title="Move up"/>
         <i-icon v-if="$store.state.editor.current.type==='container'" class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="la:elementor" @click="$eventBus('sidebar','elements')" title="Add element"/>
-        <!-- <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="akar-icons:edit"/>
-        <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="akar-icons:diamond"/>
-        <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="carbon:text-font"/>
-        <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="fluent:text-color-24-regular"/>
-        <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="fluent:color-fill-24-regular"/>
-        <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="akar-icons:image"/>
-        <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="akar-icons:link-chain"/> -->
         <template v-for="icon in icons">
             <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" :icon="icon.icon" @click="$editorBus('editorAction',icon,$event),currentIcon=icon.icon" :title="icon.title" v-if="isIconEnabled(icon)" :key="icon.icon"/>
         </template>
         <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="ci:trash-empty"/>
-        
-        <!--
-        <m-icon class="floating-icon text-xl" icon="edit" @click="$editorBus('editContent')"/>
-        <m-icon class="floating-icon text-xl" icon="brush"  @click="$editorBus('customizeBlock')"/>
-        <m-icon v-if="$store.state.editor.current.element === 'img'" class="floating-icon text-xl" icon="photo"  @click="$editorBus('imageURL')"/>
-        <m-icon class="floating-icon text-xl" icon="link" @click="$editorBus('linkBlock')"/>
-        <m-icon class="floating-icon text-xl" icon="delete" @click="$editorBus('deleteBlock')"/> -->
-        <!-- <template v-for="icon in icons">
-            <m-icon class="floating-icon text-xl" :class="'hover:text-indigo-500'":icon="icon.icon" @click="$editorBus('editorAction',icon,$event),currentIcon=icon.icon" :title="icon.title" v-if="isIconEnabled(icon)" :classe="classe(icon.icon)"/>
-        </template>
-        <m-icon class="floating-icon text-xl" icon="delete" @click="$editorBus('deleteBlock',1)"/> -->
         <small class="chip bg-lime-400" v-if="$store.state.editor.current.gsap.animation" @click="$eventBus('sidebar','animation')">{{$store.state.editor.current.gsap.animation}}</small>
     </div>
 </template>
@@ -41,8 +21,9 @@ export default {
         icons: [
             { icon: 'akar-icons:edit' , title: 'Edit content' , action: 'BlockEditContent' , filter: null },
             { icon: 'akar-icons:diamond' , title: 'Icon' , action : 'BlockIconFinder' , filter: 'IconifyIcon' },
-            { icon: 'settings' , title: 'Attributes' , action: 'BlockInput' , filter : 'input' },
-            { icon: 'settings' , title: 'Attributes' , action: 'BlockInput' , filter : 'textarea' },
+            { icon: 'carbon:settings' , title: 'Attributes' , action: 'BlockInput' , filter : 'input' },
+            { icon: 'carbon:settings' , title: 'Slider settings' , action: 'BlockSliderControls' , filter : 'slider' },
+            { icon: 'carbon:settings' , title: 'Attributes' , action: 'BlockInput' , filter : 'textarea' },
             { icon: 'carbon:text-font' , title: 'Font' , action: 'BlockFont'  },
             { icon: 'bx:bx-heading' , title: 'Heading' , action: 'BlockHeading' , filter: 'h' },
             { icon: 'fluent:text-color-24-regular' , title: 'Text Color' , action: 'BlockTextColor' , options: { context: 'textcolor' }, filter: null },
@@ -79,6 +60,10 @@ export default {
                 if ( coords.left < 0 ){
                     coords.left = this.$attrs.coords.left
                 }
+                if ( this.$store.state.editor.current.type === 'slider' ){
+                    alert ( 'is slider' )
+                    coords.top = coords.top - 60
+                }
                 this.position = {
                     top : coords.top - 32 + parseInt(this.$attrs.scroll) ,
                     left: coords.left ,
@@ -94,7 +79,9 @@ export default {
     },
     computed:{
         coordinate(){
-            return `top:${this.$attrs.coords.top + this.$attrs.scroll}px;left:${this.position.left}px;`
+            return this.$store.state.editor.current.type != 'slider' ? 
+                `top:${this.$attrs.coords.top + this.$attrs.scroll}px;left:${this.position.left}px;` :
+                `top:${this.$attrs.coords.top + this.$attrs.scroll - 80 }px;left:${this.position.left -12}px;`
         }
     },
 
@@ -112,6 +99,7 @@ export default {
         if ( (this.position.left + fl.width + 50 ) > window.innerWidth ){
             this.position.left = window.innerWidth - fl.width - 50
         }
+        
         //let coords = this.$refs.floatingBarElement.getBoundingClientRect()
         // if ( this.position.right > window.innerWidth - 100 ){
         //     this.position.left = this.position.left - 100

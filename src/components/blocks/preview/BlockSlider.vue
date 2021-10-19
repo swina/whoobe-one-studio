@@ -42,8 +42,7 @@ export default {
         this.$refs.nextBtn.setAttribute('x-on:click','$refs.slider.scrollLeft = $refs.slider.scrollLeft + ($refs.slider.scrollWidth / ' + this.$attrs.slider.blocks.length +'),index++')
 
         this.$attrs.slider.blocks.forEach ( (b,index) =>{
-            this.$refs.dots[index].setAttribute ( 'x-bind:class' ,"{'bg-white  animate-pulse':active===" + index + "}")
-            
+            this.$refs.dots[index].setAttribute ( 'x-bind:class' ,"{'bg-blue-100  animate-pulse':active===" + index + "}")
         })
        
     }

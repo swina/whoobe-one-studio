@@ -1,23 +1,25 @@
 <template>
-    <div v-if="slider" :class="'z-modal z-' + $attrs.level + ' ' +  Object.values(slider.css).join(' ')">
-        <div class="flex z-modal border border-gray-300 pb-10">
-            <m-icon icon="settings" @click="$store.dispatch('setCurrent',slider)" class="icon-button"/><button @click="addSlide" class="btn bg-gray-200">Add slide</button>
+    <div v-if="slider" :class="classe">
+        <div class="flex z-modal pb-10 items-center">
+            <!-- <m-icon icon="settings" @click="$store.dispatch('setCurrent',slider),$dialogBus('sliderSettings')" class="icon-button"/> -->
+            <m-icon icon="add" @click="addSlide" class="text-gray-200 mr-2" title="Add slide"/>
             <div v-if="slider.blocks" class="flex">
                 <template v-for="(slide,index) in slider.blocks">
                     <IconButton class="px-2 border btn  hover:bg-blue-500 hover:text-white text-xs" :class="currentIndex===index?'btn-purple':'bg-gray-200'"  :text="'Slide ' + (index+1)" icon="close" @click="currentIndex=index,$store.dispatch('setCurrent',slide)" @close="slider.blocks.splice(index,1),$store.dispatch('setCurrent',null),currentIndex=slider.blocks.length-1"/>
                 </template>
             </div>
         </div>
-        <div v-if="slider.blocks.length" :class="slider.css.container" class="w-full border-2 border-dashed border-blue-400">
             <!-- {{ slider.blocks[currentIndex]}} -->
             
-                <BlockContainer 
-                    :doc="slider.blocks[currentIndex]" 
-                    :key="'slide_' + currentIndex" :level="parseInt($attrs.level)+1"/>
+        <BlockContainer 
+            v-if="slider.blocks"
+            :doc="slider.blocks[currentIndex]" 
+            :key="'slide_' + currentIndex" 
+            :level="parseInt($attrs.level)+1"/>
             
-        
+        <div class="slider-selector absolute inset-0" :class="selector" @click="$store.dispatch('setCurrent',slider)"  data-block-tag="slider">
+            
         </div>
-        
     </div>
     <!-- <pre v-if="slider">
         {{ slider }}
@@ -38,15 +40,15 @@ export default {
     },
      computed:{
         ...mapState ( ['editor'] ),
-    //     classe(){
-    //         this.block = this.$attrs.doc
-    //         let css = Object.values ( this.$attrs.doc.css ).join ( ' ' )
-    //         css += ' z-' + this.$attrs.level
-    //         //this.editor.current && this.editor.current.id === this.$attrs.doc.id ? 
-    //         //    css += ' border border-red-500 ' : css += ' border border-dashed hover:border-red-500'
-    //         this.$attrs.doc.tag === 'document' ? css += ' p-2' : null
-    //         return  css
-    //     },
+        classe(){
+            //this.block = this.slider
+            let css = Object.values ( this.slider.css ).join ( ' ' )
+            css += ' z-' + this.$attrs.level
+            //this.editor.current && this.editor.current.id === this.$attrs.doc.id ? 
+            //    css += ' border border-red-500 ' : css += ' border border-dashed hover:border-red-500'
+            css += ' border-2 border-dashed border-blue-400 p-2'
+            return  css
+        },
     //     stile(){
     //         let st = ''
     //         if ( this.block.image && this.block.image.url ){
@@ -55,21 +57,21 @@ export default {
     //         this.block.font ? st += `font-family:"${this.block.font.replace('+',' ')}";` : null
     //         return st + this.$attrs.doc.style
     //     },
-    //     selector(){
+        selector(){
 
-    //         let cls = 'z-' + this.$attrs.level
-    //         if ( this.editor.current && this.editor.current.id === this.$attrs.doc.id ){
-    //             this.$attrs.doc.tag === 'document' ? 
-    //                 cls += ' border-2 border-gray-600 ' : 
-    //                 cls += ' border border-red-400'
-    //         } else {
-    //             this.$attrs.doc.tag === 'document' ? 
-    //                 cls += ' border-2 border-transparent shadow ' :   
-    //                 cls += ' border border-dashed border-transparent hover:border-red-400'
-    //         }
+            let cls = 'z-' + this.$attrs.level
+            if ( this.editor.current && this.editor.current.id === this.$attrs.doc.id ){
+                this.$attrs.doc.tag === 'document' ? 
+                    cls += ' border-2 border-gray-600 ' : 
+                    cls += ' border border-red-400'
+            } else {
+                this.$attrs.doc.tag === 'document' ? 
+                    cls += ' border-2 border-transparent shadow ' :   
+                    cls += ' border border-dashed border-transparent hover:border-red-400'
+            }
 
-    //         return cls.replace('md:hidden','')
-    //     },
+            return cls.replace('md:hidden','')
+        },
         
     },
     methods:{

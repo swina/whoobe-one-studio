@@ -95,6 +95,12 @@ export default {
             this.traceDialogs( 'settingsPage' )
         })
 
+        dialogBus.$on ( 'sliderSettings' , () => {
+            this.dialogComponent = () => import ( '@/components/blocks/components/BlockSliderControls.vue')
+            this.title = 'Slider settings'
+            this.width = 'w-full md:w-1/4'
+        })
+
         dialogBus.$on ( 'editorHelper' , (dialog) => {
             this.dialogComponent = () => import ( '@/components/' + dialog.content )
             this.title = dialog.title
