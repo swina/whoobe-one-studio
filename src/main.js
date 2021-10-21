@@ -26,7 +26,7 @@ export const editorBus = new Vue();
 export const errorBus = new Vue();
 
 import Iconify from '@iconify/iconify';
-Iconify.disableCache('all');
+Iconify.enableCache('all',false);
 
 import { disableCache } from '@iconify/vue2';
 // disable caching 

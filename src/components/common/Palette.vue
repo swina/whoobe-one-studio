@@ -3,7 +3,10 @@
     
         <div class="flex flex-row justify-start">
             <div>
-                <div>Palette</div>
+                <div class="flex items-center mb-4">
+                    Current 
+                    <div class="h-8 w-8 rounded-full ml-2" :class="$attrs.context?$attrs.css.replace('text-','bg-').replace('hover:',''):''"></div>
+                </div>
                 <div class="flex flex-row m-auto mb-2">
                     
                     <i class="material-icons border border-black text-xl font-bold rounded-full h-6 w-6 mr-2 bg-transparent text-red-500 flex items-center justify-center" title="transparent" @click="$emit('color','','')">clear</i>

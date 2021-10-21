@@ -40,6 +40,8 @@ export default {
             let cls = ''
             cls += this.element.css.css + ' ' + this.element.css.container
             cls += ' z-' + (parseInt(this.$attrs.level)+1)
+            this.editor.current && this.editor.current.type === 'hidden' ?
+                (cls += ' h-10 w-64 bg-gray-100 shadow') : null
             this.editor.current && this.editor.current.id === this.element.id ?
                  cls += ' shadow' :
                  cls += ' '

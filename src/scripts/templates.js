@@ -6,11 +6,12 @@ const templatesIcons = {
     'Navbar'            : { icon: 'more_horiz' , template: 'navbar' },
     'Call To Action'    : { icon: 'call_to_action' , template: 'cta'},
     'Call To Action Hor': { icon: 'call_to_action' , template: 'ctaHorizontal' },
-    'Info Card'         : { icon: 'art_track' , template: 'infoCard' },  
+    'Info Card'         : { icon: 'feed' , template: 'infoCard' },  
     'Feature'           : { icon: 'featured_video' , template: 'feature'},
+    'Pricing Box'       : { icon: 'price_change' , template : 'pricing' },
     'Hero'              : { icon: 'art_track' , template: 'hero' },
-    'Slider'            : { icon: 'art_track' , template: 'slider' },
-    'Team'              : { icon: 'people_alt' , template: 'team'},
+    'Slider'            : { icon: 'view_carousel' , template: 'slider' },
+    'Team'              : { icon: 'account_box' , template: 'team'},
     'Simple form'       : { icon: 'call_to_action' , template: 'simpleForm' },
     'Rounded Input'     : { icon: 'input' , template: 'roundedInput'},
     'Input Icon'        : { icon: 'input' , template: 'inputIcon' },
@@ -46,6 +47,8 @@ export default class Template {
 
 
     Build(name){
+
+        
         return  name === 'empty'        ? this.empty() :
                 name === 'article'      ? this.article() :
                 name === 'classicPage'  ? this.classicPage() : 
@@ -57,6 +60,7 @@ export default class Template {
                 name === 'cta'          ? this.cta() : 
                 name === 'ctaHorizontal'? this.ctaHorizontal() : 
                 name === 'feature'      ? this.feature() :
+                name === 'pricing'      ? this.pricing() :
                 name === 'team'         ? this.team() : 
                 name === 'simpleForm'   ? this.simpleForm() : 
                 name === 'roundedInput' ? this.roundedInput() : 
@@ -166,11 +170,11 @@ export default class Template {
         let container = new Element().Flexbox({direction:'row'})
         let inputField
         if ( type === 'text')
-            inputField = new Element().InputText().setCss('rounded-r-lg')
+            inputField = new Element().InputText().setCss('rounded-r-lg outline-none focus:ring-1 ring-blue-400')
         if ( type === 'email' )
-            inputField = new Element().InputEmail().setCss('rounded-r-lg')
+            inputField = new Element().InputEmail().setCss('rounded-r-lg  outline-none focus:ring-1 ring-blue-400')
 
-        let icon = new Element().Iconify().setCss('rounded-l-lg w-10 h-10 flex justify-center items-center text-2xl text-gray-200 border border-r-0')
+        let icon = new Element().Iconify().setCss('rounded-l-lg w-10 h-10 flex justify-center items-center text-2xl text-gray-400 border border-r-0')
         icon.data.icon = iconName
         name ? inputField.data.attributes.name =  name : null
         container.blocks.push ( icon )
@@ -190,6 +194,13 @@ export default class Template {
 
     simpleForm(){
         let container = new Element().Flexbox({direction:'col'}).setCss ( 'justify-center items-center shadow')
+        container.data.attributes = {
+            name: 'form',
+            id: 'form-id',
+            action: '',
+            method:'post'
+        }
+        container.semantic = 'form'
         let content = new Element().Flexbox({direction:'col'}).setCss ( 'w-full p-4 justify-start')
         let btn = new Element().Button().setCss('px-4 py-2 rounded bg-blue-400 text-white hover:bg-blue-700 my-4').setContent('Send')
 
@@ -255,6 +266,22 @@ export default class Template {
         return this
     }
 
+    pricing(){
+        let container = new Element().Flexbox({direction:'col'}).setCss ( 'w-full md:w-56 justify-center items-center shadow px-6 py-4')
+        let price = new Element().Heading(3).setContent('<small>$</small> <b>99</b>.<small>00</small>')
+        let title = new Element().Heading(4).setContent('Basic').setCss('mb-4 border-t')
+        let description = new Element().Paragraph().setCss ( 'my-4' ).setContent('<ul></ul><li>Unlimited users</li><li>Unlimited Bandwidth</li><li>Free Plugins</li></ul>')
+        let button = new Element().Button().setContent('Buy now').setCss('bg-blue-400 text-base text-white px-4 py-2 rounded hover:bg-blue-700')
+        container.blocks.push ( price )
+        container.blocks.push ( title )
+        container.blocks.push ( description )
+        container.blocks.push ( button )
+        this.blocks.push ( container )
+        return this
+    }
+
+    
+
     team(){
         let container = new Element().Flexbox({direction:'col'}).setCss ( 'w-56 justify-center items-center shadow px-6 py-4')
         let img = new Element().Image().setCss ( 'rounded-full h-40 w-40 object-cover' )
@@ -270,8 +297,8 @@ export default class Template {
 
     roundedInput(){
         let container = new Element().Flexbox({direction:'row'})
-        let inputField = new Element().InputText().setCss('rounded-l-lg')
-        let btn = new Element().Button().setCss('rounded-r-lg')
+        let inputField = new Element().InputText().setCss('rounded-l-lg  outline-none focus:ring-1 ring-blue-400')
+        let btn = new Element().Button().setCss('rounded-r-lg bg-blue-400 px-2')
         container.blocks.push ( inputField )
         container.blocks.push ( btn )
         this.blocks.push ( container )
@@ -280,8 +307,8 @@ export default class Template {
 
     inputIcon(){
         let container = new Element().Flexbox({direction:'row'})
-        let inputField = new Element().InputText().setCss('rounded-r-lg')
-        let icon = new Element().Iconify().setCss('rounded-l-lg w-10 h-10 flex justify-center items-center text-2xl text-gray-200 border border-r-0')
+        let inputField = new Element().InputText().setCss('rounded-r-lg outline-none focus:ring-1 ring-blue-400')
+        let icon = new Element().Iconify().setCss('rounded-l-lg w-10 h-10 flex justify-center items-center text-2xl text-gray-400 border border-r-0')
         icon.data.icon = 'mi:email'
         container.blocks.push ( icon )
         container.blocks.push ( inputField )
@@ -291,8 +318,8 @@ export default class Template {
 
     inputIconRight(){
         let container = new Element().Flexbox({direction:'row'})
-        let inputField = new Element().InputText().setCss('rounded-l-lg')
-        let icon = new Element().Iconify().setCss('rounded-r-lg w-10 h-10 flex justify-center items-center text-2xl text-gray-200 border border-l-0')
+        let inputField = new Element().InputText().setCss('rounded-l-lg outline-none focus:ring-1 ring-blue-400')
+        let icon = new Element().Iconify().setCss('rounded-r-lg w-10 h-10 flex justify-center items-center text-2xl text-gray-400 border border-l-0')
         icon.data.icon = 'mi:email'
         container.blocks.push ( inputField )
         container.blocks.push ( icon )

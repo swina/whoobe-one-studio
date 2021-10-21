@@ -1,7 +1,7 @@
 <template>
     <div ref="dialogContainer" class="modal z-modal w-full bg-white" :class="classe">
         
-        <div ref="dialogHeader" class="cursor-move h-10 w-full flex items-center text-white text-base px-2" :class="topBar?'bg-purple-800':'bg-transparent'">
+        <div ref="dialogHeader" class="dialogHeader capitalize cursor-move h-10 w-full flex items-center text-white text-base px-2" :class="topBar?'bg-purple-800':'bg-transparent'">
             {{ title }}
             <m-icon class="cursor-pointer absolute top-0 right-0 z-highest text-gray-100 mt-1 text-2xl" icon="close" @click="closeDialog"/>
         </div>
@@ -43,6 +43,7 @@ export default {
         },
         closeDialog(){
             this.$store.dispatch ( 'preview' , false )
+            this.topBar = true
             if ( this.lastDialog.length > 1 ){
                 dialogBus.$emit ( this.lastDialog[0] )
                 this.lastDialog.pop()
@@ -56,11 +57,21 @@ export default {
 
         dialogBus.$on ( 'closeDialog' , () => {
             window.localStorage.setItem('whoobe-preview-mode',false)
+            this.topBar = true
             this.closeDialog()
         })
         
         dialogBus.$on ( 'startEmpty' , () => {
             actions.createEmptyBlock()
+            
+        })
+
+        dialogBus.$on ( 'snippets' , () => {
+            this.dialogComponent = () => import ('@/components/blocks/components/BlockLibrary.vue')
+            this.title = 'Select a snippet'
+            this.width = 'w-full md:w-1/2 h-3/4'
+            this.topBar = true
+            this.options = null
         })
 
         dialogBus.$on ( 'startDefault' , () => {
@@ -101,6 +112,14 @@ export default {
             this.width = 'w-full md:w-1/4'
         })
 
+        dialogBus.$on ( 'JSEditor' , (lang) => {
+            this.dialogComponent = () => import ( '@/components/blocks/components/BlockJSEditor.vue' )
+            this.title = lang + ' Editor',
+            this.width = 'w-3/4'
+            this.options = { lang: lang }
+        })
+
+        
         dialogBus.$on ( 'editorHelper' , (dialog) => {
             this.dialogComponent = () => import ( '@/components/' + dialog.content )
             this.title = dialog.title
@@ -157,7 +176,7 @@ export default {
             this.dialogComponent = () => import ( '@/components/blocks/preview/BlockWindowPreview.vue')
             this.title = 'Preview'
             this.width = 'w-full h-screen'
-            this.topBar = false
+            this.topBar = true
             this.options = { mode: mode }
             this.traceDialogs('blockPreview')
         })
@@ -166,7 +185,7 @@ export default {
             this.dialogComponent = () => import ( '@/components/blocks/preview/PagePreview.vue')
             this.title = 'Preview'
             this.width = 'w-full h-screen'
-            this.topBar = false
+            this.topBar = true
             this.options = null 
             this.traceDialogs( 'pagePreview' )
         })

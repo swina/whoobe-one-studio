@@ -20,8 +20,6 @@
         <i-icon icon="ant-design:download-outlined" class="icon-button" @click="$editorBus('importPage','page')" title="Import template"/>
         <i-icon icon="ant-design:upload-outlined" class="icon-button" @click="$exportDocument()" title="Export template"/>
         <i-icon icon="ci:trash-empty" class="icon-button" @click="$deletePage()" title="Delete template"/>
-        <!-- <m-icon icon="health_and_safety" css="icon-button" @click="$saveDB()" title="Backup Database"/> -->
-        <!-- <m-icon icon="content_paste" css="icon-button" @click="$editorBus('pasteBlock','document')" title="Paste document"/> -->
         <div class="border-r h-10 mx-1 border-white"></div>
         <m-icon icon="highlight_alt"/>
         <div class="px-2" v-if="editor.current">
@@ -30,13 +28,9 @@
                 [ w:{{parseInt(editor.current.coords.width)}} x h:{{parseInt(editor.current.coords.height)}} ] - x:{{ parseInt(editor.current.coords.x )}} - y:{{parseInt(editor.current.coords.y)}} 
             </span>
         </div>
-        <!-- <div class="border-r h-10 mx-1"></div>
-        <div class="bg-blue-400 text-white h-full px-2 flex justify-center items-center animate-pulse" v-if="message">
-            <m-icon icon="notifications" class=""/><span class="">{{ message }}</span>
-        </div> -->
         
-        <!-- <EditorSidebarTabs :tab="$attrs.tab" :expand="true"/> -->
         <div class="font-light flex absolute right-0 items-center mr-10">
+            <span class="mr-2 border rounded pl-1" @click="$dialogBus('settings')">Autosave <span v-if="$store.state.editor.settings.autosave" class="chip bg-green-400 py-1 uppercase" :title="$store.state.editor.settings.autosaveTimeout">on</span> <span v-if="!$store.state.editor.settings.autosave" class="chip bg-red-500 py-1 uppercase">off</span></span>
             <div class="bg-blue-400 h-10 text-white px-2 flex justify-center items-center animate-pulse" v-if="message">
                 <m-icon icon="notifications" class=""/><span class="">{{ message }}</span>
             </div>
@@ -53,13 +47,14 @@ export default {
     name: 'EditorFooter',
     data:()=>( {
         newcss: '',
-        message: ''
+        message: '',
+        autosave: true
     }),
     components:{
         'EditorSidebarTabs' : () => import ( './EditorSidebarTabs.vue' )
     },
     computed:{
-        ...mapState ( ['editor' ] )
+        ...mapState ( ['editor' ] ),
     },
     methods: {
         confirmClose(){

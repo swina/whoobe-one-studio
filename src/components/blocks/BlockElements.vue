@@ -18,11 +18,11 @@
         
       
       </template>
-      <div key="grouped" class="capitalize cursor-pointer items-center flex p-2 text-gray-700 text-base" :class="gr==='grouped'?'bg-bluegray-300 text-gray-200':''" @click="gr==='grouped'?gr=null:gr='grouped'">
-          Grouped
-          <m-icon class="absolute right-0 m-1" :icon="gr==='grouped'?'expand_less':'expand_more'"/>
+      <div key="snippets" class="capitalize cursor-pointer items-center flex p-2 text-gray-700 text-base" :class="gr==='snippets'?'bg-bluegray-300 text-gray-200':''" @click="gr==='snippets'?gr=null:gr='snippets'">
+          Snippets
+          <m-icon class="absolute right-0 m-1" :icon="gr==='snippets'?'expand_less':'expand_more'"/>
       </div>
-      <div v-if="gr==='grouped'" class="relative w-full cursor-pointer">
+      <div v-if="gr==='snippets'" class="relative w-full cursor-pointer">
         <BlockLibrary/>
       </div>
     </div>

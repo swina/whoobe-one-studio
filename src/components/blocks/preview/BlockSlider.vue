@@ -1,6 +1,6 @@
 <template>
-    <div v-if="$attrs.slider.blocks.length" class="relative" :class="Object.values($attrs.slider.css).join(' ')" @click="next" x-data="{active:0,index:0}">
-        <div :ref="$attrs.slider.id" class="snap overflow-hidden relative flex-no-wrap flex transition-all" x-ref="slider"
+    <div v-if="$attrs.slider.blocks.length" class="relative" :class="Object.values($attrs.slider.css).join(' ')" @click="next" x-data="{active:0}">
+        <div :ref="$attrs.slider.id"  :id="$attrs.slider.id" class="snap overflow-x-hidden relative flex-no-wrap flex transition-all whoobe-slider" :slides="$attrs.slider.blocks.length" x-ref="slider"
         >
             <div v-for="(slide,index) in $attrs.slider.blocks" :key="index" class="w-full flex-shrink-0 overflow-hidden flex items-center justify-center">
             <BlockContainer
@@ -10,18 +10,18 @@
                 
             </div>
         </div>
-        <div :class="navigationClass" class="slider-navigation cursor-pointer">
-            <div ref="prevBtn" class="flex items-center"><m-icon :icon="iconLeft" class="text-5xl"/></div>
-            <template v-for="(dot,i) in $attrs.slider.blocks.length">
+        <div :class="navigationClass" v-if="$attrs.slider.blocks.length > 1" class="opacity-0 md:opacity-100 slider-navigation cursor-pointer">
+            <div ref="prevBtn" class="slider-prev flex items-center"><m-icon :icon="iconLeft" class="text-5xl"/></div>
+            <!-- <template v-for="(dot,i) in $attrs.slider.blocks.length">
                 <span ref="dots" class="h-3 w-3 rounded-full shadow bg-gray-700 m-2"></span>
-            </template>
-            <div ref="nextBtn" class="flex items-center"><m-icon :icon="iconRight" class="text-5xl"/></div>
+            </template> -->
+            <div ref="nextBtn" class="slider-next flex items-center"><m-icon :icon="iconRight" class="text-5xl"/></div>
         </div>
     </div>
 </template>
 
 <script>
-
+import AlloyFinger from 'alloyfinger'
 export default {
     name: 'BlockSliderPreview',
     components: {
@@ -55,15 +55,32 @@ export default {
         }
     },
     mounted(){
-        this.$refs[this.$attrs.slider.id].setAttribute ('x-on:scroll.debounce','active = Math.round($event.target.scrollLeft / ($event.target.scrollWidth / ' + this.$attrs.slider.blocks.length +'))')
+        // this.$refs[this.$attrs.slider.id].setAttribute ('x-on:scroll.debounce','active = Math.round($event.target.scrollLeft / ($event.target.scrollWidth / ' + this.$attrs.slider.blocks.length +'))')
+        if ( this.$attrs.slider.blocks.length > 1 ){
+            this.$refs.prevBtn.setAttribute('x-on:click','$refs.slider.scrollLeft = $refs.slider.scrollLeft - ($refs.slider.scrollWidth / ' + this.$attrs.slider.blocks.length +')')
 
-        this.$refs.prevBtn.setAttribute('x-on:click','$refs.slider.scrollLeft = $refs.slider.scrollLeft - ($refs.slider.scrollWidth / ' + this.$attrs.slider.blocks.length +'),index>0?index--:null')
+            this.$refs.nextBtn.setAttribute('x-on:click','$refs.slider.scrollLeft = $refs.slider.scrollLeft + ($refs.slider.scrollWidth / ' + this.$attrs.slider.blocks.length +')')
 
-        this.$refs.nextBtn.setAttribute('x-on:click','$refs.slider.scrollLeft = $refs.slider.scrollLeft + ($refs.slider.scrollWidth / ' + this.$attrs.slider.blocks.length +'),index++')
-
-        this.$attrs.slider.blocks.forEach ( (b,index) =>{
-            this.$refs.dots[index].setAttribute ( 'x-bind:class' ,"{'bg-blue-100  animate-pulse':active===" + index + "}")
-        })
+            // this.$attrs.slider.blocks.forEach ( (b,index) =>{
+            //     this.$refs.dots[index].setAttribute ( 'x-bind:class' ,"{'bg-blue-100  animate-pulse':active===" + index + "}")
+            // })
+        }
+        if ( this.$attrs.slider ){
+            let container = document.getElementById(this.$attrs.slider.id)
+            let slider = new AlloyFinger ( container , {
+                swipe:(evt)=>{
+                    if ( evt.direction === 'Left' ) {
+                        this.$refs.nextBtn.click()
+                    }
+                    if ( evt.direction === 'Right' ) {
+                        this.$refs.prevBtn.click()
+                    }
+                },
+                doubleTap:(evt)=>{
+                    this.$refs.nextBtn.click()
+                },
+            })
+        }
 
     }
 }

@@ -167,7 +167,7 @@ var classes = {
         { label : 'screen-xl' , value : 'max-w-screen-xl' },
         { label : 'screen-2xls' , value : 'max-w-screen-2xl' }
     ],
-    semantics:['article','aside','details','div','figcaption','figure','footer','header','hero','label','main','mark','nav','product','section','span','summary','time'],
+    semantics:['article','aside','details','div','figcaption','figure','footer','form','header','hero','label','main','mark','nav','product','section','span','summary','time'],
     textSize: [
         'text-xs' , 
         'text-sm' , 

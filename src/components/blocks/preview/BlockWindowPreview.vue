@@ -1,24 +1,25 @@
 <template>
     <div class="w-screen" @contextmenu="contextmenu($event)">
-        <div class="absolute top-0 h-10 w-screen flex items-center text-center text-gray-300 border-b">
-            <div class="m-auto text-gray-500">Right click for more options</div>
-            <!-- <m-icon icon="laptop" class="text-3xl mr-4" @click="mode='fullscreen'"/>
-            <m-icon icon="tablet" class="text-3xl mr-4" @click="mode='tablet'"/>
-            <m-icon icon="smartphone" class="text-3xl  mr-4" @click="mode='smartphone'"/>
-            <m-icon v-if="mode!='fullscreen'" icon="flip_camera_android" class="m-auto text-3xl" @click="orientation=!orientation"/> -->
+        <div class="absolute top-0 h-10 w-full flex items-start justify-end text-gray-300 z-modal">
+            <!-- <div class="m-auto text-gray-500">Right click for more options</div> -->
+            <m-icon icon="laptop" class="text-2xl mr-4" @click="mode='fullscreen'" title="fullscreen"/>
+            <m-icon icon="tablet" class="text-2xl mr-4" @click="mode='tablet'" title="tablet"/>
+            <m-icon icon="smartphone" class="text-2xl  mr-4" @click="mode='smartphone'" title="smartphone"/>
+            <m-icon v-if="mode!='fullscreen'" icon="flip_camera_android" class="text-2xl mr-4" @click="orientation=!orientation" title="Change orientation"/>
+            <m-icon icon="close" class="text-2xl mr-4" title="Esc to exit preview" @click="$dialogBus('closeDialog')"/>
         </div>
-        <div class="flex flex-col overflow-y-auto absolute inset-0 mt-10 laptop-view" v-if="mode==='fullscreen'">
-            <BlockContainer 
+        <div class="flex flex-col overflow-y-auto overflow-x-hidden absolute inset-0 laptop-view" v-if="mode==='fullscreen'">
+            <BlockContainerPrvw 
                 v-if="doc" 
                 :doc="doc" 
-                :key="doc.id" 
+                :key="doc.id"
                 id="content"/>
         </div>
         <div :class="mode==='fullscreen'?'hidden':''" v-if="mode!='fullscreen'" class="text-center text-gray-300">
             <!-- <m-icon icon="laptop" class="text-3xl" @click="mode='fullscreen'"/>
             <m-icon icon="tablet" class="text-3xl" @click="mode='tablet'"/><m-icon icon="smartphone" class="text-3xl" @click="mode='smartphone'"/>
             <m-icon icon="flip_camera_android" class="m-auto text-3xl" @click="orientation=!orientation"/> -->
-            <iframe ref="previewFrame" :style="previewFrame" src="/" class="m-auto border-8 overflow-x-hidden border-black rounded-xl">
+            <iframe ref="previewFrame" :style="previewFrame" :srcdoc="getHTML()" class="m-auto border-8 overflow-x-hidden border-black rounded-xl">
             </iframe>
         </div>
         <div ref="contextMenu" class="fixed z-highest shadow bg-white shadow absolute flex flex-col w-64 cursor-pointer" :class="classe" @mouseleave="display=!display">
@@ -59,7 +60,7 @@
         <div v-if="svgString">
             <img :src="svgString"/>
         </div>
-        <Modal v-if="modal" title="Preview" :topbar="true" component="blocks/components/BlockHtml.vue" @close="modal=!modal" :options="options"/>
+        <Modal v-if="modal" title="Preview" :topbar="true" component="blocks/components/BlockJSEditor.vue" @close="modal=!modal" :options="options"/>
     </div>
 </template>
 
@@ -80,12 +81,13 @@ export default {
         modal: false,
         options: null,
         mode:'xs',
-        svgString: null
+        svgString: null,
+        srcdoc: null
     }),
     components: {
         //WhoobePreviewContextMenu , MokaEditorPreview , WhoobePreviewHtml , WhoobePreviewPrintscreen ,
         //'block-preview-context-menu'    : () => import ( './window/block.preview.context.menu.vue'),
-        'BlockContainer'    : () => import ( '@/components/blocks/preview/BlockContainer.vue'),
+        'BlockContainerPrvw'    : () => import ( '@/components/blocks/preview/BlockContainer.vue'),
         // 'block-preview-html'            : () => import ( './window/block.preview.html.vue' ),
         // 'block-slider'                  : () => import ( '@/components/blocks/preview/components/moka.slider.vue'),
         // 'block-preview-printscreen'     : () => import ( './window/block.preview.printscreen.vue')
@@ -105,14 +107,14 @@ export default {
             return this.display ? 'visible' : 'hidden'
         },
         previewFrame(){
-            let scale = window.innerHeight < 900 ? .6 : 1
+            let scale = window.innerHeight < 1024 ? .5 : 1
             if ( this.mode === 'smartphone' ){
                 
                 return this.orientation ? "width:800px;height:375px;" : "width:375px;height:80vh;"
             }
             if ( this.mode === 'tablet' ){
                 
-                return this.orientation ? "width:" + 768*scale + "px;height:" + 1024*scale +"px;" : "width:" + 1024*scale + "px;height:" + 768*scale + "px;"
+                return this.orientation ? "width:" + 1024*scale + "px;height:" + 1366*scale +"px;" : "width:" + 1366*scale + "px;height:" + 1024*scale + "px;"
             }
         }
     },
@@ -137,11 +139,39 @@ export default {
             modalBus.$emit ( 'blockSettings')
         },
         viewHTML(){
+            let fonts = jp.query ( this.$store.state.editor.page.json.blocks , '$..blocks..font') 
+            let fnts = [ ...new Set ( fonts.filter ( a => { return a } ) )]
+            let fontsLink = '<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=' + fnts.join('|') + '">'
+            let mi = '<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">\n'
             let page = document.getElementById('content')
-            let html = page.outerHTML
+            let html = mi + fontsLink + '\n' + page.outerHTML
             html = html.replaceAll ( 'http://localhost:3030/' , '' )
             html =  this.$beautify ( html.replaceAll('<!---->','').replaceAll('[object Object]','') )
-            modalBus.$emit ( 'viewHTML' , html )
+            this.options = { lang: 'html' , content: html }
+            this.modal = true
+            modalBus.$emit ( 'viewHTML' , this.options )
+        },
+        getHTML(){
+            try {
+                if ( !this.srcdoc ){
+                    let mi = '<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">\n'
+                    let fonts = jp.query ( this.$store.state.editor.page.json.blocks , '$..blocks..font') 
+                    let fnts = [ ...new Set ( fonts.filter ( a => { return a } ) )]
+                    let fontsLink = ''
+                    fnts ? fontsLink = '<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=' + fnts.join('|') + '">' : null
+                    let tw = '<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">'
+                    let previewCss = '<link href="preview.css" rel="stylesheet">'
+                    let page = document.getElementById('content')
+                    let html = mi + tw + '\n' + fontsLink + '\n' + previewCss + '\n' + page.outerHTML
+                    html = html.replaceAll ( 'http://localhost:3030/' , '' )
+                    html =  this.$beautify ( html.replaceAll('<!---->','').replaceAll('[object Object]','') )
+                    this.srcdoc = html
+                    return html
+                } 
+                return this.srcdoc
+            } catch ( err ){
+                console.log ( 'Preview mode')
+            }
         },
         buildPage(){
             let page = document.getElementById('content')
@@ -288,6 +318,14 @@ export default {
             style.textContent = 'body { overflow-y: auto; }'
             this.$refs.previewFrame.contentDocument.body.appendChild(style)
         }
+        if ( this.doc.data.javascript ){
+            let scrpt = document.createElement ( 'script' )
+            scrpt.innerText = this.doc.data.javascript
+            document.body.appendChild ( scrpt ) 
+        }
+        console.log ( document.querySelector ( '.dialogHeader') )
+        let dialogHeader = document.querySelector ( '.dialogHeader')
+        dialogHeader.style.opacity = 0
     }
 }
 </script>

@@ -218,7 +218,8 @@ export default {
                 title: page.name,
                 description: page.description,
                 animations: animations,
-                tags: page.tags.join(',')
+                tags: page.tags.join(','),
+                js: page.json.blocks.data.js
             }
             console.log ( whoobeone )
             let data = "const whoobe = " + JSON.stringify(whoobeone) + ';export default whoobe'

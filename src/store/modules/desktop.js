@@ -31,7 +31,6 @@ const desktop =  {
         add_tab ( state , payload ){
             let founded = false
             state.tabs.forEach ( (tab,i) => {
-                console.log ( tab.label , payload.label )
                 if ( tab.label === payload.label ){
                     state.currentTab = i
                     founded = true

@@ -40,8 +40,8 @@
                 <div v-if="!filter" class="fixed mt-20 right-0 top-0 w-20 h-screen flex flex-col items-end justify-center">
                     <m-icon icon="chevron_right" class="-mt-20 text-6xl" @click="(skip+limit) < total ? skip=skip+limit : null"/>
                 </div> -->
-                <m-icon icon="chevron_left" class="fixed mt-8 top-1/2 left-0 mr-8 text-6xl"  @click="skip>0?skip=skip-limit:null"/>
-                <m-icon icon="chevron_right" class="fixed mt-8 top-1/2 right-0 mr-8 text-6xl" @click="(skip+limit) < total ? skip=skip+limit : null"/>
+                <m-icon icon="chevron_left" class="fixed mt-8 top-1/2 left-0 text-6xl"  @click="skip>0?skip=skip-limit:null"/>
+                <m-icon icon="chevron_right" class="fixed mt-8 top-1/2 right-0 text-6xl" @click="(skip+limit) < total ? skip=skip+limit : null"/>
             </div>
         </transition>
         

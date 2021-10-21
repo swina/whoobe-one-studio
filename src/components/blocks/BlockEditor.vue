@@ -5,8 +5,11 @@
             <!-- <m-icon icon="web" css="icon-button text-black z-modal" @click="$dialogBus('pages')" title="Templates"/> -->
             <span class="ml-6 text-gray-800 chip bg-white" v-if="editor.page">{{ editor.page.name }} <span class="chip bg-purple-800 text-white p-1">{{ editor.page.category }}</span></span>
             <i-icon icon="carbon:settings" class="text-gray-400 ml-4 text-2xl hover:text-purple-600" @click="$dialogBus('settingsPage')" title="Template settings"/>
-            <i-icon icon="codicon:open-preview" class="text-gray-400 ml-4 text-2xl hover:text-purple-600" @click="$editorBus('preview','fullscreen')" title="Preview"/>
+            <i-icon icon="akar-icons:javascript-fill" class="text-xl icon-button ml-4 cursor-pointer" @click="$dialogBus('JSEditor','javascript')" title="Add Javascript"/>
+            <!-- <i-icon icon="akar-icons:css-fill" class="text-xl icon-button ml-4 cursor-pointer" @click="$dialogBus('JSEditor','css')" title="Add custom style"/> -->
             <i-icon icon="gg:shortcut" class="text-gray-400 ml-4 text-2xl hover:text-purple-600" @click="$dialogBus('shortcuts')" title="Shortcuts"/>
+            <i-icon icon="codicon:open-preview" class="text-gray-400 ml-4 text-2xl hover:text-purple-600" @click="$editorBus('preview','fullscreen')" title="Preview"/>
+            
             <span class="absolute right-0 mr-12">X:{{ parseInt(containerCoords.left)-editorOffsetX }} Y:{{ parseInt(containerCoords.top + scroll - editorOffsetY ) }} </span>
         </div>
         <div class="p-4 mt-24 pb-20">
@@ -263,6 +266,18 @@ export default {
             this.action = null
             this.$dialogBus ( 'closeDialog' )
         })
+
+        editorBus.$on ( 'setFlexRow' , () => {
+            this.editor.current.css.container = this.editor.current.css.container.replace ( 'flex-col','').replace('flex-row','')
+            this.editor.current.css.container.includes('flex-row') ? null :
+                this.editor.current.css.container = this.$clean(this.editor.current.css.container + ' flex-row')
+        })
+
+        editorBus.$on ( 'setFlexCol' , () => {
+            this.editor.current.css.container = this.editor.current.css.container.replace ( 'flex-col','').replace('flex-row','')
+            this.editor.current.css.container.includes('flex-col') ? null :
+                this.editor.current.css.container = this.$clean(this.editor.current.css.container + ' flex-col')
+        })
        
         editorBus.$on ( 'copyBlockCSS' , () => {
             let css = Object.assign ( {} , this.editor.current.css )
@@ -316,7 +331,9 @@ export default {
         })
         this.$refs.mainEditor.style.overflowY = 'auto'
 
-        
+        if ( !this.editor.page.id && !this.editor.document.blocks.length ){
+            this.$dialogBus ( 'snippets' )
+        }
     }
 
 }

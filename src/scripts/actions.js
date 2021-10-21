@@ -4,12 +4,12 @@ import Block from './BlocksClass'
 import Element from './ElementsClass'
 
 import page from '../assets/pages/default.json'
-
+import { dialogBus } from '../main'
 const createEmptyBlock = () => {
     let page = new Block()
     const block = new Element().Flexbox({direction:'col'}).setIcon('dashboard').setTag('document')
     page.json.blocks = block
-    page.name = 'A new page'
+    page.name = 'A new component'
     store.dispatch ( 'setPage' , page )
     store.dispatch ( 'setCurrent' , block )
     store.dispatch ( 'document' , block )
@@ -18,6 +18,7 @@ const createEmptyBlock = () => {
         object: page,
         type: 'editor'
     })
+    
 }
 
 const openDefaultBlock = () => {

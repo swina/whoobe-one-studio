@@ -1,12 +1,15 @@
 <template>
      <div ref="floatingBarElement" v-if="$store.state.editor.current && $attrs.coords" class="h-8 flex items-center absolute z-highest justify-center bg-white text-black shadow text-xs px-2 cursor-pointer -mt-10" :style="coordinate">
-        <small class="chip bg-blue-400 capitalize">{{$store.state.editor.current.element}}</small>
+        <small class="chip bg-blue-400 capitalize" @click="$emit('close')">{{$store.state.editor.current.element}}</small>
         <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="icomoon-free:move-up" @click="$editorBus('moveBlock',1)" title="Move up"/>
         <i-icon v-if="$store.state.editor.current.type==='container'" class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="la:elementor" @click="$eventBus('sidebar','elements')" title="Add element"/>
-        <template v-for="icon in icons">
-            <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" :icon="icon.icon" @click="$editorBus('editorAction',icon,$event),currentIcon=icon.icon" :title="icon.title" v-if="isIconEnabled(icon)" :key="icon.icon"/>
+        <i-icon v-if="$store.state.editor.current.tag==='flex'" class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="fluent:text-direction-horizontal-right-24-regular" @click="$editorBus('setFlexRow')" title="Direction row"/>
+        <i-icon v-if="$store.state.editor.current.tag==='flex'" class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="fluent:text-direction-rotate-90-ltr-20-regular" @click="$editorBus('setFlexCol')" title="Direction column"/>
+        <i-icon v-if="$store.state.editor.current.semantic==='form'" class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="clarity:form-line" @click="$editorBus('editorAction',{title:'Form settings',action:'BlockForm'})" title="Form settings"/>
+        <template v-for="(icon,i) in icons">
+            <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" :icon="icon.icon" @click="$editorBus('editorAction',icon,$event),currentIcon=icon.icon" :title="icon.title" v-if="isIconEnabled(icon)" :key="'icon_'+i"/>
         </template>
-        <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="ci:trash-empty"/>
+        <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="ci:trash-empty" @click="$editorBus('deleteBlock')"/>
         <small class="chip bg-lime-400" v-if="$store.state.editor.current.gsap.animation" @click="$eventBus('sidebar','animation')">{{$store.state.editor.current.gsap.animation}}</small>
     </div>
 </template>
@@ -47,7 +50,8 @@ export default {
             return icon.filter ? 
                 icon.filter.includes ( this.$store.state.editor.current.element ) 
                     ? true :
-                        icon.filter.includes ( this.$store.state.editor.current.type ) ? true : false : true
+                                                     icon.filter.includes ( this.$store.state.editor.current.tag ) ?  true : 
+                                icon.filter.includes ( this.$store.state.editor.current.element ) ? true : false : true
         },
         classe ( icon ){
             return icon === this.currentIcon ?

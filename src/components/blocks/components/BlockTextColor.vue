@@ -1,15 +1,18 @@
 <template>
     <div ref="blockColor" id="blockColor" class="w-64 flex flex-col w-full justify-center items-center shadow">
-        <!-- <div ref="actionHeader" class="bg-gray-200 w-full p-1">
-            <span v-if="$attrs.options.context==='textcolor'">Text Color</span>
-            <span v-else>Fill Color</span>
-        </div> -->
-        <text-color class="w-64 text-center justify-center" v-if="$store.state.editor.current" 
-            :attr="$attrs.options.context" 
-            @css="setColor" 
-            :css="allCss" 
-            :front="frontColor" 
-            :hover="hoverColor"/>
+        <div class="flex justify-center items-center w-64 py-2 cursor-pointer">
+            <div class="flex flex-col items-center justify-center">
+                Foreground
+                <span class="w-8 h-8 rounded-full border mr-2" :class="frontColor.replace('text-','bg-')" @click="palette=true,hover=false"/>
+            </div>
+            <div class="flex flex-col items-center justify-center">
+                Over
+                <span class="w-8 h-8 rounded-full border ml-2" :class="hoverColor.replace('hover:','').replace('text-','bg-')" @click="palette=true,hover=true"></span>
+            </div>
+        </div>
+        <div v-if="palette" class="absolute -mt-40">
+            <palette class="-mt-40" @color="setColorNew" @close="palette=!palette" :context="context" :css="hover?hoverColor:frontColor"/>
+        </div>
     </div>
 </template>
 
@@ -23,7 +26,9 @@ export default {
         currentColor: '',
         opened: true,
         frontColor: '',
-        hoverColor: ''
+        hoverColor: '',
+        palette:false,
+        hover: false
     }),
     components: {
         'TextColor' : () => import ( '@/components/blocks/tailwind/controls/tailwind.color.vue'),
@@ -33,14 +38,33 @@ export default {
          colors(){
             return classes[this.$attrs.options.context]
         },
+        context(){
+            return this.$attrs.options.context === 'bgcolor' ? 'bg-' : 'text-'
+        }
     },
     methods:{
-        setColor(color){
-                this.allCss = this.allCss.replace ( this.currentColor , color )
-                this.$store.state.editor.current.css.css = this.allCss
-                this.opened = false
-                if ( color != this.currentColor ) this.$emit('close')
+        setColorNew ( color , tone ){
+            this.palette = false
+            tone ? color += '-' + tone : null
+            if ( !this.hover ){
+                this.context + color
+                this.allCss =  this.allCss.replace ( this.frontColor , ' ' + this.context + color )
+                this.frontColor = this.context + color
+            } else {
+                this.allCss =  this.allCss.replace ( this.hoverColor , ' hover:' + this.context + color )
+                this.hoverColor = 'hover:' + this.context + color
+            }
+            this.$store.state.editor.current.css.css = this.$clean ( this.allCss )
         },
+        // setColor(color){
+        //         color.includes('hover:') ?
+        //             ( this.allCss = this.allCss.replace ( this.hoverColor , color ) , this.hoverColor = color ) :
+        //             ( this.allCss = this.allCss.replace ( this.frontColor , color ) , this.frontColor = color )
+                
+        //         this.$store.state.editor.current.css.css = this.allCss
+        //         this.opened = false
+        //         if ( color != this.currentColor ) this.$emit('close')
+        // },
     },
     watch:{
     },
@@ -55,8 +79,8 @@ export default {
             this.colors.forEach ( color => {
                 if ( cl.includes ( color ) ){
                     if ( cl.indexOf('hover') > -1 ){
-                        this.currentColor = cl.replace('hover:','')
-                        this.hoverColor = cl.replace('hover:','')
+                        this.currentColor = cl //.replace('hover:','')
+                        this.hoverColor = cl //.replace('hover:','')
                     } else {
                         this.currentColor = cl
                         this.frontColor = cl
@@ -65,12 +89,6 @@ export default {
             })
 
         })
-        
-        // let coords = this.$refs.blockColor.getBoundingClientRect()
-        // this.$emit ( 'position' , coords.height )
-        // if ( coords.right > window.innerWidth - 200 ){
-        //     this.$refs.blockColor.style.left = coords.left - (coords.width * 2) + 'px'
-        // }
 
         
     }

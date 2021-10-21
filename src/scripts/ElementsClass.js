@@ -147,10 +147,10 @@ export default class Element {
                         name: 'Email',
                         icon: 'email' 
                     }, 
-                    {
-                        name: 'Hidden',
-                        icon: 'input' 
-                    },
+                    // {
+                    //     name: 'Hidden',
+                    //     icon: 'input' 
+                    // },
                     {
                         name: 'Number',
                         icon: 'input'
@@ -420,6 +420,14 @@ export default class Element {
         this.success = ''
         this.error = ''
         this.action = ''
+        this.css.container = 'flex flex-col'
+        this.semantic = 'form'
+        this.data['attributes'] = {
+            name: 'form',
+            id: 'form-id',
+            action: '',
+            method: 'post'
+        }
         return this
     }
 

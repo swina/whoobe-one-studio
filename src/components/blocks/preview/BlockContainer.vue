@@ -21,6 +21,7 @@
 
 <script>
 import { eventBus } from '@/main'
+import AlloyFinger from 'alloyfinger'
 export default {
     name: 'BlockContainerPreview',
     data:()=>({
@@ -105,17 +106,6 @@ export default {
                 }
             })
         }
-        // this.$attrs.doc.events.focus ?
-        //     this.$refs[this.$attrs.doc.id].setAttribute('x-data',this.$attrs.doc.events.focus) : null
-
-        // this.$attrs.doc.events.click ?
-        //     this.$refs[this.$attrs.doc.id].setAttribute('x-on:click',this.$attrs.doc.events.click) : null
-        
-        // this.$attrs.doc.events.blur ?
-        //     (this.$refs[this.$attrs.doc.id].setAttribute('x-bind:class', this.$attrs.doc.events.blur ),console.log(this.$refs[this.$attrs.doc.id]) ) : null
-
-        
-        //if ( this.element.element != 'img' ) this.$refs[this.element.id].removeAttribute('src')
         
     }
 }
