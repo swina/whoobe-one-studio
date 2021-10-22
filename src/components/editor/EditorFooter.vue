@@ -1,5 +1,5 @@
 <template>
-    <div class="w-screen bg-white shadow z-modal h-10 flex items-center fixed bottom-0 px-2 cursor-pointer">
+    <div class="w-screen bg-white shadow z-modal h-10 flex items-center fixed bottom-0 px-2 cursor-pointer border-t">
         <!-- <label>CSS</label>
         <input v-if="editor.current" type="text" class="editor-input" v-model="editor.current.css.css"/>
         <label>Container</label>

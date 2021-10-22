@@ -103,9 +103,22 @@ export default {
         if ( this.element.element != 'img' ) this.$refs[this.element.id].removeAttribute('src')
         if ( this.element.element != 'img' ) this.$refs[this.element.id].removeAttribute('alt')
         if ( this.element.element != 'img' && !this.element.link ) this.$refs[this.element.id].removeAttribute('title')
-        if ( this.element.tag === 'input'){
+        // if ( this.element.tag === 'input'){
+        //     Object.keys(this.element.data.attributes).forEach( attribute => {
+        //         this.$refs[this.element.id].setAttribute ( attribute , this.element.data.attributes[attribute] )
+        //     })
+        // }
+        if ( this.element.data.hasOwnProperty('attributes') ){
             Object.keys(this.element.data.attributes).forEach( attribute => {
                 this.$refs[this.element.id].setAttribute ( attribute , this.element.data.attributes[attribute] )
+            })
+        }
+        if ( this.element.data.alpine ){
+            Object.keys( this.element.data.alpine ).forEach ( attr => {
+                if ( this.element.data.alpine[attr] ){
+                    console.log ( attr )
+                    this.$refs[this.element.id].setAttribute( attr , this.element.data.alpine [ attr ])
+                }
             })
         }
     }

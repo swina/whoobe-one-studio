@@ -47,12 +47,11 @@ export default {
             this.palette = false
             tone ? color += '-' + tone : null
             if ( !this.hover ){
-                this.context + color
-                this.allCss =  this.allCss.replace ( this.frontColor , ' ' + this.context + color )
+                this.allCss =  this.allCss.replace ( this.frontColor , ' ' + this.context + color + ' ')
                 this.frontColor = this.context + color
             } else {
-                this.allCss =  this.allCss.replace ( this.hoverColor , ' hover:' + this.context + color )
-                this.hoverColor = 'hover:' + this.context + color
+                this.allCss =  this.allCss.replace ( this.hoverColor , ' hover:' + this.context + color + ' ')
+                this.hoverColor = 'hover:' + this.context + color 
             }
             this.$store.state.editor.current.css.css = this.$clean ( this.allCss )
         },

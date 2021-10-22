@@ -97,6 +97,12 @@ export default {
         
         this.$refs[this.$attrs.doc.id].removeAttribute('doc')
 
+        if ( this.$attrs.doc.data.hasOwnProperty('attributes') ){
+            Object.keys(this.$attrs.doc.data.attributes).forEach( attribute => {
+                this.$refs[this.$attrs.doc.id].setAttribute ( attribute , this.$attrs.doc.data.attributes[attribute] )
+            })
+        }
+
         if ( this.$attrs.doc.data.alpine ){
             Object.keys( this.$attrs.doc.data.alpine ).forEach ( attr => {
                 

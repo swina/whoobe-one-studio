@@ -11,6 +11,7 @@
             <BlockElements v-if="tab==='elements'"/>
             <BlockCustomize v-if="tab==='customize'" :css="editor.current.css.css" :cid="editor.current.id" :key="editor.current.id"/>
             <BlockCss v-if="tab==='css'"/>
+            <BlockAttributes v-if="tab==='attributes'"/>
             <BlockLibrary v-if="tab==='snippets'"/>
             <BlockComponents v-if="tab==='library'"/>
             <!--<BlockEvents v-if="tab==='events'"/>-->
@@ -46,6 +47,7 @@ export default {
         'BlockElements' : () => import ( '@/components/blocks/BlockElements.vue') ,
         'BlockCustomize': () => import ( '@/components/blocks/tailwind/BlockTailwind.vue'),
         'BlockCss'      : () => import ( '@/components/blocks/components/BlockCss.vue'),
+        'BlockAttributes': () => import ( '@/components/blocks/components/BlockAttributes.vue'),
         'BlockLibrary'  : () => import ( '@/components/blocks/components/BlockLibrary.vue'),
         'BlockComponents'  : () => import ( '@/components/blocks/components/BlockComponents.vue'),
         'BlockEvents'   : () => import ( '@/components/blocks/components/BlockEvents.vue'),
