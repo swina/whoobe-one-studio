@@ -1,8 +1,15 @@
 # whoobe-one-studio
 
-WhoobeOne Studio is a component visual builder for TailwindCSS (required 2.0 min).
+WhoobeOne Studio is a free and opensource component visual builder for TailwindCSS (required 2.0 min).
 
 You can create simple or strtuctured components or even complete pages without coding but using the blocks criteria. Elements can be nested as per your design requirement.
+
+
+## Online app 
+
+[WhoobeOne Studio](https://whoobe-one-studio.vercel.app/)
+
+No login or email required. Free and opensource.
 
 ## Serverless App
 
@@ -119,9 +126,6 @@ After the template name and category
 - Export template to JSON format
 - Delete template (remove template from the library)
 
-## Demo
-
-[Demo](https://whoobe-one-studio.vercel.app/)
 
 
 ## Getting Started
