@@ -1,23 +1,37 @@
 # whoobe-one-studio
 
-WhoobeOne Studio is a component visual builder for TailwindCSS (required 2.0 min). 
+WhoobeOne Studio is a component visual builder for TailwindCSS (required 2.0 min).
+
+You can create simple or strtuctured components or even complete pages without coding but using the blocks criteria. Elements can be nested as per your design requirement.
+
+## Serverless App
+
+WhoobeOne Studio doesn't require any server or database, as long as you can use without install it but just using the online version that is full working and that you can install on your desktop.
+All data are in browser and refer to the url (http://localhost:8080) by default, thus means that if you clear all browser data or you switch to another browser, or you change the port when you open WhoobeStudio it will ask you to install the Library as it would be a first run.
+
+### Important ###
+**Always export the templates database if you want to have portability of your data. Deleting browser data will erase WhoobeOne Studio data**
+
+
 
 ## Features
 
 - full in browser app, desktop app ready
+- no server or database required
 - create and design components based on TailwindCSS with no code
 - add/edit any TailwindCSS utility adding/updating css/style of any element created
 - realtime preview (laptop, tablet and smartphone)
 - copy&paste component blocks
 - duplicate component blocks
-- AlpineJS directives support integrated in the component designer
+- add custom JS
+- AlpineJS directives support
 - GSAP animation support
 - export/import components as JSON files
-- save in browser DB (IndexedDB)
+- save in browser DB (IndexedDB). Remember to backup your DB.
 - create your own library DB (IndexedDB)
 - ready to use templates library
 - one click preset components templates tool
-- export single page/component for build tool whoobe-one-vite
+- export single page/component to whoobe-one-vite in order to deploy a full static purged page/component
 
 ## Editor tools
 
@@ -29,24 +43,27 @@ Clicking on any element created you have access to a floating bar set in the up 
 
 - move element one position up
 - add element to the current one (apply only to containers like grid and flexbox)
+- switch flex box from row to column direction (apply only to flexbox)
 - edit element content
+- set icon (apply only to Iconify elements)
 - set font family and font size
 - font color (hover included)
 - background color (over included)
 - image (requires an image url); if the current element is not an image the source will used as background
-- link to add a link to the element
+- link to add a link/anchor to the element
 - import elements or block of elements
 - export current element
 - remove element ( Alt + D)
 
 ### Sidebar
+
 - **Elements**: add HTML elements to your dashboard/editor like
     - Grid : comes with a helper to set a grid layout (cols and colspans)
     - Flexbox
     - Text Elements: Heading, Paragraph, Inline text, Span, Quote, Code
     - Media: Image, Slider, Video, Youtube Video, Vimeo Video, Material Icon, Iconify icon, Download
     - Form: Input text, Input Email, Input number, Input hidden, Checkbox, Textarea, Submit, Reset and Button
-    - Grouped: these are preset templates that you can add to the editor with just a click. Presets are defined in ./src/scripts/templates
+    - Snippets: preset templates that you can add to the editor with just a click. Presets are defined in **./src/scripts/templates** using the Blocks and Elements classes
 
 
 - **Customize**: access to TailwindCSS utilities with simple controls
@@ -55,14 +72,14 @@ Clicking on any element created you have access to a floating bar set in the up 
     - Dimension
     - Typography
     - Background
-    - Gradient
+    - Gradient with random generator
     - Padding
     - Margin
     - Border
     - Rounded / Shadow / more
     - CSS Animation
     - Transition
-    - Transform
+    - Transform (clipping are still unstable)
     - Spacing
 
 
@@ -128,15 +145,43 @@ npm run serve
 ```
 npm run build
 ```
-## Requirements
 
-In order to build a full static web page you need to install the repo: 
+## Purge CSS
 
-whoobe-one-vite
+In order to build a full static web page/component with purged CSS you need to install the repo: 
 
-## Vite Build Static Page
+[whoobe-one-vite](https:/github.com/swina/whoobe-one-vite)
 
-Using the Build option from the preview of any page, save the file in the src folder of whoobe-one-vite installation. The static page will be available in the dist folder of whoobe-one-vite 
+
+### Vite Build Static Page
+
+Using the Build option from the editor preview of any page, save the file as **whoobe.js** in the **./src** folder of whoobe-one-vite installation. 
+The static page will be deployed in the **./dist** folder.
+
+#### Dev preview
+
+```
+npm run dev
+```
+
+or
+
+```
+yarn dev
+```
+
+#### Build
+
+```
+npm run build
+```
+
+or
+
+```
+yarn build
+```
+
 
 ## Info
 

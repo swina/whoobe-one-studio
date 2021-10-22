@@ -157,8 +157,8 @@ export default {
                     let mi = '<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">\n'
                     let fonts = jp.query ( this.$store.state.editor.page.json.blocks , '$..blocks..font') 
                     let fnts = [ ...new Set ( fonts.filter ( a => { return a } ) )]
-                    let fontsLink = ''
-                    fnts ? fontsLink = '<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=' + fnts.join('|') + '">' : null
+                    let fontsLink = '<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">'
+                    fnts.length ? fontsLink = '<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=' + fnts.join('|') + '">' : null
                     let tw = '<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">'
                     let previewCss = '<link href="preview.css" rel="stylesheet">'
                     let page = document.getElementById('content')
@@ -323,9 +323,12 @@ export default {
             scrpt.innerText = this.doc.data.javascript
             document.body.appendChild ( scrpt ) 
         }
-        console.log ( document.querySelector ( '.dialogHeader') )
         let dialogHeader = document.querySelector ( '.dialogHeader')
         dialogHeader.style.opacity = 0
+    },
+    beforeDestroy(){
+        let dialogHeader = document.querySelector ( '.dialogHeader')
+        dialogHeader.style.opacity = 1
     }
 }
 </script>

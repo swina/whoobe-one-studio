@@ -180,6 +180,7 @@ export default {
 
         Vue.prototype.$deletePage = () => {
             if ( !store.state.editor.page ) return
+            store.state.desktop.tabs.splice ( store.state.desktop.currentTab ,1 )
             db.deletePage ( store.state.editor.page.id )
         }
     }

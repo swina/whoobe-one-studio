@@ -15,7 +15,7 @@
         </template>
         </div>
         <input type="text" class="w-full bg-white" placeholder="type a new tag and enter" v-model="newTag" @keydown="addTag($event)"/>
-        <button class="lg rounded m-1 mt-4 m-auto" @click="$savePage()">SAVE</button>
+        <button class="btn btn-blue rounded m-1 mt-4 m-auto" @click="$savePage()">SAVE</button>
     </div>
 </template>
 
