@@ -8,6 +8,7 @@
             <i-icon icon="akar-icons:javascript-fill" class="text-xl icon-button ml-4 cursor-pointer" @click="$dialogBus('JSEditor','javascript')" title="Add Javascript"/>
             <!-- <i-icon icon="akar-icons:css-fill" class="text-xl icon-button ml-4 cursor-pointer" @click="$dialogBus('JSEditor','css')" title="Add custom style"/> -->
             <i-icon icon="gg:shortcut" class="text-gray-400 ml-4 text-2xl hover:text-purple-600" @click="$dialogBus('shortcuts')" title="Shortcuts"/>
+            <i-icon icon="grommet-icons:help-option" class="ml-4 text-2xl icon-button" @click="$dialogBus('help','Editor')" title="Documentation"/>
             <i-icon icon="codicon:open-preview" class="text-gray-400 ml-4 text-2xl hover:text-purple-600" @click="$editorBus('preview','fullscreen')" title="Preview"/>
             
             <span class="absolute right-0 mr-12">X:{{ parseInt(containerCoords.left)-editorOffsetX }} Y:{{ parseInt(containerCoords.top + scroll - editorOffsetY ) }} </span>

@@ -19,8 +19,10 @@
         <i-icon icon="codicon:save-as" class="icon-button" title="Save as" @click="saveAs()"/>
         <i-icon icon="ant-design:download-outlined" class="icon-button" @click="$editorBus('importPage','page')" title="Import template"/>
         <i-icon icon="ant-design:upload-outlined" class="icon-button" @click="$exportDocument()" title="Export template"/>
+        
         <i-icon icon="ci:trash-empty" class="icon-button" @click="$deletePage()" title="Delete template"/>
         <div class="border-r h-10 mx-1 border-white"></div>
+        <i-icon icon="grommet-icons:help-option" class="icon-button" @click="$dialogBus('help','Editor')" title="Documentation"/>
         <m-icon icon="highlight_alt"/>
         <div class="px-2" v-if="editor.current">
             <span v-if="editor.component" class="font-bold cursor-pointer" title="Block settings" @click="$dialogBus('settingsComponent')">{{ editor.component.name }}</span>  {{ editor.current.semantic }} {{ editor.current.element }} {{ editor.current.tag }} #{{editor.current.id}} 

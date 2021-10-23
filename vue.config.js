@@ -15,6 +15,14 @@ module.exports = {
     
   },
   */
+  configureWebpack: {
+    module: {
+      rules: [ {
+        test: /\.md$/,
+       loader: 'raw-loader', // npm install -D raw-loader
+      }]
+    }
+  },
   pwa : {
     themeColor : '#7618b1',
     msTileColor: '#000000',

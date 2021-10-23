@@ -1,7 +1,7 @@
 <template>
     <div ref="dialogContainer" class="modal z-modal w-full bg-white" :class="classe">
         
-        <div ref="dialogHeader" class="dialogHeader capitalize cursor-move h-10 w-full flex items-center text-white text-base px-2" :class="topBar?'bg-purple-800':'bg-transparent'">
+        <div ref="dialogHeader" class="dialogHeader capitalize cursor-move h-10 w-full flex items-center text-white text-base px-2 bg-purple-800" >
             {{ title }}
             <m-icon class="cursor-pointer absolute top-0 right-0 z-highest text-gray-100 mt-1 text-2xl" icon="close" @click="closeDialog"/>
         </div>
@@ -61,9 +61,21 @@ export default {
             this.closeDialog()
         })
         
+        dialogBus.$on ( 'help' , (context) => {
+            this.dialogComponent = () => import ('@/components/help/Index.vue')
+            this.title = 'Documentation'
+            this.width = 'w-full h-screen'
+            this.topBar = true
+            this.options = { context : context }
+        })
+
         dialogBus.$on ( 'startEmpty' , () => {
             actions.createEmptyBlock()
-            
+            this.dialogComponent = () => import ('@/components/blocks/components/BlockLibrary.vue')
+            this.title = 'Select a snippet'
+            this.width = 'w-full md:w-1/2 h-3/4'
+            this.topBar = true
+            this.options = null
         })
 
         dialogBus.$on ( 'snippets' , () => {

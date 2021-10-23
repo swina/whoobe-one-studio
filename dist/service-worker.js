@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.40395a2929d1390bb9c9711f16cac0ef.js"
+  "/precache-manifest.8b0abfc5d7e0ee768d5bbd19980fd07e.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "whoobe-studio-one"});

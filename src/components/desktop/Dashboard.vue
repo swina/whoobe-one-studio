@@ -21,7 +21,7 @@ export default {
             //{ label: 'Backup' , icon: 'health_and_safety' , action: 'exportDB' },
             { label: 'Settings' , icon: 'carbon:settings-adjust' , action: 'settings'},
             { label: 'Github' , icon: 'bi:github' , action: 'linkToGithub'},
-            //{ label: 'Docs' , icon: 'help' , action: 'linkToDocumentation'}
+            { label: 'Docs' , icon: 'mdi:help' , action: 'help'}
         ],
         
     }),

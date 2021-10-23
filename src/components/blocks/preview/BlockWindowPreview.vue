@@ -8,7 +8,7 @@
             <m-icon v-if="mode!='fullscreen'" icon="flip_camera_android" class="text-2xl mr-4" @click="orientation=!orientation" title="Change orientation"/>
             <m-icon icon="close" class="text-2xl mr-4" title="Esc to exit preview" @click="$dialogBus('closeDialog')"/>
         </div>
-        <div class="flex flex-col overflow-y-auto overflow-x-hidden absolute inset-0 laptop-view" v-if="mode==='fullscreen'">
+        <div class="flex flex-col overflow-y-auto overflow-x-hidden absolute inset-0 mt-10 laptop-view" v-if="mode==='fullscreen'">
             <BlockContainerPrvw 
                 v-if="doc" 
                 :doc="doc" 
@@ -323,13 +323,13 @@ export default {
             scrpt.innerText = this.doc.data.javascript
             document.body.appendChild ( scrpt ) 
         }
-        let dialogHeader = document.querySelector ( '.dialogHeader')
-        dialogHeader.style.opacity = 0
+        // let dialogHeader = document.querySelector ( '.dialogHeader')
+        // dialogHeader.style.opacity = 0
     },
-    beforeDestroy(){
-        let dialogHeader = document.querySelector ( '.dialogHeader')
-        dialogHeader.style.opacity = 1
-    }
+    // beforeDestroy(){
+    //     let dialogHeader = document.querySelector ( '.dialogHeader')
+    //     dialogHeader.style.opacity = 1
+    // }
 }
 </script>
 
