@@ -196,3 +196,6 @@ yarn build
 
 This repo is still in alpha version and under development. Please follow all changes
 
+## License
+
+This project is licensed under the terms of the MIT license.

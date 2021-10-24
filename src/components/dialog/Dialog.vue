@@ -5,7 +5,7 @@
             {{ title }}
             <m-icon class="cursor-pointer absolute top-0 right-0 z-highest text-gray-100 mt-1 text-2xl" icon="close" @click="closeDialog"/>
         </div>
-        <div class="p-2" id="winbox">
+        <div class="p-2">
             <component v-if="dialogComponent" :is="dialogComponent" :options="options" @close="dialogComponent=null"/>
         </div>
     </div>
@@ -16,7 +16,6 @@ import Element from '@/scripts/ElementsClass'
 import Block from '@/scripts/BlocksClass'
 import { eventBus , dialogBus , modalBus , editorBus } from '@/main'
 import actions from '@/scripts/actions'
-import WinBox from 'winbox'
 export default {
     name: 'DialogEvents',
     data:()=>({

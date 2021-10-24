@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Main from '../views/Main.vue'
+//import Help from '@/components/help/Index.vue'
 // import Desktop from '@/components/desktop/desktop.vue' 
-import Preview from '@/components/blocks/preview/BlockPreview.vue'
-import Editor from '@/components/editor/Editor.vue'
+//import Preview from '@/components/blocks/preview/BlockPreview.vue'
+//import Editor from '@/components/editor/Editor.vue'
 // import Login from '../views/Login.vue'
 //import Dashboard from '@/views/Dashboard.vue'
 //import Components from '@/views/Components.vue'
@@ -25,9 +26,9 @@ const routes = [
     component: Main
   },
   // {
-  //   path: '/editor',
-  //   name: 'Editor',
-  //   component: Editor
+  //   path: '/help',
+  //   name: 'Help',
+  //   component: Help
   // },
   // {
   //   path: '/templates',
@@ -39,7 +40,7 @@ const routes = [
   //   name: 'Preview',
   //   component: Preview
   // },
-  { path: "*", component: Main }
+  //{ path: "*", component: Main }
 ]
 
 const router = new VueRouter({

@@ -25,7 +25,6 @@
 
 <script>
 import { eventBus } from '@/main'
-import md from '../../README.md'
 export default {
     name: 'Main',
     components:{
@@ -54,8 +53,7 @@ export default {
         })
         console.log ( window.localStorage.getItem ( 'whoobe-preview-mode') )
         //!window.localStorage.getItem ( 'whoobe-preview-mode' ) ? this.preview = false : this.preview = true
-        console.log ( md )
-        
+      
 
     }
 }
