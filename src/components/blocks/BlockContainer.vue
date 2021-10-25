@@ -2,11 +2,30 @@
     <div :class="classe" type="container" class="relative dragula-container cursor-pointer p-1" :style="stile" :id="$attrs.doc.id" :ref="$attrs.doc.id">
         {{ $attrs.doc.blocks.length ? null : $attrs.doc.element }}
         <template v-for="block in $attrs.doc.blocks">
+            
             <BlockContainer 
-                v-if="block.type === 'container' || block.tag ==='container' || block.tag === 'blocks'" :doc="block" :key="block.id" :level="parseInt($attrs.level)+1"/>
-            <Slider v-if="block.type === 'slider'" :doc="block" :level="parseInt($attrs.level)+1"/>
-            <BlockElement v-if="block && block.type != 'slider' && block.type != 'container' && block.tag != 'iconify' && block.tag != 'container'" :element="block" :key="block.id" :level="parseInt($attrs.level)+1" @selected="setFloating"/>
-            <IconifyIcon v-if="block.tag==='iconify'" :class="classeElement(block)" :block="block" @selected="setFloating"/>
+                v-if="block.type === 'container' || block.tag ==='container' || block.tag === 'blocks'" :doc="block" 
+                :key="block.id" 
+                :level="parseInt($attrs.level)+1"/>
+            
+            <Slider 
+                v-if="block.type === 'slider'" 
+                :doc="block" 
+                :level="parseInt($attrs.level)+1"
+                @selected="setFloating"/>
+            
+            <BlockElement 
+                v-if="block && block.type != 'slider' && block.type != 'container' && block.tag != 'iconify' && block.tag != 'container'" 
+                :element="block" 
+                :key="block.id" 
+                :level="parseInt($attrs.level)+1" 
+                @selected="setFloating"/>
+
+            <IconifyIcon 
+                v-if="block.tag==='iconify'" 
+                :class="classeElement(block)" 
+                :block="block" 
+                @selected="setFloating"/>
         </template>
         <!-- <span v-if="!$attrs.doc.blocks.length"> {{ $attrs.doc.tag }} </span> -->
         <div class="block-selector absolute inset-0" :class="selector" @click="setCurrent($attrs.doc)" @mouseenter="float()" @mouseleave="nofloat()" :data-block-tag="$attrs.doc.semantic||$attrs.doc.tag">
@@ -92,6 +111,7 @@ export default {
                 this.editor.current.image = { url: this.editor.current.image } : null
         },
         setFloating(element){
+            console.log ( 'element => ' , element )
             this.floatingID = element.id
             let floating = document.querySelector('.block-floating')
             floating.style.left = element.coords.x

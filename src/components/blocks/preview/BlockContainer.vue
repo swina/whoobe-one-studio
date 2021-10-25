@@ -5,6 +5,7 @@
             <BlockContainerPreview v-if="!block.link && block && block.type === 'container'" :doc="block" :key="block.id"/>
 
             <BlockElement :id="block.id" v-if="!block.link && block && block.type != 'container' && block.type != 'slider' && block.tag !='iconify' && !block.link" :element="block" :key="block.id"/>
+            
             <SliderPreview :id="block.id" v-if="block.type === 'slider'" :slider="block"/>
             <a v-if="block.link" :href="block.link">
                 <BlockContainerPreview v-if="block && block.type === 'container'" :doc="block" :key="block.id"/>

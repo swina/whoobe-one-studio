@@ -85,7 +85,7 @@ export default {
         coordinate(){
             return this.$store.state.editor.current.type != 'slider' ? 
                 `top:${this.$attrs.coords.top + this.$attrs.scroll}px;left:${this.position.left}px;` :
-                `top:${this.$attrs.coords.top + this.$attrs.scroll - 80 }px;left:${this.position.left -12}px;`
+                `top:${this.$attrs.coords.top + this.$attrs.scroll - 12 }px;left:${this.position.left}px;`
         }
     },
 

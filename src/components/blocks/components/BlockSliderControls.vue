@@ -3,15 +3,15 @@
         <label>Navigation</label>
         <input type="checkbox" v-model="slider.data.slider.navigation.enable"/>
         <label>Arrows</label>
-        <input type="checkbox" v-model="slider.data.slider.navigation.arrows"/>
-        <label>Dots indicators</label>
+        <!-- <input type="checkbox" v-model="slider.data.slider.navigation.arrows"/>
+        <label>Dots indicators</label> -->
         <input type="checkbox" v-model="slider.data.slider.navigation.dots"/>
         <label>Position</label>
         <select v-model="slider.data.slider.navigation.position">
             <option value="bottom">bottom</option>
-            <option value="side">side (arrows)</option>
-            <option value="left">left (dots)</option>
-            <option value="right">right (dots)</option>
+            <option value="side">side</option>
+            <option value="left">left</option>
+            <option value="right">right</option>
             <option value="top">top</option>
         </select>
     </div>
