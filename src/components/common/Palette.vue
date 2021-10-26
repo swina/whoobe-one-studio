@@ -24,7 +24,7 @@
                                 :key="density + '_' + colore + '_' + n" 
                                 v-for="n in 10" 
                                 :title="colore + '-' +  n===1?n*50:n*100"
-                                :class="getColor(n,colore) + ' rounded-full border border-black  w-5 h-5 mr-1'" @click="$emit('color',colore,n*100)">
+                                :class="getColor(n,colore) + ' rounded-full border border-black  w-5 h-5 mr-1'" @click="$emit('color',colore,n===1?n*50:(n-1)*100)">
                             </div>
                         </div>            
                     </div>

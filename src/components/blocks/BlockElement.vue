@@ -17,6 +17,7 @@
         @blur="handleInput"
         :data-id="element.id"
         data-type="element"
+        :data-element-tag="element.type + ' ' +  element.element"
         :icon="element.tag==='iconify'?element.data.icon:null"
         />
 </template>

@@ -1,6 +1,6 @@
 <template>
     
-    <div class="absolute h-screen top-0 left-0 mt-10 w-screen bg-white overflow-y-auto" style="font-family:'Montserrat'">
+    <div class="absolute h-screen z-modal top-0 left-0 mt-10 w-screen bg-white overflow-y-auto" style="font-family:'Montserrat'">
         <m-icon :icon="sidebar?'chevron_left':'menu'" class="z-modal fixed mt-10 left-0 top-0 text-3xl" @click="sidebar=!sidebar"/>
         <transition name="fade">
         <div class="fixed mt-10 top-0 left-0 overflow-y-auto flex flex-col p-2 pt-10 text-lg cursor-pointer overflow-x-hidden w-full" v-if="sidebar">
@@ -17,10 +17,10 @@
         </transition>
         <div class="grid grid-cols-12">
             <div class="col-span-3" v-if="sidebar"></div>
-            <div class="flex flex-col p-10 border-l pb-56" ref="help" v-if="helpPage" :class="sidebar?'col-span-9':'col-span-12'" :key="$randomID()">
+            <div class="flex flex-col z-modal p-10 border-l pb-56" ref="help" v-if="helpPage" :class="sidebar?'col-span-9':'col-span-12'" :key="$randomID()">
                 <!-- <MdToHtml :html="helpPage"/> -->
                 <template v-for="line in helpPage.split('\n')">
-                    <span v-html="htmlLine(line)"/>
+                    <span v-html="htmlLine(line)" v-if="!line.includes('!') && !line.includes('>!')"/>
                 </template>
                 <!-- <div v-html="helpPage"></div> -->
                 <!-- <vue-markdown :source="helpPage" class="text-sm" v-if="helpPage"/> -->
@@ -32,16 +32,19 @@
 <script>
 export default {
     name: 'Help',
+    //components: { VueMarkdown , MdToHtml },
     data:()=>({
         context: 'README',
         helpPage : null,
         sidebar: true,
         pages: [
             { title: 'Main' , md: 'README' },
-            { title: 'Editor' , md: 'Editor' }
+            { title: 'Editor' , md: 'Editor' },
+            { title: 'Elements' , md: 'EditorElements' }
         ],
         topics: {},
-        currentLink : ''
+        currentLink : '',
+        startCode : false
     }),
     watch:{
         context(value){
@@ -82,8 +85,10 @@ export default {
             let newLine 
             line.substring(0,2) === '# ' ?
                 newLine = '<h1 class="my-2 mt-4 text-3xl text-purple-700 font-bold">' + line.replaceAll('#','') + '</h1>' :
-                    newLine = line.includes('## ') ?
-                        newLine = '<h2 class="border-b text-purple-500 font-bolt text-2xl my-2 mt-4" id="' + line.replaceAll('#','').replaceAll(' ','').toLowerCase() + '">' + line.replaceAll('#','') + '</h2>' :  newLine = line
+                    line.substring(0,3) === '## ' ?
+                        newLine = '<h2 class="border-b text-purple-500 font-bold text-2xl my-2 mt-4" id="' + line.replaceAll('#','').replaceAll(' ','').toLowerCase() + '">' + line.replaceAll('#','') + '</h2>' :  
+                            line.substring(0,4) === '### ' ? 
+                                newLine = '<h3 class="text-purple-500 font-bold text-lg my-2 mt-2">' + line.replaceAll('#','') + '</h3>' : newLine = line
             
             newLine.includes('**') ?
                 newLine = '<strong>' + newLine.replaceAll('**','') + '</strong>' : null
@@ -96,8 +101,27 @@ export default {
                     .replaceAll(')','') + '"/>' : null
             newLine.includes('- ') ?
                 newLine = '<span class="ml-2">' + newLine + '</span>': null
-            newLine.includes('```') ?
-                newLine = '<div style="font-family:monospace" class="w-5/6 overflow-x-auto bg-gray-800 text-gray-100 p-2 rounded">' + newLine.replaceAll('```','') + '</code>' : null
+
+            if ( newLine.includes('```') ){
+                    newLine = '<div style="font-family:monospace" class="w-5/6 overflow-x-auto bg-gray-800 text-gray-100 p-2 rounded">' + line.replaceAll('```','') + '</div>'
+            }
+            if ( newLine.includes('](')) {
+                let aLine = line.split(']')
+                let aText = aLine[0].replace('[','')
+                let aLink = aLine[1].replace('(','').replace(')','')
+                newLine = '<a class="font-bold text-purple-600" title="' + aText + '" href="' + aLink + '" target="_blank">' + aText + '</a>'
+            }
+            if ( newLine.includes('<ICON') ){
+                let icon = line.split(':')
+                icon = icon[1].replace('>','')
+                newLine = '<i class="material-icons text-2xl">' + icon + '</i>'
+            }
+            if ( newLine.includes('!<') ){
+                newLine = '<div class="bg-black text-gray-2">'
+            }
+            if ( newLine.includes('>!') ){
+                newLine = '</div>'
+            }
             return newLine
         }
     },

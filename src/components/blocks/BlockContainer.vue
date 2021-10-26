@@ -22,6 +22,7 @@
                 @selected="setFloating"/>
 
             <IconifyIcon 
+                :data-element-tag="block.type + ' ' +  block.element"
                 v-if="block.tag==='iconify'" 
                 :class="classeElement(block)" 
                 :block="block" 

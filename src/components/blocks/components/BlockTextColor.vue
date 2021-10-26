@@ -44,8 +44,9 @@ export default {
     },
     methods:{
         setColorNew ( color , tone ){
+            console.log ( color , tone  )
             this.palette = false
-            tone ? color += '-' + tone : null
+            tone ? color += '-' + (tone) : null
             if ( !this.hover ){
                 this.allCss =  this.allCss.replace ( this.frontColor , ' ' + this.context + color + ' ')
                 this.frontColor = this.context + color

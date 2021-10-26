@@ -162,7 +162,7 @@ In order to build a full static web page/component with purged CSS you need to i
 Using the Build option from the editor preview of any page, save the file as **whoobe.js** in the **./src** folder of whoobe-one-vite installation. 
 The static page will be deployed in the **./dist** folder.
 
-#### Dev preview
+### Dev preview
 
 ```
 npm run dev
@@ -174,7 +174,7 @@ or
 yarn dev
 ```
 
-#### Build
+### Build
 
 ```
 npm run build

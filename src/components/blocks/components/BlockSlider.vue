@@ -1,6 +1,6 @@
 <template>
     <div v-if="slider" :class="classe" class="relative">
-        <div class="flex z-modal items-center absolute bottom-0 -mb-10 left-0 w-full bg-white h-10">
+        <div class="flex z-modal items-center absolute bottom-0 -mb-10 mt-1 border-2 border-t-0 shadow left-0 w-full bg-white h-10">
             <m-icon icon="add" @click="addSlide" class="text-gray-600 m-2" title="Add slide"/>
             <div v-if="slider.blocks" class="flex">
                 <template v-for="(slide,index) in slider.blocks">
@@ -12,6 +12,7 @@
             </div>
         </div>
         <BlockContainer 
+            :data-slider-tag="'slide ' + (currentIndex+1)"
             v-if="slider.blocks"
             :doc="slider.blocks[currentIndex]" 
             :key="'slide_' + currentIndex" 
