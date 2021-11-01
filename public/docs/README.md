@@ -51,12 +51,12 @@ WhoobeOne is like a desktop application that works locally (it can works online 
 
 WhoobeOne comes with some free UI Kit that you can import and use as you want. You can use them as a starting point to create your custom kits. The free UI Kits are: 
 
-- [Landing Pages UI Kit](https://whoobe-one-studio.verce.app/kits/Landing-Pages-UI-Kit.json)
-- [Lead Components UI Kit](https://whoobe-one-studio.verce.app/kits/Leading-UI-Kit.json)
-- [CTA UI Kit](https://whoobe-one-studio.verce.app/kits/CTA-UI-Kit.json)
-- [Form UI Kit](https://whoobe-one-studio.verce.app/kits/Form-UI-Kit.json)
-- [Hero UI Kit](https://whoobe-one-studio.verce.app/kits/Hero-UI-Kit.json)
-- [Navigation UI Kit](https://whoobe-one-studio.verce.app/kits/Navigation-UI-Kit.json)
+- [Landing Pages UI Kit](https://whoobe-one-studio.vercel.app/kits/Landing-Pages-UI-Kit.json)
+- [Lead Components UI Kit](https://whoobe-one-studio.vercel.app/kits/Leading-UI-Kit.json)
+- [CTA UI Kit](https://whoobe-one-studio.vercel.app/kits/CTA-UI-Kit.json)
+- [Form UI Kit](https://whoobe-one-studio.vercel.app/kits/Form-UI-Kit.json)
+- [Hero UI Kit](https://whoobe-one-studio.vercel.app/kits/Hero-UI-Kit.json)
+- [Navigation UI Kit](https://whoobe-one-studio.vercel.app/kits/Navigation-UI-Kit.json)
 
 **You can add your custom components to any UI Kit. Remember to save (export) your updated kits before to close WhoobeOne session**
 

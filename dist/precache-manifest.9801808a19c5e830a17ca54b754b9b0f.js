@@ -48,7 +48,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/docs/EditorElements.md"
   },
   {
-    "revision": "dcecc6e75bdb4c187df92b7e61c372b9",
+    "revision": "611ca29798a458f1951243f1a91cd1ff",
     "url": "/docs/README.md"
   },
   {
