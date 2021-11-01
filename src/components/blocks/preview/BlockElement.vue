@@ -103,6 +103,7 @@ export default {
         if ( this.element.element != 'img' ) this.$refs[this.element.id].removeAttribute('src')
         if ( this.element.element != 'img' ) this.$refs[this.element.id].removeAttribute('alt')
         if ( this.element.element != 'img' && !this.element.link ) this.$refs[this.element.id].removeAttribute('title')
+        if ( this.element.element != 'input' ) this.$refs[this.element.id].removeAttribute('type')
         // if ( this.element.tag === 'input'){
         //     Object.keys(this.element.data.attributes).forEach( attribute => {
         //         this.$refs[this.element.id].setAttribute ( attribute , this.element.data.attributes[attribute] )

@@ -14,11 +14,12 @@ export default {
     name: 'Dashboard',
     data:()=>({
         menu: [
-            { label: 'Empty Editor' , icon: 'emojione-monotone:new-button' , action: 'startEmpty'  },
+            { label: 'New template' , icon: 'emojione-monotone:new-button' , action: 'startEmpty'  },
             //{ label: 'Default' , icon: 'web' , action: 'startDefault' },
             { label: 'Templates' , icon: 'la:elementor' , action: 'pages' },
             //{ label: 'Import' , icon: 'download' , action: 'importDB' },
-            //{ label: 'Backup' , icon: 'health_and_safety' , action: 'exportDB' },
+            { label: 'UI Kit New' , icon: 'mdi:widgets-outline' , action: 'createUIKit' },
+            { label: 'UI Kit' , icon: 'mdi:widgets-outline' , action: 'UIKit' },
             { label: 'Settings' , icon: 'carbon:settings-adjust' , action: 'settings'},
             { label: 'Github' , icon: 'bi:github' , action: 'linkToGithub'},
             { label: 'Docs' , icon: 'mdi:help' , action: 'help'}

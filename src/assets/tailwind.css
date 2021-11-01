@@ -655,6 +655,14 @@ DESKTOP classes
     padding-bottom:14rem!important;
 }
 
+.clip-path-diagonal {
+  clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.clip-path-diagonal-reverse {
+  clip-path: polygon(0 0, 75% 0, 100% 100%, 0% 100%);
+}
+
 .clip-path-circle {
     clip-path: circle(50% at 50% 50%);
 }
@@ -700,6 +708,10 @@ DESKTOP classes
 
 .clip-path-parallelogram {
     clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+}
+
+.clip-path-parallelogram-inverse {
+  clip-path: polygon(0 0, 75% 0, 100% 100%, 25% 99%);
 }
 
 .material-icons {

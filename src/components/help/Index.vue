@@ -20,7 +20,7 @@
             <div class="flex flex-col z-modal p-10 border-l pb-56" ref="help" v-if="helpPage" :class="sidebar?'col-span-9':'col-span-12'" :key="$randomID()">
                 <!-- <MdToHtml :html="helpPage"/> -->
                 <template v-for="line in helpPage.split('\n')">
-                    <span v-html="htmlLine(line)" v-if="!line.includes('!') && !line.includes('>!')"/>
+                    <span v-html="htmlLine(line)"/>
                 </template>
                 <!-- <div v-html="helpPage"></div> -->
                 <!-- <vue-markdown :source="helpPage" class="text-sm" v-if="helpPage"/> -->
@@ -82,6 +82,7 @@ export default {
             return link.replaceAll(' ','').replaceAll('#','').toLowerCase()
         },
         htmlLine ( line ){
+            console.log ( line )
             let newLine 
             line.substring(0,2) === '# ' ?
                 newLine = '<h1 class="my-2 mt-4 text-3xl text-purple-700 font-bold">' + line.replaceAll('#','') + '</h1>' :
@@ -93,15 +94,15 @@ export default {
             newLine.includes('**') ?
                 newLine = '<strong>' + newLine.replaceAll('**','') + '</strong>' : null
             newLine.includes('![') ?
-                newLine = '<img class="my-4 border" src="' + 
+                (newLine = '<img class="my-4 border" src="' + 
                     newLine.replaceAll('!','')
                     .replaceAll('[','')
                     .replaceAll(']','')
                     .replaceAll('(','')
-                    .replaceAll(')','') + '"/>' : null
+                    .replaceAll(')','') + '"/>',console.log ('is image')) : null
             newLine.includes('- ') ?
                 newLine = '<span class="ml-2">' + newLine + '</span>': null
-
+            
             if ( newLine.includes('```') ){
                     newLine = '<div style="font-family:monospace" class="w-5/6 overflow-x-auto bg-gray-800 text-gray-100 p-2 rounded">' + line.replaceAll('```','') + '</div>'
             }

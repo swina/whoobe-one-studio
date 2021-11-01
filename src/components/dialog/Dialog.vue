@@ -1,7 +1,7 @@
 <template>
     <div ref="dialogContainer" class="modal z-modal w-full bg-white" :class="classe">
         
-        <div ref="dialogHeader" class="dialogHeader capitalize cursor-move h-10 w-full flex items-center text-white text-base px-2 bg-purple-800" >
+        <div ref="dialogHeader" class="dialogHeader capitalize cursor-move h-10 w-full flex items-center text-white text-base px-2 bg-purple-800 rounded-t" >
             {{ title }}
             <m-icon class="cursor-pointer absolute top-0 right-0 z-highest text-gray-100 mt-1 text-2xl" icon="close" @click="closeDialog"/>
         </div>
@@ -113,7 +113,7 @@ export default {
         dialogBus.$on ( 'settingsPage' , () => {
             this.dialogComponent = () => import ('@/components/blocks/components/BlockSettings.vue')
             this.title = this.$store.state.editor.page.name || 'A new page'
-            this.width = 'w-full md:w-1/4'
+            this.width = 'w-full md:w-1/3'
             this.traceDialogs( 'settingsPage' )
         })
 
@@ -174,6 +174,24 @@ export default {
             this.traceDialogs ( 'importPage' )
         })
 
+        dialogBus.$on ( 'importUIKit' , () => {
+            this.dialogComponent = () => import ( '@/components/common/ImportFile.vue')
+            this.title = 'Import'
+            this.width = 'w-1/4'
+            this.topBar = true
+            this.options = { mode: 'kit' }
+            this.traceDialogs ( 'importUIKit' )
+        })
+
+        dialogBus.$on ( 'UIKit' , () => {
+            this.$store.dispatch ( 'add_tab' , {
+                label: 'UI Kit',
+                object: () => import ( '@/components/blocks/gallery/PagesGallery.vue' ),
+                type: 'component'
+            })
+        })
+
+
         dialogBus.$on ( 'importBlock' , () => {
             this.dialogComponent = () => import ( '@/components/common/ImportFile.vue')
             this.title = 'Import'
@@ -193,12 +211,43 @@ export default {
         })
 
         dialogBus.$on ( 'pagePreview' , () => {
-            this.dialogComponent = () => import ( '@/components/blocks/preview/PagePreview.vue')
+            this.dialogComponent = () => import ( '@/components/blocks/preview/BlockWindowPreview.vue')
             this.title = 'Preview'
             this.width = 'w-full h-screen'
             this.topBar = true
-            this.options = null 
+            this.options = { mode: 'fullscreen' } 
             this.traceDialogs( 'pagePreview' )
+        })
+
+
+        dialogBus.$on ( 'createUIKit' , () => {
+            //if ( window.localStorage.getItem('whoobe-custom-library') ){
+                this.dialogComponent = () => import ( '@/components/desktop/Library.vue')
+                this.title = 'UI Kit'
+                this.width = 'w-full md:w-1/3'
+                this.topBar = true
+                this.options = null                
+            //}
+        })
+
+         dialogBus.$on ( 'addToUIKit' , () => {
+            //if ( window.localStorage.getItem('whoobe-custom-library') ){
+                this.dialogComponent = () => import ( '@/components/blocks/components/BlockAddToUIKit.vue')
+                this.title = 'Add to UI Kit'
+                this.width = 'w-full md:w-1/3'
+                this.topBar = true
+                this.options = null                
+            //}
+        })
+
+        dialogBus.$on ( 'loadCustomLibrary' , () => {
+            //if ( window.localStorage.getItem('whoobe-custom-library') ){
+                this.dialogComponent = () => import ( '@/components/blocks/gallery/CustomLibrary.vue')
+                this.title = 'Custom Library'
+                this.width = 'w-full md:w-1/3'
+                this.topBar = true
+                this.options = null                
+            //}
         })
 
         dialogBus.$on ( 'pixabay' , () => {
@@ -216,7 +265,7 @@ export default {
             this.traceDialogs ( 'media' )
         })
 
-        dialogBus.$on ( 'pages' , (mode) => {
+        dialogBus.$on ( 'pages' , (mode='Templates') => {
             this.$store.dispatch ( 'add_tab' , {
                 label: 'Templates',
                 object: () => import ( '@/components/blocks/gallery/PagesGallery.vue' ),
@@ -230,6 +279,7 @@ export default {
             this.options = null
             this.title = 'Keyboard Shortcuts'
         })
+
 
 
         const wrapper = this.$refs.dialogContainer

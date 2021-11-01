@@ -31,6 +31,7 @@ export default {
             return this.$store.state.editor.settings.categories.sort()//JSON.parse ( window.localStorage.getItem ( 'whoobe-settings') ).categories
         }
     },
+   
     methods:{
         addTag(e){
             if ( e.keyCode === 13 ){

@@ -205,6 +205,15 @@ export default {
             FileSaver.saveAs(blob,page.name);
         }
 
+        Vue.prototype.$exportCustomLibrary = () =>{
+
+            //let customLibrary = JSON.parse ( window.localStorage.getItem ( 'whoobe-custom-library') )
+            let customLibrary = store.state.desktop.library
+            let name = store.state.desktop.library.name 
+            const blob = new Blob([JSON.stringify(customLibrary)],{type: 'application/json'})
+            FileSaver.saveAs(blob, name + '.json')
+        }
+
         Vue.prototype.$exportBuild = (html)=>{
             if ( !html ) return
             let page = store.state.editor.page

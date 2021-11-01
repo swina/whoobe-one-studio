@@ -4,6 +4,9 @@ const desktop =  {
         message: '',
         filter: '',
         tabs: [],
+        galleryFilter: null,
+        library:null,
+        uikits: [],
         component: null,
         cloudinary_image: null,
         error: null,
@@ -44,6 +47,27 @@ const desktop =  {
         },
         removeTab ( state , index ){
             state.tabs.splice ( index , 1 )
+        },
+        galleryFilter ( state , payload ){
+            state.galleryFilter = payload
+        },
+        library ( state , payload ){
+            state.library = payload
+        },
+        add_uikit ( state , payload ){
+            let founded = false
+            state.uikits.forEach ( (uikit,i) => {
+                if ( uikit.name === payload.name ){
+                    founded = true
+                    return
+                }
+            })
+            if ( !founded ){
+                state.uikits.push ( payload )
+            }
+        },
+        uikits ( state , payload ){
+            state.uikits = payload
         },
         cloudinary_image ( state , payload ){
             state.cloudinary_image = payload
@@ -96,6 +120,18 @@ const desktop =  {
             
                 commit ( 'add_tab' , payload )
             //commit ( 'currentTab' , state.tabs.lenght-1)
+        },
+        galleryFilter ( { commit } , payload ){
+            commit ( 'galleryFilter' , payload )
+        },
+        library ( { commit } , payload ){
+            commit ( 'library' , payload )
+        },
+        add_uikit ( { commit } , payload ){
+            commit ( 'add_uikit' , payload )
+        },
+        uikits ( { commit } , payload ){
+            commit ( 'uikits' , payload )
         },
         cloudinary_image ( { commit } , payload ){
             commit ( 'cloudinary_image' , payload )

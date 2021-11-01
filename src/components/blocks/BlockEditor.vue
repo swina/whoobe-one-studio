@@ -3,7 +3,7 @@
         <div class="h-8 mt-8 p-1 bg-white text-gray-800 w-full fixed flex flex-row items-center left-0 top-0 z-2xtop shadow cursor-pointer">
             <!-- <m-icon icon="menu" css="icon-button z-modal" @click="$eventBus('desktopSidebarLeft','main')" title="Main menu"/> -->
             <!-- <m-icon icon="web" css="icon-button text-black z-modal" @click="$dialogBus('pages')" title="Templates"/> -->
-            <span class="ml-6 text-gray-800 chip bg-white" v-if="editor.page">{{ editor.page.name }} <span class="chip bg-purple-800 text-white p-1">{{ editor.page.category }}</span></span>
+            <span class="ml-2 chip text-gray-100 bg-purple-800" v-if="editor.page">{{ editor.page.name }}</span><span class="chip bg-gray-100 text-black ml-1">{{ editor.page.category }}</span>
             <i-icon icon="carbon:settings" class="text-gray-400 ml-4 text-2xl hover:text-purple-600" @click="$dialogBus('settingsPage')" title="Template settings"/>
             <i-icon icon="akar-icons:javascript-fill" class="text-xl icon-button ml-4 cursor-pointer" @click="$dialogBus('JSEditor','javascript')" title="Add Javascript"/>
             <!-- <i-icon icon="akar-icons:css-fill" class="text-xl icon-button ml-4 cursor-pointer" @click="$dialogBus('JSEditor','css')" title="Add custom style"/> -->
@@ -13,7 +13,7 @@
             
             <span class="absolute right-0 mr-12">X:{{ parseInt(containerCoords.left)-editorOffsetX }} Y:{{ parseInt(containerCoords.top + scroll - editorOffsetY ) }} </span>
         </div>
-        <div class="p-4 mt-24 pb-20">
+        <div class="p-4 mt-24 pb-20" id="BlockEditor">
             <BlockContainer v-if="editor.document" 
                 :doc="editor.document" 
                 @current="setCurrent"
@@ -294,6 +294,16 @@ export default {
                 this.editor.current.style = css.style
                 //window.localStorage.setItem ( 'whoobe-block-css' , false )
             }
+        })
+
+        editorBus.$on ( 'addGrid' , () => {
+            let element = new Element().Grid().Cols(2)
+            this.editor.current.blocks.push ( element )
+        })
+
+        editorBus.$on ( 'addFlexbox' , () => {
+            let element = new Element().Flexbox()
+            this.editor.current.blocks.push ( element )
         })
 
         

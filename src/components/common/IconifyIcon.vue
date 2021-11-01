@@ -1,5 +1,5 @@
 <template>
-    <span :ref="icona" v-if="$attrs.block || $attrs.icon" :id="id" @click="setCurrent($event)" class="z-highest" :class="selected">
+    <span :ref="icona" v-if="$attrs.block || $attrs.icon" :id="id" @click="setCurrent($event)" class="z-highest w-auto h-auto" :class="selected">
         <Icon :is="component" :icon="icona" />
     </span>
 </template>

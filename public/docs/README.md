@@ -162,6 +162,10 @@ In order to build a full static web page/component with purged CSS you need to i
 Using the Build option from the editor preview of any page, save the file as **whoobe.js** in the **./src** folder of whoobe-one-vite installation. 
 The static page will be deployed in the **./dist** folder.
 
+### tailwind.config.js
+
+WhoobeOne extends some utility-first TailwindCSS with some extra classes and colors. If you plan to customize WhoobeOne
+
 ### Dev preview
 
 ```

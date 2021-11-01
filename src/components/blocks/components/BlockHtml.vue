@@ -1,10 +1,10 @@
 <template>
-    <div>
-        <div class="text-right w-full p-1">
-        <!-- <span class="text-lg" v-if="copied">HTML Source Copied</span> 
-        <button class="bg-white text-black" title="Copy source" @click="copyToClipboard"><m-icon icon="file_copy"/></button>  -->
-        </div>
-        <codemirror v-model="$attrs.options.html.content" class="h-full" :options="{lang:'htmlmixed',lineNumbers:true}"></codemirror>
+    <div class="h-3/4">
+        <!-- <div class="text-right w-full p-1">
+        <span class="text-lg" v-if="copied">HTML Source Copied</span> 
+        <button class="bg-white text-black" title="Copy source" @click="copyToClipboard"><m-icon icon="file_copy"/></button> 
+        </div> -->
+        <codemirror v-model="$attrs.options.html.content" class="h-3/4" :options="{lang:'htmlmixed',lineNumbers:true,lineWrapping: true, mode: 'xml', theme: 'ambiance',}"></codemirror>
         <!-- <textarea id="pageHTML" contenteditable class="h-3/4 w-full text-sm" style="font-family:monospace" v-model="$attrs.options.html.content"/> -->
     </div>
 </template>
@@ -42,3 +42,16 @@ export default {
     }
 }
 </script>
+
+<style>
+.CodeMirror {
+    height:80%;
+    background: #ddd;
+    /*color: #ccc; */
+    font-size:1rem;
+}
+.CodeMirror-gutter {
+    background:#444;
+    color:#aaa;
+}
+</style>

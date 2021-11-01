@@ -164,6 +164,10 @@ export default class Element {
                         icon: 'text_format'
                     },
                     {
+                        name: 'Select',
+                        icon: 'input'
+                    },
+                    {
                         name: 'Submit',
                         icon: 'smart_button'
                     },
@@ -205,6 +209,7 @@ export default class Element {
             element === 'Checkbox'      ? this.InputCheckbox() :
             element === 'Number'        ? this.InputNumber() :
             element === 'Hidden'        ? this.InputHidden() :
+            element === 'Select'        ? this.InputSelect() :
             element === 'Submit'        ? this.InputSubmit() :
             element === 'Reset'         ? this.InputReset() :
             element === 'Button'        ? this.Button() : null
@@ -493,6 +498,15 @@ export default class Element {
         this.tag = 'input'
         this.type = 'textarea'
         this.placeholder = 'type here'
+        return this
+    }
+
+    InputSelect(){
+        this.inputElement()
+        this.element = 'select'
+        this.data.options = [ 'option a' , 'option b' , 'option c']
+        this.tag = 'select'
+        this.type = 'select'
         return this
     }
 

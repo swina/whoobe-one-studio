@@ -5,7 +5,7 @@
             <div v-if="slider.blocks" class="flex">
                 <template v-for="(slide,index) in slider.blocks">
                     <IconButton :key="'slide_' + index" 
-                        class="px-2 py-0 border btn  hover:bg-blue-500 hover:text-white text-xs" :class="currentIndex===index?'btn-purple':'bg-gray-200 text-black'"  :text="'# ' + (index+1)" 
+                        class="px-2 py-0 btn  hover:bg-blue-500 hover:text-white text-xs" :class="currentIndex===index?'btn-purple':'bg-gray-200 text-black'"  :text="'# ' + (index+1)" 
                         icon="close" 
                         @click="currentIndex=index,$store.dispatch('setCurrent',slide)" @close="slider.blocks.splice(index,1),$store.dispatch('setCurrent',null),currentIndex=slider.blocks.length-1"/>
                 </template>

@@ -18,8 +18,8 @@
         :data-id="element.id"
         data-type="element"
         :data-element-tag="element.type + ' ' +  element.element"
-        :icon="element.tag==='iconify'?element.data.icon:null"
-        />
+        :icon="element.tag==='iconify'?element.data.icon:null">
+        </component>
 </template>
 
 <script>
@@ -63,6 +63,7 @@ export default {
         },
         component(){
             if ( !this.element ) return null
+            
             return this.element.hasOwnProperty('level') ? 'h' + this.element.level : 
                 this.element.element === 'grid' ? 'div' : this.element.element
         },
@@ -78,12 +79,13 @@ export default {
             }
             return cls
         },
-
+        
     },
     watch:{
         '$store.state.editor.current.id':function(id){
             id && this.element.id != id ? this.$refs[this.element.id].blur() : null
-        }
+        },
+       
     },
     methods:{
         setCurrent(block){
@@ -124,10 +126,12 @@ export default {
             //console.log ( 'edit this' )
         },
         focus (){
+           
         //     this.$store.dispatch ( 'setCurrent' , this.element )
         //     //editorBus.$emit ( 'editElement' , this.element )
         },
         floating(){
+             
             return this.editor.current ?
                     this.floatingID === this.editor.current.id ? 'opacity-100' : 'opacity-0' : null
         },
@@ -142,6 +146,16 @@ export default {
         },
     },
     mounted(){
+        if ( this.element.data.hasOwnProperty ( 'options') ){
+            if ( !this.$refs[this.element.id].options.length ){
+                this.element.data.options.forEach ( option => {
+                    let selectOption = document.createElement ( 'option' )
+                    selectOption.value = option
+                    selectOption.text = option
+                    this.$refs[this.element.id].add ( selectOption )
+                })
+            }
+        }
         // editorBus.$on ('linkBlock',()=>{
         //     this.elementLink =! this.elementLink
         // })

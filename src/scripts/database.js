@@ -17,13 +17,11 @@ function randomID(suff='whoobe'){
 
 function progressCallback ({totalRows, completedRows}) {
     store.dispatch('socket' , `Progress: ${completedRows} of ${totalRows} rows completed` )
-    //console.log(`Progress: ${completedRows} of ${totalRows} rows completed`);
 }
 
 async function exportDatabase(){
     try {
         const blob = await DexieBackup.exportDB (db,{prettyJson:true,progressCallback})
-        //const blob = await db.exportDB({prettyJson: true, progressCallback})
         FileSaver.saveAs(blob,'whoobe-export.json',"application/json");
     } catch (error) {
         console.error(''+error);

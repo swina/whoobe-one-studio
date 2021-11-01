@@ -21,7 +21,8 @@ const user = {
         },
         socket ( state , payload ){
             state.socket = payload
-        }
+        },
+      
     },
     actions: {
         login( { commit } , login ){

@@ -21,8 +21,8 @@
 export default {
     name: 'BlockInput',
     mounted(){
-        let position = this.$refs.blockAction.getBoundingClientRect()
-        this.$emit('position',position.height)
+        //let position = this.$refs.blockAction.getBoundingClientRect()
+        //this.$emit('position',position.height)
     }
 }
 </script>

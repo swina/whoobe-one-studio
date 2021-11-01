@@ -1,11 +1,19 @@
 <template>
     <div class="w-screen" @contextmenu="contextmenu($event)">
-        <div class="absolute top-0 h-10 w-full flex items-center justify-center text-gray-300 pr-8">
+        <div class="absolute top-0 h-10 w-full flex items-center justify-center text-gray-300 pr-8 cursor-pointer">
             <!-- <div class="m-auto text-gray-500">Right click for more options</div> -->
+            <m-icon icon="edit" class="text-2xl mr-4" @click="openPage()" title="Edit"/>
+            <i-icon icon="dashicons:html" class="text-2xl mr-4" @click="viewHTML" title="HTML source"/>
             <m-icon icon="laptop" class="text-2xl mr-4" @click="mode='fullscreen'" title="fullscreen"/>
             <m-icon icon="tablet" class="text-2xl mr-4" @click="mode='tablet'" title="tablet"/>
             <m-icon icon="smartphone" class="text-2xl  mr-4" @click="mode='smartphone'" title="smartphone"/>
             <m-icon v-if="mode!='fullscreen'" icon="flip_camera_android" class="text-2xl mr-4" @click="orientation=!orientation" title="Change orientation"/>
+            <div v-if="mode==='tablet'" class="flex mx-2">
+                <button class="w-4 h-4 flex items-center text-xl justify-center rounded-l-lg bg-blue-400" @click="customZoom>.1?customZoom-=.1:null">-</button>
+                <div class="h-4 w-10 bg-white text-black flex items-center justify-center">zoom</div>
+                <button class="w-4 h-4 flex items-center text-xl justify-center rounded-r-lg bg-blue-400" @click="customZoom<1.1?customZoom+=.1:null">+</button>
+            </div>
+            <div v-if="mode!='fullscreen'">{{currentSize}}</div>
             <!-- <m-icon icon="close" class="text-2xl mr-4" title="Esc to exit preview" @click="$dialogBus('closeDialog')"/> -->
         </div>
         <div class="flex flex-col overflow-y-auto overflow-x-hidden absolute inset-0 mt-10 laptop-view" v-if="mode==='fullscreen'">
@@ -13,14 +21,17 @@
                 v-if="doc" 
                 :doc="doc" 
                 :key="doc.id"
+                ref="content"
                 id="content"/>
         </div>
         <div :class="mode==='fullscreen'?'hidden':''" v-if="mode!='fullscreen'" class="text-center text-gray-300">
             <!-- <m-icon icon="laptop" class="text-3xl" @click="mode='fullscreen'"/>
             <m-icon icon="tablet" class="text-3xl" @click="mode='tablet'"/><m-icon icon="smartphone" class="text-3xl" @click="mode='smartphone'"/>
             <m-icon icon="flip_camera_android" class="m-auto text-3xl" @click="orientation=!orientation"/> -->
-            <iframe ref="previewFrame" :style="previewFrame" :srcdoc="getHTML()" class="m-auto border-8 overflow-x-hidden border-black rounded-xl">
+            <iframe ref="previewFrame" :style="previewFrame"  id="previewFrame" :srcdoc="getHTML()" class="m-auto border-8 overflow-x-hidden border-black rounded-xl">
             </iframe>
+            <!-- <iframe id="preview" :style="previewFrame" class="m-auto border-8 overflow-x-hidden border-black rounded-xl"/> -->
+            
         </div>
         <div ref="contextMenu" class="fixed z-highest shadow bg-white shadow absolute flex flex-col w-64 cursor-pointer" :class="classe" @mouseleave="display=!display">
             <div class="p-1 text-white bg-gray-800 flex items-center" @click="display=!display">
@@ -60,7 +71,7 @@
         <div v-if="svgString">
             <img :src="svgString"/>
         </div>
-        <Modal v-if="modal" title="Preview" :topbar="true" component="blocks/components/BlockJSEditor.vue" @close="modal=!modal" :options="options"/>
+        <Modal v-if="modal" :topbar="true" component="blocks/components/BlockJSEditor.vue" @close="modal=!modal" :options="options"/>
     </div>
 </template>
 
@@ -82,7 +93,10 @@ export default {
         options: null,
         mode:'xs',
         svgString: null,
-        srcdoc: null
+        srcdoc: null,
+        customZoom: 0.5,
+        currentSize: null,
+        htmlSource: null
     }),
     components: {
         //WhoobePreviewContextMenu , MokaEditorPreview , WhoobePreviewHtml , WhoobePreviewPrintscreen ,
@@ -107,14 +121,19 @@ export default {
             return this.display ? 'visible' : 'hidden'
         },
         previewFrame(){
-            let scale = window.innerHeight < 1024 ? .5 : 1
+            //let scale = this.customZoom //window.innerHeight < 1024 ? .5 : 1
+            //if ( this.customZoom ) scale = this.customZoom
             if ( this.mode === 'smartphone' ){
-                
+                this.orientation ?
+                    this.currentSize = '800x375' : this.currentSize = '375x800'
                 return this.orientation ? "width:800px;height:375px;" : "width:375px;height:80vh;"
             }
             if ( this.mode === 'tablet' ){
-                
-                return this.orientation ? "width:" + 1024*scale + "px;height:" + 1366*scale +"px;" : "width:" + 1366*scale + "px;height:" + 1024*scale + "px;"
+                this.orientation ?
+                    this.currentSize = parseInt(1024*this.customZoom) + 'x' + parseInt(1366*this.customZoom) :
+                        this.currentSize = parseInt(1366*this.customZoom) + 'x' + parseInt(1024*this.customZoom)
+
+                return this.orientation ? "width:" + 1024*this.customZoom + "px;height:" + 1366*this.customZoom +"px;" : "width:" + 1366*this.customZoom + "px;height:" + 1024*this.customZoom + "px;"
             }
         }
     },
@@ -125,30 +144,49 @@ export default {
             } else {
                 window.localStorage.setItem('whoobe-preview-mode',false)
             }
-        }
+        },
+        
+        // srcdoc(value){
+        //     let iframe = document.getElementById('previewFrame')
+        //     let head = iframe.contentWindow.document.head
+        //     let body = iframe.contentWindow.document.body
+        //     let alpineJS = 'https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js'
+        //     let jsURL = document.createElement ( 'script' )
+
+        //     jsURL.setAttribute ( 'src' , alpineJS )
+        //     jsURL.setAttribute ( 'defer' , '')
+        //     head.appendChild ( jsURL )
+        //     console.log ( iframe.contentWindow.document.scripts )
+        // }
     },
     methods:{
-        
+        openPage(){
+            this.$store.dispatch( 'add_tab' , { label: this.$store.state.editor.page.name , object: this.$store.state.editor.page , type: 'editor'})
+            this.$dialogBus ( 'closeDialog' )
+        },
         contextmenu(e){
             e.preventDefault()
             this.display = true
             this.$refs.contextMenu.style.top = e.clientY + 'px'
             this.$refs.contextMenu.style.left = e.clientX + 'px'
         },
+
         pageSettings(){
             modalBus.$emit ( 'blockSettings')
         },
         viewHTML(){
             let fonts = jp.query ( this.$store.state.editor.page.json.blocks , '$..blocks..font') 
             let fnts = [ ...new Set ( fonts.filter ( a => { return a } ) )]
-            let fontsLink = '<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=' + fnts.join('|') + '">'
-            let mi = '<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">\n'
+            let fontsLink = ''
+            fnts.length ? fontsLink = '<!--Google Fonts-->\n<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=' + fnts.join('|') + '">' : null
+            let mi = '<!--Material-icons-->\n<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">\n'
             let page = document.getElementById('content')
-            let html = mi + fontsLink + '\n' + page.outerHTML
-            html = html.replaceAll ( 'http://localhost:3030/' , '' )
+            let html = page.outerHTML
+            //html = html.replaceAll ( 'http://localhost:3030/' , '' )
             html =  this.$beautify ( html.replaceAll('<!---->','').replaceAll('[object Object]','') )
-            this.options = { lang: 'html' , content: html }
-            this.modal = true
+            let htmlSource = mi + fontsLink + '\n' + html
+            this.options = { lang: 'html' , content: htmlSource }
+            //this.modal = true
             modalBus.$emit ( 'viewHTML' , this.options )
         },
         getHTML(){
@@ -158,19 +196,24 @@ export default {
                     let fonts = jp.query ( this.$store.state.editor.page.json.blocks , '$..blocks..font') 
                     let fnts = [ ...new Set ( fonts.filter ( a => { return a } ) )]
                     let fontsLink = '<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">'
-                    fnts.length ? fontsLink = '<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=' + fnts.join('|') + '">' : null
-                    let tw = '<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">'
+                    fnts.length ? fontsLink = '<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=' + fnts.join('|') + '">' : fontsLink = ''
+                    let tw = '<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">\n'
+                    let ajs = `<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"><\/script>`
                     let previewCss = '<link href="preview.css" rel="stylesheet">'
                     let page = document.getElementById('content')
                     let html = mi + tw + '\n' + fontsLink + '\n' + previewCss + '\n' + page.outerHTML
-                    html = html.replaceAll ( 'http://localhost:3030/' , '' )
+                    //html = html.replaceAll ( 'http://localhost:3030/' , '' )
                     html =  this.$beautify ( html.replaceAll('<!---->','').replaceAll('[object Object]','') )
-                    this.srcdoc = html
-                    return html
+                    this.srcdoc = html + '\n' + ajs
+                    //this.srcdoc = this.getSourceSrc(html)
+                    return   
+                    //return html
                 } 
-                return this.srcdoc
+                
+                return this.srcdoc 
             } catch ( err ){
-                console.log ( 'Preview mode')
+                console.log ( err )
+                console.log ( 'Preview mode error in creating source')
             }
         },
         buildPage(){
@@ -231,16 +274,6 @@ export default {
                     this.$action()
                 })
             }
-
-                // filerobot image editor -> to be implemented
-                // window.localStorage.setItem('whoobe-image-url',this.$imageURL(screenshot) )
-                // this.editScreenshot ? 
-                //     this.$action ( 'filerobot' ) :
-                //         this.$api.service ( 'components' ).patch ( component._id , component ).then ( res => {
-                //             console.log ( 'saved component => ' , component , res )
-                //             this.$action()
-                //         })
-            
         },
         //screenshot print
         saveprint(){
@@ -323,13 +356,8 @@ export default {
             scrpt.innerText = this.doc.data.javascript
             document.body.appendChild ( scrpt ) 
         }
-        // let dialogHeader = document.querySelector ( '.dialogHeader')
-        // dialogHeader.style.opacity = 0
+        window.innerHeight < 1024 ? this.customZoom = .5 : this.customZoom = 1
     },
-    // beforeDestroy(){
-    //     let dialogHeader = document.querySelector ( '.dialogHeader')
-    //     dialogHeader.style.opacity = 1
-    // }
 }
 </script>
 

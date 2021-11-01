@@ -1,11 +1,12 @@
 <template>
-    <div class="whoobe-modal w-full bg-white z-modal" :class="classe" v-if="dialogComponent">
-        <m-icon class="absolute top-0 right-0 h-10 w-10 z-modal bg-gray-800 text-white text-3xl" icon="close" @click="dialogComponent=null"/>
+    <div class="whoobe-modal w-full bg-white z-modal" :class="classe" v-if="display">
+        <m-icon class="absolute top-0 right-0 h-10 w-10 z-modal bg-gray-800 text-white text-3xl" icon="close" @click="display=!display,dialogComponent=null"/>
         <div class="h-10 w-full flex items-center text-white text-lg px-2 font-bold" :class="topBar?'bg-gray-800':'bg-transparent'">
-            {{ title }}
+            {{ title || $attrs.title }}
        </div>
         <div class="p-2">
             <component :is="dialogComponent" :options="options" @close="dialogComponent=null"/>
+            <slot name="content"/>
         </div>
     </div>
 </template>
@@ -19,7 +20,8 @@ export default {
         title: '',
         width: 'w-1/3',
         options: null,
-        topBar: true
+        topBar: true,
+        display: false
     }),
     computed: {
         classe(){
@@ -28,7 +30,14 @@ export default {
             return cls
         }
     },
+    watch:{
+        dialogComponent(value){
+            if ( value ) this.display = true
+        }
+    },
     mounted(){
+        this.$attrs.title ?
+            this.display = true : null
         modalBus.$on ( 'confirm' , (html) => {
             this.dialogComponent = () => import ( '@/components/common/Confirm.vue')
             this.title = 'Confirm'
@@ -46,7 +55,7 @@ export default {
         modalBus.$on ( 'viewHTML' , (html) => {
             this.dialogComponent = () => import ( '@/components/blocks/components/BlockHtml.vue')
             this.title = 'HTML source'
-            this.width = 'w-3/4 h-auto modal'
+            this.width = 'w-3/4 h-3/4 modal'
             this.topBar = true
             this.options = { html: html}
         }),

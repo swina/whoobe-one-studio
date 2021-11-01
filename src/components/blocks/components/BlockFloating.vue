@@ -25,7 +25,9 @@ export default {
             { icon: 'akar-icons:edit' , title: 'Edit content' , action: 'BlockEditContent' , filter: null },
             { icon: 'akar-icons:diamond' , title: 'Icon' , action : 'BlockIconFinder' , filter: 'IconifyIcon' },
             { icon: 'carbon:settings' , title: 'Attributes' , action: 'BlockInput' , filter : 'input' },
+            { icon: 'carbon:settings' , title: 'Attributes' , action: 'BlockSelect' , filter : 'select' },
             { icon: 'carbon:settings' , title: 'Slider settings' , action: 'BlockSliderControls' , filter : 'slider' },
+
             { icon: 'carbon:settings' , title: 'Attributes' , action: 'BlockInput' , filter : 'textarea' },
             { icon: 'carbon:text-font' , title: 'Font' , action: 'BlockFont'  },
             { icon: 'bx:bx-heading' , title: 'Heading' , action: 'BlockHeading' , filter: 'h' },
@@ -58,6 +60,7 @@ export default {
                 'text-black' : null
         },
         getCoords(){
+            if ( !this.$store.state.editor.current ) return 
             let el = document.getElementById ( this.$store.state.editor.current.id )
             try {
                 let coords = el.getBoundingClientRect()

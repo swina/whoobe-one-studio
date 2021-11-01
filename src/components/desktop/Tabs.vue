@@ -2,8 +2,8 @@
     <div class="fixed top-0 left-0 h-8 items-center bg-purple-900 w-screen z-modal flex flex-wrap" v-if="$store.state.desktop.tabs" :class="isPreview">
         <m-icon icon="menu" class="h-8 w-8 items-center justify-center flex text-white" @click="home"/>
         <template v-for="(tab,index) in $store.state.desktop.tabs">
-            <div :class="activeTab(index)" class="hover:bg-black text-white px-2 flex items-center cursor-pointer h-8">
-                <span  @click="openTab(tab,index)">{{ tab.label }}</span> <m-icon icon="close" class="ml-2" @click="removeTab(index)"/>
+            <div :class="activeTab(index)" class="relative hover:bg-black text-white px-2 flex items-center cursor-pointer h-8 w-32" :title="tab.label">
+                <span  @click="openTab(tab,index)" class="w-24 truncate ml-1">{{ tab.label }}</span> <m-icon icon="close" class="absolute right-0 mr-2" @click="removeTab(index)"/>
             </div>
         </template>
     </div>
@@ -24,15 +24,14 @@ export default {
         '$store.state.desktop.tabs':function(value){
             if ( value.length ){
                 if ( value[value.length - 1].type === 'editor' ){
-                    this.$store.dispatch ( 'currentTab' , value.length - 1)
                     this.$store.dispatch ( 'setPage' , value[value.length-1].object )
                     this.$store.dispatch ( 'document' , value[value.length-1].object.json.blocks )
                     this.$store.dispatch ( 'component' , ()=>import('@/components/editor/Editor.vue') )
                 } 
                 if ( value[value.length - 1].type === 'component' ){
-                    console.log  ( 'loading component ...')
                     this.$store.dispatch ( 'component' , value[value.length-1].object )
                 }
+                this.$store.dispatch ( 'currentTab' , value.length-1 )
             } else {
                 this.$store.dispatch ( 'component' , null )
                 this.home()
@@ -50,8 +49,11 @@ export default {
             if ( tab.type === 'component' ){
                 this.$store.dispatch ( 'component' , tab.object )
             }
-
-        }
+        },
+        // '$store.state.editor.page.name':function(value){
+        //     this.$store.state.editor.current ?
+        //         this.$store.state.desktop.tabs[this.$store.state.desktop.currentTab].label = value : null
+        // }
     },
     methods:{
         home(){
