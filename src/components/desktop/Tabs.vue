@@ -2,7 +2,7 @@
     <div class="fixed top-0 left-0 h-8 items-center bg-purple-900 w-screen z-modal flex flex-wrap" v-if="$store.state.desktop.tabs" :class="isPreview">
         <m-icon icon="menu" class="h-8 w-8 items-center justify-center flex text-white" @click="home"/>
         <template v-for="(tab,index) in $store.state.desktop.tabs">
-            <div :class="activeTab(index)" class="relative hover:bg-black text-white px-2 flex items-center cursor-pointer h-8 w-32" :title="tab.label">
+            <div :class="activeTab(index)" class="relative border-l border-r border-purple-600 rounded-t hover:bg-black text-white px-2 flex items-center cursor-pointer h-8 w-32" :title="tab.label">
                 <span  @click="openTab(tab,index)" class="w-24 truncate ml-1">{{ tab.label }}</span> <m-icon icon="close" class="absolute right-0 mr-2" @click="removeTab(index)"/>
             </div>
         </template>

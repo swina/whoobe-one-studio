@@ -2,20 +2,16 @@
     <div class="pages-gallery bg-white w-screen overflow-hidden max-h-screen h-screen mt-0 inset-0" :key="galleryID">
         <div class="py-1 mt-8 bg-white shadow w-screen z-modal hidden md:flex md:flex-row items-center">
             
-            <div class="flex items-center" v-if="!isUIKit">
+            <div class="flex items-center" v-if="dbMode">
                 <i-icon icon="mdi:widgets-outline" :class="dbMode?'bg-purple-500 hover:text-white':''" class="icon-button border cursor-pointer text-2xl" @click="getPages()" title="Library"/>
                 <m-icon icon="download" css="border icon-button cursor-pointer text-2xl" @click="importDB()" title="Import templates DB"/>
                 <m-icon icon="health_and_safety" css="border icon-button cursor-pointer text-2xl" @click="$saveDB()" title="Backup templates"/>
                 <div class="border-r h-10 w-1"></div>
             </div>
-            <div class="flex items-center pl-2" v-if="isUIKit">
-                <!-- <i-icon icon="clarity:blocks-group-line" :class="!dbMode?'bg-purple-500 hover:text-white':''"  class="icon-button border cursor-pointer text-2xl" @click="importUIKit()" title="UI Kit"/> -->
+            <div class="flex items-center pl-2" v-if="!dbMode">
                 <select class="mr-2 rounded ring-1 ring-purple-500 bg-gray-200 py-2" v-model="$store.state.desktop.library" @change="setCurrentUIKit()">
                     <option v-for="uikit in $store.state.desktop.uikits" :value="uikit">{{ uikit.name }}</option>
                 </select>
-                <!-- <div v-if="$store.state.desktop.library">
-                    <span class="chip bg-gray-200 ring-1 py-2 ring-purple-500">{{ $store.state.desktop.library.name }}</span>
-                </div> -->
                 <i-icon icon="bx:bx-import" class="icon-button border cursor-pointer text-2xl" @click="$dialogBus('importUIKit')" title="Upload UI Kit"/>
                 <i-icon v-if="$store.state.desktop.library" icon="bx:bx-export" class="icon-button border cursor-pointer text-2xl" @click="$exportCustomLibrary()" title="Export UI Kit"/>
 
@@ -84,14 +80,15 @@ export default {
         category: '',
         filter: false,
         kit: false,
-        dbMode: true,
         galleryID: null
     }),
     computed:{
         categories(){
             return this.$store.state.editor.settings.categories.sort()//JSON.parse ( window.localStorage.getItem ( 'whoobe-settings') ).categories.sort()
         },
-        
+        dbMode(){
+            return this.$store.state.desktop.dbmode
+        }
     },
     watch:{
         category(c){
@@ -218,7 +215,7 @@ export default {
         // if ( !this.dbMode || (this.$store.state.desktop.library && this.$store.state.desktop.library.templates.length) ){
         //     this.importUIKit()
         // } else {
-            !this.isUIKit ?
+            this.dbMode ?
                 this.$getPages(this.category,this.limit,this.skip).then ( pages => { this.pages = pages }) :
                 this.$store.state.desktop.library && this.$store.state.desktop.library.templates.length ?
                     this.pages = this.$store.state.desktop.library.templates :

@@ -2,10 +2,11 @@
     <div class="flex flex-col p-4 items-center">
         <div class="relative w-full">
             <input type="file" class="absolute top-0 left-0 right-0 bottom-0 opacity-0"  accept="*.json" @change="loadTextFromFile($event),loading=true"/>
-            <button class="btn-blue w-full warning">Select File</button>
+            <button class="btn-blue w-full py-2 warning text-lg">Select File</button>
         </div>
+        or from URL
         <input type="text" placeholder="Kit URL" class="w-full my-2" v-model="kitURL"/>
-        <button class="btn-blue w-full my-2" @click="fetchURL()">Import from URL</button>
+        <button class="btn-blue w-full my-2 py-2 text-lg" @click="fetchURL()">Import from URL</button>
         <m-icon v-if="loading" icon="bubble_chart" class="animate-spin text-4xl"/>
     </div>
 </template>

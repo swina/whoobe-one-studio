@@ -150,7 +150,7 @@ export default {
         dialogBus.$on ( 'importDatabase' , (mode) => {
             this.dialogComponent = () => import ( '@/components/common/ImportDatabase.vue')
             this.title = 'Import'
-            this.width = 'w-1/4'
+            this.width = 'w-1/3'
             this.topBar = true
             this.options = null
             this.traceDialogs ( 'importDatabase' )
@@ -159,7 +159,7 @@ export default {
         dialogBus.$on ( 'importDialog' , (mode) => {
             this.dialogComponent = () => import ( '@/components/common/ImportFile.vue')
             this.title = 'Import'
-            this.width = 'w-1/4'
+            this.width = 'w-1/3'
             this.topBar = true
             this.options = { mode: mode ? 'document' : 'block' }
             this.traceDialogs ( 'importDialog' )
@@ -168,7 +168,7 @@ export default {
         dialogBus.$on ( 'importPage' , () => {
             this.dialogComponent = () => import ( '@/components/common/ImportFile.vue')
             this.title = 'Import'
-            this.width = 'w-1/4'
+            this.width = 'w-1/3'
             this.topBar = true
             this.options = { mode: 'page' }
             this.traceDialogs ( 'importPage' )
@@ -177,7 +177,7 @@ export default {
         dialogBus.$on ( 'importUIKit' , () => {
             this.dialogComponent = () => import ( '@/components/common/ImportFile.vue')
             this.title = 'Import'
-            this.width = 'w-1/4'
+            this.width = 'w-1/3'
             this.topBar = true
             this.options = { mode: 'kit' }
             this.traceDialogs ( 'importUIKit' )
@@ -186,8 +186,9 @@ export default {
         dialogBus.$on ( 'UIKit' , () => {
             this.$store.dispatch ( 'add_tab' , {
                 label: 'UI Kit',
-                object: () => import ( '@/components/blocks/gallery/PagesGallery.vue' ),
-                type: 'component'
+                object: () => import ( '@/components/blocks/gallery/UiKits.vue' ),
+                type: 'component',
+                mode: 'uikit'
             })
         })
 
@@ -195,7 +196,7 @@ export default {
         dialogBus.$on ( 'importBlock' , () => {
             this.dialogComponent = () => import ( '@/components/common/ImportFile.vue')
             this.title = 'Import'
-            this.width = 'w-1/4'
+            this.width = 'w-1/3'
             this.topBar = true
             this.options = { mode: 'block' }
             this.traceDialogs('importBlock')
@@ -266,10 +267,12 @@ export default {
         })
 
         dialogBus.$on ( 'pages' , (mode='Templates') => {
+            this.$store.dispatch('dbmode',true)
             this.$store.dispatch ( 'add_tab' , {
                 label: 'Templates',
-                object: () => import ( '@/components/blocks/gallery/PagesGallery.vue' ),
-                type: 'component'
+                object: () => import ( '@/components/blocks/gallery/Templates.vue' ),
+                type: 'component',
+                mode: 'dbmode'
             })
         })
 

@@ -5,6 +5,7 @@ const desktop =  {
         filter: '',
         tabs: [],
         galleryFilter: null,
+        dbmode: true,
         library:null,
         uikits: [],
         component: null,
@@ -47,6 +48,9 @@ const desktop =  {
         },
         removeTab ( state , index ){
             state.tabs.splice ( index , 1 )
+        },
+        dbmode ( state , payload ){
+            state.dbmode = payload
         },
         galleryFilter ( state , payload ){
             state.galleryFilter = payload
@@ -123,6 +127,9 @@ const desktop =  {
         },
         galleryFilter ( { commit } , payload ){
             commit ( 'galleryFilter' , payload )
+        },
+        dbmode ( { commit } , payload ){
+            commit ( 'dbmode' , payload )
         },
         library ( { commit } , payload ){
             commit ( 'library' , payload )
