@@ -252,7 +252,7 @@ export default {
             this.coords.top = coords.top + this.scroll
             this.coords.left = coords.left
             this.options = action.options
-            
+    
         })
 
         editorBus.$on ( 'importComponent' , ( component ) => {
@@ -296,15 +296,7 @@ export default {
             }
         })
 
-        editorBus.$on ( 'addGrid' , () => {
-            let element = new Element().Grid().Cols(2)
-            this.editor.current.blocks.push ( element )
-        })
-
-        editorBus.$on ( 'addFlexbox' , () => {
-            let element = new Element().Flexbox()
-            this.editor.current.blocks.push ( element )
-        })
+       
 
         
 

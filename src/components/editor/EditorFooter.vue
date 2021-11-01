@@ -20,7 +20,7 @@
         <i-icon icon="ant-design:download-outlined" class="icon-button" @click="$editorBus('importPage','page')" title="Import template"/>
         <i-icon icon="ant-design:upload-outlined" class="icon-button" @click="$exportDocument()" title="Export template"/>
         <div class="border-r h-10 mx-1"></div>
-        <span class="text-gray-300">+</span><i-icon icon="clarity:blocks-group-line" class="-ml-1 icon-button" :class="hasCustomLibrary?'animate-pulse':''" @click="$dialogBus('addToUIKit')" title="Add to current kit"/>
+        <span class="text-gray-300">+</span><i-icon icon="mdi:widgets-outline" class="icon-button" :class="hasCustomLibrary?'animate-pulse':''" @click="$dialogBus('addToUIKit')" title="Add to current kit"/>
         <span v-if="$store.state.desktop.library && $store.state.desktop.library.name" class="chip ring-2 ring-purple-500 mr-2">{{ $store.state.desktop.library.name }}</span>
         <i-icon icon="bx:bx-export" v-if="hasCustomLibrary" class="icon-button" @click="$exportCustomLibrary()" title="Save UI Kit"/>
         <!-- <span v-if="hasCustomLibrary" class="animate-pulse ring-2 ring-purple-500 chip bg-black text-xs text-white mr-2 cursor-pointer" title="Save UI Kit" @click="$exportCustomLibrary()">Export</span> -->

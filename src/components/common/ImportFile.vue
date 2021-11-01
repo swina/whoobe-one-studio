@@ -1,7 +1,11 @@
 <template>
     <div class="flex flex-col p-4 items-center">
-        <input type="file" class="absolute top-0 left-0 right-0 bottom-0 opacity-0"  accept="*.json" @change="loadTextFromFile($event),loading=true"/>
-        <button class="btn-blue w-full warning">Select File</button>
+        <div class="relative w-full">
+            <input type="file" class="absolute top-0 left-0 right-0 bottom-0 opacity-0"  accept="*.json" @change="loadTextFromFile($event),loading=true"/>
+            <button class="btn-blue w-full warning">Select File</button>
+        </div>
+        <input type="text" placeholder="Kit URL" class="w-full my-2" v-model="kitURL"/>
+        <button class="btn-blue w-full my-2" @click="fetchURL()">Import from URL</button>
         <m-icon v-if="loading" icon="bubble_chart" class="animate-spin text-4xl"/>
     </div>
 </template>
@@ -12,8 +16,22 @@ export default {
     name: 'ImportFile',
     data:()=>({
         loading: false,
+        kitURL: 'http://localhost:8080/'
     }),
     methods:{
+        fetchURL(){
+            if ( this.kitURL ){
+                try {
+                    fetch ( this.kitURL ).then ( res => res.json() ).then ( data => {
+                        this.$store.dispatch ( 'add_uikit' , data)
+                        this.$store.dispatch ( 'library' , data )
+                        this.$dialogBus ( 'closeDialog' )
+                    })
+                } catch ( err ){
+                    console.log ( err )
+                }
+            }
+        },
         loadTextFromFile(ev) {
             this.loading = true
             const file = ev.target.files[0];

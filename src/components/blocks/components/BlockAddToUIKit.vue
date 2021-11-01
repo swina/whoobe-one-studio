@@ -29,7 +29,7 @@ export default {
             this.$store.dispatch ( 'library' , library )
             window.localStorage.setItem ( 'whoobe-ui-kit' , JSON.stringify( library) )
             this.$dialogBus ( 'closeDialog' )
-            this.$editorBus('editorMessage','Saved to custom library')
+            this.$editorBus('editorMessage','Saved to ' + library.name)
             this.addToCustom = false
         },
         async printPage() {

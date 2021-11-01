@@ -52,8 +52,8 @@ export default {
             return icon.filter ? 
                 icon.filter.includes ( this.$store.state.editor.current.element ) 
                     ? true :
-                                                     icon.filter.includes ( this.$store.state.editor.current.tag ) ?  true : 
-                                icon.filter.includes ( this.$store.state.editor.current.element ) ? true : false : true
+                        icon.filter.includes ( this.$store.state.editor.current.tag ) ?  true : 
+                            icon.filter.includes ( this.$store.state.editor.current.element ) ? true : false : true
         },
         classe ( icon ){
             return icon === this.currentIcon ?
