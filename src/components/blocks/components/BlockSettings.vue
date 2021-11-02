@@ -8,13 +8,15 @@
         <select class="w-full" v-model="$store.state.editor.page.category">
             <option v-for="category in categories" :value="category">{{ category }}</option>
         </select>
-        <label>Tags</label>
+        <label>Tags (used as keyword for SEO)</label>
         <div class="flex flex-row flex-wrap my-1">
         <template v-for="(tag,index) in $store.state.editor.page.tags">
             <span class="bg-purple-300 px-1 rounded-lg m-1 cursor-pointer" @click="removeTag(index)">{{ tag }}</span>
         </template>
         </div>
-        <input type="text" class="w-full bg-white" placeholder="type a new tag and enter" v-model="newTag" @keydown="addTag($event)"/>
+        <input type="text" class="w-full bg-white mb-2" placeholder="type a new tag and enter" v-model="newTag" @keydown="addTag($event)"/>
+        <label>Google Analytics (optional)</label>
+        <input type="text" class="w-full bg-white" placeholder="Enter your Google Analytics" v-model="$store.state.editor.page.analytics"/>
         <button class="btn btn-blue rounded m-1 mt-4 m-auto" @click="$savePage()">SAVE</button>
     </div>
 </template>

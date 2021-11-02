@@ -10,6 +10,13 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">-->
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <script src="https://www.googletagmanager.com/gtag/js?id=<%=VUE_APP_GA%>" async=""></script>
+    <script>window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '<%=VUE_APP_GA%>');
+      </script>
+    
     <!--<script src="//code.jivosite.com/widget/u5ezjfPpoC" async></script>-->
   </head> 
   <body> 

@@ -228,7 +228,8 @@ export default {
                 description: page.description,
                 animations: animations,
                 tags: page.tags.join(','),
-                js: page.json.blocks.data.js
+                js: page.json.blocks.data.js,
+                analytics: page.analytics || null
             }
             console.log ( whoobeone )
             let data = "const whoobe = " + JSON.stringify(whoobeone) + ';export default whoobe'
