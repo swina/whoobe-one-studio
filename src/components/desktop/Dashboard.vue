@@ -1,5 +1,5 @@
 <template>
-   <div class="flex flex-wrap p-8 items-center justify-center">
+   <div class="flex flex-wrap p-8 items-center justify-center" resetTab>
         <template v-for="option in menu">
             <div class="w-20 h-20 flex flex-col items-center justify-center shadow-xl bg-gray-700 rounded text-gray-500 m-4 hover:text-gray-400 cursor-pointer" :title="option.label" @click="openDialog(option)" :key="option.label">
                 <i-icon :icon="option.icon" class="text-3xl"/>
@@ -26,6 +26,11 @@ export default {
         ],
         
     }),
+    computed:{
+        resetTab(){
+            this.$store.dispatch('currentTab', -1)
+        }
+    },
     methods:{
         openDialog(dialog){
             let founded = false
@@ -43,6 +48,9 @@ export default {
                 this.$dialogBus ( dialog.action )
             }
         }
+    },
+    mounted(){
+        this.$store.dispatch('currentTab', -1)
     }
 }
 </script>

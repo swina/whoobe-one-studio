@@ -1,6 +1,6 @@
 <template>
     <div class="w-screen" @contextmenu="contextmenu($event)">
-        <div class="absolute top-0 h-10 w-full flex items-center justify-center text-gray-300 pr-8 cursor-pointer">
+        <div class="absolute top-0 left-0 h-10 w-full flex items-center justify-center text-gray-300 pr-8 cursor-pointer">
             <!-- <div class="m-auto text-gray-500">Right click for more options</div> -->
             <m-icon icon="edit" class="text-2xl mr-4" @click="openPage()" title="Edit"/>
             <i-icon icon="dashicons:html" class="text-2xl mr-4" @click="viewHTML" title="HTML source"/>

@@ -38,6 +38,15 @@ const templates = {
     'Classic Page'      : 'classicPage',
     'Blog Homepage'     : 'blog'
 }
+
+const kits = [
+    { name: 'Navigation' , url: 'https://whoobe-one-studio.vercel.app/kits/Navigation-UI-Kit.json' },
+    { name: 'Hero' , url: 'https://whoobe-one-studio.vercel.app/kits/Hero-UI-Kit.json'},
+    { name: 'Leading' , url : 'https://whoobe-one-studio.vercel.app/kits/Leading-UI-Kit.json'},
+    { name: 'CTA' , url : 'https://whoobe-one-studio.vercel.app/kits/CTA-UI-Kit.json'},
+    { name: 'Form' , url: 'https://whoobe-one-studio.vercel.app/kits/Form-UI-Kit.json'},
+    { name: 'Landing pages' , url : 'https://whoobe-one-studio.vercel.app/kits/Landing-Pages-UI-Kit.json'}
+]
 export default class Template {
     constructor(){
         this.blocks = []
@@ -71,6 +80,10 @@ export default class Template {
     empty(){
         this.blocks.push ( new Element().Flexbox({direction:'col',colspan:1}) )
         return this
+    }
+
+    kits(){
+        return kits
     }
 
     blog(){

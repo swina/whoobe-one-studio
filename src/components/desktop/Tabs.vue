@@ -57,7 +57,7 @@ export default {
     },
     methods:{
         home(){
-            this.$store.dispatch ( 'currentTab' , -1 )
+            //this.$store.dispatch ( 'currentTab' , -1 )
             //this.$router.push ( '/' )
             this.$eventBus ( 'desktopSidebarLeft' )
             // this.$store.dispatch ( 'component' , null )
