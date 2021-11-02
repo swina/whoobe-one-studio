@@ -444,7 +444,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/kits/Hero-UI-Kit.json"
   },
   {
-    "revision": "e2c740a1f31799a30590a56b980712c1",
+    "revision": "0cdef534e742929ea226ddb6972c8d5c",
     "url": "/kits/Landing-Pages-UI-Kit.json"
   },
   {
