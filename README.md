@@ -9,20 +9,10 @@ You can create simple or strtuctured components or even complete pages without c
 
 [WhoobeOne Studio](https://whoobe-one-studio.vercel.app/)
 
-Landing page created with WhoobeOne 
-
-[Landing page demo](https://whoobeone.vercel.app)
-
-
 No login or email required. Free and opensource.
 
-## Serverless App
-
-WhoobeOne Studio doesn't require any server or database, as long as you can use without install it but just using the online version that is full working and that you can install on your desktop.
-All data are in browser and refer to the url (http://localhost:8080) by default, thus means that if you clear all browser data or you switch to another browser, or you change the port when you open WhoobeStudio it will ask you to install the Library as it would be a first run.
-
-### Important ###
-**Always export the templates database if you want to have portability of your data. Deleting browser data will erase WhoobeOne Studio data**
+Landing page created with WhoobeOne 
+[WhoobeOne](https://whoobeone.vercel.app)
 
 
 
@@ -38,6 +28,8 @@ All data are in browser and refer to the url (http://localhost:8080) by default,
 - add custom JS
 - AlpineJS directives support
 - GSAP animation support
+- create UI Kits to group similar components on your local file system (import/export)
+- ready to use UI Kits created by Whoobe
 - export/import components as JSON files
 - save in browser DB (IndexedDB). Remember to backup your DB.
 - create your own library DB (IndexedDB)
@@ -45,93 +37,50 @@ All data are in browser and refer to the url (http://localhost:8080) by default,
 - one click preset components templates tool
 - export single page/component to whoobe-one-vite in order to deploy a full static purged page/component
 
-## Editor tools
+## Dashboard
 
-<img src="https://res.cloudinary.com/moodgiver/image/upload/v1634145505/whoobe-one-editor-01_f4bnjw.jpg" width="600" style="margin:auto;"/>
+![](https://res.cloudinary.com/moodgiver/image/upload/v1635571292/whoobe-one-dashboard_hbzbjq.jpg)
 
-### Editor Dashboard
+From the dashboard you can start using WhoobeOne.
 
-Clicking on any element created you have access to a floating bar set in the up left corner of the element. Controls available are :
+## Empty Editor
 
-- move element one position up
-- add element to the current one (apply only to containers like grid and flexbox)
-- switch flex box from row to column direction (apply only to flexbox)
-- edit element content
-- set icon (apply only to Iconify elements)
-- set font family and font size
-- font color (hover included)
-- background color (over included)
-- image (requires an image url); if the current element is not an image the source will used as background
-- link to add a link/anchor to the element
-- import elements or block of elements
-- export current element
-- remove element ( Alt + D)
+This option open the editor with an empty document (template). When you create an empty template WhoobeOne will ask you if you want to add a snippet. Snippets are pre-defined elements that will create automatically the block based on your choice.
 
-### Sidebar
+## Templates 
 
-- **Elements**: add HTML elements to your dashboard/editor like
-    - Grid : comes with a helper to set a grid layout (cols and colspans)
-    - Flexbox
-    - Text Elements: Heading, Paragraph, Inline text, Span, Quote, Code
-    - Media: Image, Slider, Video, Youtube Video, Vimeo Video, Material Icon, Iconify icon, Download
-    - Form: Input text, Input Email, Input number, Input hidden, Checkbox, Textarea, Submit, Reset and Button
-    - Snippets: preset templates that you can add to the editor with just a click. Presets are defined in **./src/scripts/templates** using the Blocks and Elements classes
+Templates are a default database of components organized by category. They are installed at first run if you selected the Load Library option. Since the default templates library is created in the browser data (IndexedDB) if you delete your browser data, WhoobeOne will ask you to reload the library at the next run.
+
+**Remember that only the default templates library is loaded. If you changed any template from the library and saved you need to export the library and import it if you want the default library updated with your changes. For this reason I suggest to use the UI Kits to manage your custom components.**
 
 
-- **Customize**: access to TailwindCSS utilities with simple controls
-    - Box Align/Justify
-    - Position
-    - Dimension
-    - Typography
-    - Background
-    - Gradient with random generator
-    - Padding
-    - Margin
-    - Border
-    - Rounded / Shadow / more
-    - CSS Animation
-    - Transition
-    - Transform (clipping are still unstable)
-    - Spacing
+## UI Kit
 
+This options gives you the possibility to create your own UI Kits, save to your local file system and use them as your libraries. You can create as many UI Kits you need and you can import them in your WhoobeOne session as well.
 
+**Since UI Kits are based on your local file system (or even remote URL) they are not persistent. You have to import them in order to load in WhoobeOne. For this reason always save (export) your UI Kits**
 
-- **CSS / Style**: access to CSS and style of any element created and assign specific semantic
+### Benefits of using UI Kits
 
+UI Kits have been developed for 2 main reasons:
 
-- **Wizard** : one click presets to add to the editor
+- portability of components
+- no dependency on database (local or remote)
 
+WhoobeOne is like a desktop application that works locally (it can works online too) that uses JSON files to create and render web components based on TailwindCSS. Web components are intended as simple HTML, CSS and JS.
 
-- **Library**: access to the templates Library
+### Free UI Kits by WhoobeOne
 
+WhoobeOne comes with some free UI Kit that you can import and use as you want. You can use them as a starting point to create your custom kits. The free UI Kits are: 
 
-- **Animation**: 15 GSAP animations ready to use. Requires building of the component with whoobe-one-vite
+- [Landing Pages UI Kit](https://whoobe-one-studio.vercel.app/kits/Landing-Pages-UI-Kit.json)
+- [Lead Components UI Kit](https://whoobe-one-studio.vercel.app/kits/Leading-UI-Kit.json)
+- [CTA UI Kit](https://whoobe-one-studio.vercel.app/kits/CTA-UI-Kit.json)
+- [Form UI Kit](https://whoobe-one-studio.vercel.app/kits/Form-UI-Kit.json)
+- [Hero UI Kit](https://whoobe-one-studio.vercel.app/kits/Hero-UI-Kit.json)
+- [Navigation UI Kit](https://whoobe-one-studio.vercel.app/kits/Navigation-UI-Kit.json)
 
-
-- **AlpineJS** : directives controls you can assign to any element
-
-
-- **Tree** : document/element DOM tree
-
-
-
-### Topbar
-
-After the template name and category
-
-- template settings
-- preview
-
-### Toolbar (bottom)
-
-- Template settings
-- Save template
-- Save as (create a copy)
-- Import template (overwrite the current template). Requires a valid whoobe JSON template format
-- Export template to JSON format
-- Delete template (remove template from the library)
-
-
+**You can add your custom components to any UI Kit. Remember to save (export) your updated kits before to close WhoobeOne session**
 
 ## Getting Started
 
@@ -157,7 +106,9 @@ npm run build
 
 ## Purge CSS
 
-In order to build a full static web page/component with purged CSS you need to install the repo: 
+If you plan to create a full static page based on any of your component you need to build and purge the CSS. Otherwise you will have a page/component that will have very poor performance.
+
+If you are not using any PostCSS or other system you can use the repo based on ViteJS: 
 
 [whoobe-one-vite](https:/github.com/swina/whoobe-one-vite)
 
@@ -167,7 +118,11 @@ In order to build a full static web page/component with purged CSS you need to i
 Using the Build option from the editor preview of any page, save the file as **whoobe.js** in the **./src** folder of whoobe-one-vite installation. 
 The static page will be deployed in the **./dist** folder.
 
-#### Dev preview
+### tailwind.config.js
+
+WhoobeOne extends some utility-first TailwindCSS with some extra classes and colors. If you plan to customize WhoobeOne, copy the **theme -> extend** section of **./tailwind.config.js** to ViteJS root folder.
+
+### Dev preview
 
 ```
 npm run dev
@@ -179,7 +134,7 @@ or
 yarn dev
 ```
 
-#### Build
+### Build
 
 ```
 npm run build
@@ -194,7 +149,7 @@ yarn build
 
 ## Info
 
-This repo is still in alpha version and under development. Please follow all changes
+This repo is still in alpha version and under development. Please follow all changes and updates
 
 ## License
 

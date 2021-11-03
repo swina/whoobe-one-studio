@@ -1,6 +1,6 @@
 <template>
      <div ref="floatingBarElement" v-if="$store.state.editor.current && $attrs.coords" class="h-8 flex items-center absolute z-highest justify-center bg-white text-black shadow text-xs px-2 cursor-pointer -mt-10" :style="coordinate">
-        <small class="chip bg-blue-400 capitalize" @click="$emit('close')">{{$store.state.editor.current.element}}</small>
+        <small class="chip bg-blue-400 capitalize" @click="$emit('close')">{{ $store.state.editor.current.element }} {{ $store.state.editor.current.tag }}</small>
         <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="icomoon-free:move-up" @click="$editorBus('moveBlock',1)" title="Move up"/>
         <i-icon v-if="$store.state.editor.current.type==='container'" class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="la:elementor" @click="$eventBus('sidebar','elements')" title="Add element"/>
         <i-icon v-if="$store.state.editor.current.tag==='flex'" class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="fluent:text-direction-horizontal-right-24-regular" @click="$editorBus('setFlexRow')" title="Direction row"/>

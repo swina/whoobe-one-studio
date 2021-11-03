@@ -15,8 +15,15 @@
                 @selected="setFloating"/>
             
             <BlockElement 
-                v-if="block && block.type != 'slider' && block.type != 'container' && block.tag != 'iconify' && block.tag != 'container'" 
+                v-if="block && block.type != 'slider' && block.type != 'container' && block.tag != 'iconify' && block.tag != 'container' && block.tag != 'youtube' && block.tag != 'vimeo'" 
                 :element="block" 
+                :key="block.id" 
+                :level="parseInt($attrs.level)+1" 
+                @selected="setFloating"/>
+
+            <BlockIFrame 
+                v-if="block.tag === 'youtube' || block.tag === 'vimeo'" 
+                :el="block" 
                 :key="block.id" 
                 :level="parseInt($attrs.level)+1" 
                 @selected="setFloating"/>
@@ -51,7 +58,8 @@ export default {
     }),
     components:{
         'BlockElement'  : () => import ('@/components/blocks/BlockElement.vue'),
-        'BlockLink'     : () => import ('@/components/blocks/components/BlockLink.vue')
+        'BlockLink'     : () => import ('@/components/blocks/components/BlockLink.vue'),
+        'BlockIFrame'   : () => import ('@/components/blocks/components/BlockIFrame.vue')
     },
     computed:{
         ...mapState ( ['editor'] ),

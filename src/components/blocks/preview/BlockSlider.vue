@@ -34,6 +34,7 @@ export default {
     }),
     computed:{
         navigationClass(){
+            if ( !this.$attrs.slider.data.slider.navigation ) return 'flex justify-center m-auto w-full bottom-0 absolute z-10 items-center'
             if ( !this.$attrs.slider && !this.$attrs.slider.data && !this.$attrs.slider.data.slider ) return
             let position = this.$attrs.slider.data.slider.navigation.position
             position === 'left' || position === 'right' ? 

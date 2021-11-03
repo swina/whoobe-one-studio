@@ -101,16 +101,6 @@ export default {
             this.$editorBus('floatingElement',block.id) 
             let coords = this.$refs[this.element.id].getBoundingClientRect()
             this.element.coords = coords
-            //this.$editorBus('selectElement', ( coords , 'element' ) )
-            // let selector = document.getElementById('elementSelector') //document.createElement('div')
-            // selector.classList = ['fixed border-b border-2 border-dashed z-modal elementSelector chip bg-lime-500 text-black text-sm']
-            // selector.style.top = coords.bottom + 'px'
-            // selector.style.left = coords.left + 'px'
-            // selector.innerText = ''
-            // selector.style.width = coords.width + 'px'
-            // selector.style.height = coords.height + 'px'
-            //document.body.appendChild ( selector )
-            //console.log ( selector , coords )
         },
         clickEvent(){
             this.element.events.display ?

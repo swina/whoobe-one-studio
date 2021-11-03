@@ -373,6 +373,7 @@ export default class Element {
         this.src = "https://youtube.com/embed/"
         this.label = 'Youtube Video'
         this.type = 'video'
+        this.tag = 'youtube'
         this.element = 'iframe'
         return this
     }
@@ -381,6 +382,7 @@ export default class Element {
         this.src = "https://player.vimeo.com/video/"
         this.label = 'Vimeo Video'
         this.type = 'video'
+        this.tag = 'vimeo'
         this.element = 'iframe'
         return this
     }
