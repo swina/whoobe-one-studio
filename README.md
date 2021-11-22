@@ -110,7 +110,7 @@ If you plan to create a full static page based on any of your component you need
 
 If you are not using any PostCSS or other system you can use the repo based on ViteJS: 
 
-[whoobe-one-vite](https:/github.com/swina/whoobe-one-vite)
+[whoobe-one-vite](https://github.com/swina/whoobe-one-vite)
 
 
 ### Vite Build Static Page
