@@ -55,7 +55,6 @@ export default {
         classes.forEach ( cl => {
             if ( options.indexOf ( cl ) > -1 ){
                 this.selected = cl
-              console.log(this.selected)
                 this.$emit('input',this.$attrs.required ? this.$attrs.required + ' ' + cl : cl)
                 this.$emit('css', this.$attrs.required ? this.$attrs.required + ' ' + cl : cl)
                 return
