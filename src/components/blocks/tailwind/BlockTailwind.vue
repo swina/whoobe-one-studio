@@ -13,9 +13,9 @@
                 <div class="bg-indigo-500 text-white flex flex-row p-1 items-center capitalize cursor-pointer text-white" @click="controls=null,$store.dispatch('customizeTab',null)"><i class="material-icons absolute right-0">close</i> {{ gr }}</div>
                 <div v-for="control in controls" class="capitalize" :class="control.hasOwnProperty('group')?'float-left my-4 mx-1':'p-2 flex flex-col clear-both'">
                     <component
-                        :key="$randomID() + '_' + editor.current.id" 
-                        :is="control.name" 
-                        :attr="control.attr" 
+                        :key="$randomID() + '_' + editor.current.id"
+                        :is="control.name"
+                        :attr="control.attr"
                         :title="control.title"
                         :css="$clean(css)"
                         :stile="editor.current.style"
@@ -25,15 +25,15 @@
                         @css="updateCss"/>
                 </div>
                 <!-- <div :key="$randomID()" v-for="component in g.components" class="mb-1 p-1" :class="component.hasOwnProperty('group')? component.css :''">
-                        <component 
+                        <component
                         :key="$randomID()"
-                        :is="component.name" 
-                        :component="component.name" 
-                        :css="css" 
+                        :is="component.name"
+                        :component="component.name"
+                        :css="css"
                         :stile="editor.current.style"
-                        v-model="cssTw[component.attr]" 
+                        v-model="cssTw[component.attr]"
                         :entity="editor.current"
-                        :attr="component.attr" 
+                        :attr="component.attr"
                         :icon="component.icon||null"
                         :classe="component.css||''"
                         :required="component.hasOwnProperty('required')? component.required :''"
@@ -82,7 +82,7 @@ export default {
         this.cssTw = {}
         this.allCss = this.css
         if ( this.editor.customizeTab ){
-                this.setControl ( this.editor.customizeTab ) 
+                this.setControl ( this.editor.customizeTab )
                 this.gr = this.editor.customizeTab.label
             }
     },
@@ -96,7 +96,7 @@ export default {
         cssTw:{
             handler(old,changed){
                 if ( this.cid === this.editor.current.id ){
-                    let css = this.$clean ( this.allCss + ' ' +  this.$clean(Object.values(changed).join(' ')) ) 
+                    let css = this.$clean ( this.allCss + ' ' +  this.$clean(Object.values(changed).join(' ')) )
                     css = [ ...new Set(css.split(' '))].join(' ')
                     this.editor.current.css.css = css
                 }
@@ -107,15 +107,15 @@ export default {
         //     if ( !v ) {
         //         this.cssTw = {}
         //         this.allCss = this.css
-                
+
         //     }
         // },
         cid(v){
-            
+
             this.allCss = this.css
             this.controls = null
             this.cssTw = {}
-            
+
         }
     },
     methods:{
@@ -126,6 +126,7 @@ export default {
             return true
         },
         setControl(group){
+          console.log(group)
             this.gr = group.label
             this.$store.dispatch ( 'customizeTab' , group )
             this.controls = group.components
