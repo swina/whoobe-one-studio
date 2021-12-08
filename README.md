@@ -90,6 +90,7 @@ WhoobeOne comes with some free UI Kit that you can import and use as you want. Y
 
 ```
 VUE_APP_FONT_FAMILIES=Alfa+Slab+One|Asap+Condensed|Abel|Alice|Alegreya|Amethysta|Archivo+Black|Barlow|Barlow+Condensed|Bungee+Inline|Expletus+Sans|Lora|Montserrat|Nunito+Sans|Oi|Open+Sans|PT+Sans|Roboto|Roboto+Condensed|Quattrocento|Raleway|Ultra|Yatra+One
+VUE_APP_GA=YOUR_GA_ID
 ```
 
 - Dev command
@@ -110,7 +111,7 @@ If you plan to create a full static page based on any of your component you need
 
 If you are not using any PostCSS or other system you can use the repo based on ViteJS: 
 
-[whoobe-one-vite](https:/github.com/swina/whoobe-one-vite)
+[whoobe-one-vite](https://github.com/swina/whoobe-one-vite)
 
 
 ### Vite Build Static Page

@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col clear-both">
-        <span class="capitalize">{{$attrs.title||$attrs.attr}}</span> 
+        <span class="capitalize">{{$attrs.title||$attrs.attr}}</span>
         <select class="w-full bg-white text-black p-1" v-model="selected" @change="$emit('input',selected)">
             <option value=""></option>
             <option v-for="opt in options" :value="opt.hasOwnProperty('label')?opt.value:opt">{{ option(opt) }}</option>
@@ -29,10 +29,13 @@ export default {
     methods:{
         option(opt){
             if ( !opt.hasOwnProperty('label') ){
+              const strArr = opt.split('-');
+              strArr.shift()
+              const label = strArr.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
                 if ( opt.charAt(0) === '-' ){
                     return '-' + opt.split('-')[opt.split('-').length-1]
-                } 
-                return opt.split('-')[opt.split('-').length-1]
+                }
+                return label;
             } else {
                 return opt.label
             }
