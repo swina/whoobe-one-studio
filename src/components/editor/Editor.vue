@@ -85,28 +85,11 @@ export default {
             }
         })
 
-       
-        
 
         //duplicate block
         editorBus.$on ( 'duplicateBlock' , () => {
             this.$duplicateBlock()
             return
-            // let component = this.editor.document //comp //this.$mapState().desktop.tabs[this.$mapState().desktop.currentTab].blocks
-            // var parent = jp.parent ( component , '$..blocks[?(@.id=="' + this.editor.current.id + '")]' )
-            // let i 
-            // if ( parent ){
-            //     parent.forEach ( (p,index) => {
-            //         if ( p.id === this.editor.current.id ){
-            //             i = index
-            //         }
-            //     })
-            //     let el = JSON.parse(JSON.stringify(this.editor.current))
-            //     let obj = this.$clone ( el )
-            //     obj.id = this.$randomID()
-            //     parent.splice ( i+1 , 0 , obj )
-            //     this.$editorBus('editorMessage','Block duplicated')
-            // }
         })
         
         //delete block
@@ -137,14 +120,16 @@ export default {
             this.$store.dispatch ( 'setCurrent' , null )
         })
         
-        //copy block to clipboard
-        editorBus.$on ( 'copyBlock' , (block) => {
-            window.localStorage.setItem ( 'whoobe-clipboard' , JSON.stringify ( block ) )
-            return
-            // block ? 
-            //     window.localStorage.setItem ( 'whoobe-editor-clipboard' , JSON.stringify(block) ) :
-            //         window.localStorage.setItem ( 'whoobe-editor-clipboard' , JSON.stringify(this.editor.current) ) 
-            // this.$editorBus('editorMessage','Block copied')
+        editorBus.$on ( 'BlockCopy' , (type) => {
+            if ( this.editor.current ){
+                window.localStorage.setItem ( 'whoobe-clipboard' , JSON.stringify ( this.editor.current ) )
+            }
+            
+            // let block = JSON.parse(window.localStorage.getItem ( 'whoobe-editor-clipboard' ))
+            // let pasteBlock = this.$clone ( block )
+            // type === 'document' ?
+            //     this.editor.document = pasteBlock : this.editor.current.blocks.push ( pasteBlock )
+            // return
         })
 
         //paste block from clipboard

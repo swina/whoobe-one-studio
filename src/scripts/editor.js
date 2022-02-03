@@ -157,6 +157,12 @@ export default {
             }
         }
 
+        Vue.prototype.$copyBlock = () => {
+            if ( !store.state.editor.current ) return
+            let block = store.state.editor.current
+            window.localStorage.setItem ( 'whoobe-clipboard' , JSON.stringify ( block ) )
+        }
+
         Vue.prototype.$pasteBlock = () => {
             let block = JSON.parse ( window.localStorage.getItem ( 'whoobe-clipboard' ) )
             let copiedBlock = traverse ( block )
@@ -233,6 +239,35 @@ export default {
             }
             console.log ( whoobeone )
             let data = "const whoobe = " + JSON.stringify(whoobeone) + ';export default whoobe'
+            const blob = new Blob([data],{type: 'application/js'})
+            FileSaver.saveAs(blob,'whoobe.js')
+        }
+
+        Vue.prototype.$exportPage = (html) => {
+            if ( !html ) return
+            let page = store.state.editor.page
+            let fonts = jp.query ( page.json.blocks , '$..blocks..font') 
+            let fnts = [ ...new Set ( fonts.filter ( a => { return a } ) )]
+            let anims = jp.query ( page.json.blocks , '$..blocks[?(@.gsap.animation)]') 
+            let animations = anims.map ( a => { return { id: a.id , gsap: a.gsap }}) 
+            const exportPage = {
+                html : html,
+                fonts: fnts,
+                title: page.name,
+                description: page.description,
+                preview: page.image,
+                animations: animations,
+                tags: page.tags.join(','),
+                js: page.json.blocks.data.js,
+                analytics: page.analytics || null
+            }
+            return exportPage
+        }
+
+        Vue.prototype.$exportProject = ()=>{
+            if ( !store.state.editor.project ) return
+            let data = "const whoobe = " + JSON.stringify(store.state.editor.project) + ';export default whoobe'
+            //let data = JSON.stringify(store.state.editor.project)
             const blob = new Blob([data],{type: 'application/js'})
             FileSaver.saveAs(blob,'whoobe.js')
         }

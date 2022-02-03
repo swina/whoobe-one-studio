@@ -279,6 +279,13 @@ export default {
             this.editor.current.css.container.includes('flex-col') ? null :
                 this.editor.current.css.container = this.$clean(this.editor.current.css.container + ' flex-col')
         })
+
+        
+        //copy block to clipboard
+        // editorBus.$on ( 'copyBlock' , () => {
+        //     this.$copyBlock()
+        //     return
+        // })
        
         editorBus.$on ( 'copyBlockCSS' , () => {
             let css = Object.assign ( {} , this.editor.current.css )

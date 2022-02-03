@@ -27,7 +27,6 @@ let shortcuts = {
 window.addEventListener("keydown", e => {
 
     //Editor HotKeys
-    //console.log ( e )
     
     // delete block
     if ( e.altKey && e.code === 'KeyR' ){
@@ -45,17 +44,13 @@ window.addEventListener("keydown", e => {
 
     // copy block to clipboard
     if ( e.altKey && e.code === 'KeyC' ){
-        if ( editor.current  ){
-            
-            editorBus.$emit ( 'copyBlock' , editor.current )
-        }
+        editorBus.$emit ( 'copyBlock' )
     }
 
-    // copy block to clipboard
+    // paste block to clipboard
     if ( e.altKey && e.code === 'KeyV' ){
         if ( editor.current  ){
             editorBus.$emit ( 'pasteBlock' , 'block' )
-            return
         }
     }
 

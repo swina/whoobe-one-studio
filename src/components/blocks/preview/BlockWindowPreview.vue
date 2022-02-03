@@ -60,6 +60,12 @@
                     <m-icon icon="code"/>
                 </div>
             </div>
+            <div class="p-1 hover:bg-gray-200 flex items-center" @click="addToWebsite">
+                Add to Website
+                <div  class="absolute right-0 flex items-center pr-1">
+                    <i-icon icon="mdi:web"/>
+                </div>
+            </div>
             <div class="p-1 hover:bg-gray-200 flex items-center" @click="buildPage">
                 Build Page
                 <div  class="absolute right-0 flex items-center pr-1">
@@ -72,6 +78,7 @@
             <img :src="svgString"/>
         </div>
         <Modal v-if="modal" :topbar="true" component="blocks/components/BlockJSEditor.vue" @close="modal=!modal" :options="options"/>
+        <!-- <Modal v-if="website" :topbar="true" component="blocks/components/BlockAddToWebsite.vue" @close="website=!website" :options="options"/> -->
     </div>
 </template>
 
@@ -96,7 +103,8 @@ export default {
         srcdoc: null,
         customZoom: 0.5,
         currentSize: null,
-        htmlSource: null
+        htmlSource: null,
+        website: false
     }),
     components: {
         //WhoobePreviewContextMenu , MokaEditorPreview , WhoobePreviewHtml , WhoobePreviewPrintscreen ,
@@ -215,6 +223,14 @@ export default {
                 console.log ( err )
                 console.log ( 'Preview mode error in creating source')
             }
+        },
+        addToWebsite(){
+            let page = document.getElementById('content')
+            let html = page.outerHTML
+            html = html.replaceAll ( 'http://localhost:3030/' , '' )
+            html =  this.$beautify ( html.replaceAll('<!---->','').replaceAll('[object Object]','') )
+            this.options = html
+            modalBus.$emit ( 'website' , this.options )
         },
         buildPage(){
             let page = document.getElementById('content')

@@ -67,6 +67,8 @@ Vue.component ( 'Slider' , Slider )
 import VueHtml2Canvas from "vue-html2canvas";
 Vue.use(VueHtml2Canvas);
 
+import Tree from "vue-tree-list"
+Vue.component( 'Tree' , Tree )
 // import IconifyIcon from '@iconify/vue';
 // Vue.component ( 'IconifyIcon' , IconifyIcon )
  

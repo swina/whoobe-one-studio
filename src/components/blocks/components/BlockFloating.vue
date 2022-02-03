@@ -9,6 +9,8 @@
         <template v-for="(icon,i) in icons">
             <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" :icon="icon.icon" @click="$editorBus('editorAction',icon,$event),currentIcon=icon.icon" :title="icon.title" v-if="isIconEnabled(icon)" :key="'icon_'+i"/>
         </template>
+        <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="mdi:content-copy" @click="$copyBlock()" title="Copy"/>
+        <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="mdi:content-paste" @click="$pasteBlock()" title="Copy"/>
         <i-icon class="floating-icon text-gray-400 hover:text-purple-600 text-xl" icon="ci:trash-empty" @click="$editorBus('deleteBlock')"/>
         <small class="chip bg-lime-400" v-if="$store.state.editor.current.gsap.animation" @click="$eventBus('sidebar','animation')">{{$store.state.editor.current.gsap.animation}}</small>
     </div>

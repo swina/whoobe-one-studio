@@ -5,7 +5,7 @@
   "main": "main.js",
   "license": "MIT",
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --host 0.0.0.0",
     "build": "vue-cli-service build",
     "build-store": "vue-cli-service build --target lib --name WhoobeStore ./src/components/plugins/store/nuxpresso/custom.vue --dest ./public/plugins/store",
     "build-snipcart": "vue-cli-service build --target lib --name Snipcart ./src/components/plugins/snipcart/snipcart.vue --dest ./public/plugins/snipcart",
@@ -35,7 +35,9 @@
     "vue-file-agent": "^1.7.3",
     "vue-html2canvas": "^0.0.4",
     "vue-router": "^3.2.0",
+    "vue-tree-list": "^1.5.0",
     "vue-upload-component": "^2.8.20",
+    "vuejs-tree": "^3.0.1",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

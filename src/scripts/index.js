@@ -23,6 +23,10 @@ export default {
             eventBus.$emit ( 'loading' , flag )
         }
 
+        Vue.prototype.$slugify = (str) => {
+            return str.toLowerCase ().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+        }
+
         Vue.prototype.$imageURL = (image) => {
             if ( !image ) return null
             let source = image.url

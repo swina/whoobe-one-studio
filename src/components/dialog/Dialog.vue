@@ -16,6 +16,7 @@ import Element from '@/scripts/ElementsClass'
 import Block from '@/scripts/BlocksClass'
 import { eventBus , dialogBus , modalBus , editorBus } from '@/main'
 import actions from '@/scripts/actions'
+import { mapState } from 'vuex'
 export default {
     name: 'DialogEvents',
     data:()=>({
@@ -27,6 +28,7 @@ export default {
         lastDialog : []
     }),
     computed: {
+        ...mapState ( ['editor'] ),
         classe(){
             let cls = this.width
             this.topBar ? cls += ' shadow rounded' : null
@@ -281,6 +283,24 @@ export default {
             this.width = 'w-1/2'
             this.options = null
             this.title = 'Keyboard Shortcuts'
+        })
+
+        dialogBus.$on ( 'website' , () => {
+            this.dialogComponent = () => import ( '@/components/desktop/Website.vue')
+            this.width = 'w-full h-screen'
+            this.options = null
+            this.title = 'Whoobe Website'
+        })
+
+        dialogBus.$on ( 'addToWebsite' , () => {
+            if ( this.$store.state.editor.page && this.$store.state.editor.project ){
+                this.dialogComponent = () => import ( '@/components/blocks/components/BlockAddToWebsite.vue')
+            } else {
+                this.dialogComponent = () => import ( '@/components/desktop/Website.vue')
+            }
+            this.width = 'w-1/2'
+            this.options = null
+            this.title = 'Add to website'
         })
 
 

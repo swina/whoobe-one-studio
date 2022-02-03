@@ -73,6 +73,13 @@ export default {
             this.topBar = true
             this.options = {}
         })
+        modalBus.$on ( 'website' , (html) => {
+            this.dialogComponent = () => import ( '@/components/blocks/components/BlockAddToWebsite.vue')
+            this.title = 'Add to website'
+            this.width = 'w-5/6 h-4/5 modal'
+            this.topBar = true
+            this.options = { html : html }
+        })
 
     }
 }
