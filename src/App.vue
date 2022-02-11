@@ -39,7 +39,7 @@ export default {
     'Notification'  : () => import ( '@/components/common/Notification.vue' ),
   },
   computed:{
-    ...mapState ( ['desktop','editor'] ),
+    ...mapState ( ['desktop','editor','datastore'] ),
     
   },
   watch:{
@@ -88,6 +88,17 @@ export default {
         this.$store.dispatch ( 'settings' , settings)
     })
 
+    if ( this.datastore.shopify.config.storefrontAccessToken ){
+      this.client = this.datastore.shopify
+      this.client.collection.fetchAllWithProducts().then((collections) => {
+            this.client.collections = collections
+            // Do something with the collections
+            this.client.product.fetchAll(200).then((products) => {
+              this.$store.dispatch ( 'whoobe_store' , products )
+              console.log ( products )
+            }).catch ( error => console.log(error));
+        });
+    }
 
     
 

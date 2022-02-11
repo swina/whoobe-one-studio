@@ -15,6 +15,9 @@ Landing page created with WhoobeOne
 [WhoobeOne](https://whoobeone.vercel.app)
 
 
+## New features
+
+- Added Project manager to export a complete website for SvelteKit (using whoobe-one-sveltekit)
 
 ## Features
 

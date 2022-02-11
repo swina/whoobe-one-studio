@@ -118,7 +118,7 @@ export default {
                 }
             })
         }
-        
+        this.$emit ( 'preview' )
     }
 }
 </script>

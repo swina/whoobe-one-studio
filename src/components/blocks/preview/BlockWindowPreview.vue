@@ -1,5 +1,5 @@
 <template>
-    <div class="w-screen" @contextmenu="contextmenu($event)">
+    <div class="w-screen preview-window" @contextmenu="contextmenu($event)">
         <div class="absolute top-0 left-0 h-10 w-full flex items-center justify-center text-gray-300 pr-8 cursor-pointer">
             <!-- <div class="m-auto text-gray-500">Right click for more options</div> -->
             <m-icon icon="edit" class="text-2xl mr-4" @click="openPage()" title="Edit"/>
@@ -16,7 +16,7 @@
             <div v-if="mode!='fullscreen'">{{currentSize}}</div>
             <!-- <m-icon icon="close" class="text-2xl mr-4" title="Esc to exit preview" @click="$dialogBus('closeDialog')"/> -->
         </div>
-        <div class="flex flex-col overflow-y-auto overflow-x-hidden absolute inset-0 mt-10 laptop-view" v-if="mode==='fullscreen'">
+        <div class="preview-window-content flex flex-col overflow-y-auto overflow-x-hidden absolute inset-0 mt-10 laptop-view" v-if="mode==='fullscreen'">
             <BlockContainerPrvw 
                 v-if="doc" 
                 :doc="doc" 
@@ -90,6 +90,7 @@ export default {
     name: 'BlockWindowPreview',
     data:()=>({
         doc:null,
+        html: null,
         showContextMenu: false,
         showHtml: false,
         printScreen: false,
@@ -118,14 +119,15 @@ export default {
         ...mapState ( ['editor'] ),
         devMode(){
             
-             if ( typeof webpackHotUpdate === 'undefined' ) {
-                 
-                 return true //false
-             }
-             
-             return true
+            if ( typeof webpackHotUpdate === 'undefined' ) {
+                
+                return true //false
+            }
+            
+            return true
         },
         classe(){
+            
             return this.display ? 'visible' : 'hidden'
         },
         previewFrame(){
@@ -226,11 +228,12 @@ export default {
         },
         addToWebsite(){
             let page = document.getElementById('content')
-            let html = page.outerHTML
+            let html = page.innerHTML
             html = html.replaceAll ( 'http://localhost:3030/' , '' )
             html =  this.$beautify ( html.replaceAll('<!---->','').replaceAll('[object Object]','') )
             this.options = html
-            modalBus.$emit ( 'website' , this.options )
+            this.$store.dispatch ( 'html' , html )
+            modalBus.$emit ( 'website' , 'page' )
         },
         buildPage(){
             let page = document.getElementById('content')
@@ -239,7 +242,7 @@ export default {
             html =  this.$beautify ( html.replaceAll('<!---->','').replaceAll('[object Object]','') ) 
             this.$exportBuild ( html )
         },
-        async print() {
+        async print(save) {
             this.$loading()
             let el , options
             el = document.querySelector('#content')
@@ -247,7 +250,8 @@ export default {
             let screenshot = await this.$html2canvas(el, options)
             this.printScreen = screenshot
             this.editor.page.image = screenshot
-            this.$savePage()
+            if ( save )
+                this.$savePage()
             this.$loading()
         },
         isprinted(){
@@ -373,6 +377,7 @@ export default {
             document.body.appendChild ( scrpt ) 
         }
         window.innerHeight < 1024 ? this.customZoom = .5 : this.customZoom = 1
+        
     },
 }
 </script>

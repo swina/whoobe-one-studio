@@ -98,7 +98,7 @@ export default {
             this.$store.state.editor.page.image = screenshot
             this.$savePage()
             this.$loading()
-        }
+        },
         // savePage(){
         //     this.$savePage().then ( res => {
         //         console.log ( res )

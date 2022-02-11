@@ -9,7 +9,7 @@
         <m-icon icon="motion_photos_auto" class="icon-button ml-0 mb-1" :class="iconTab==='animation'?'bg-purple-600 text-white':null" @click="sidebar('animation')" title="Animation"/>
         <!-- <m-icon icon="ads_click" class="icon-button ml-0 mb-1" :class="iconTab==='events'?'bg-purple-600 text-white':null" @click="sidebar('events')" title="Events"/> -->
         <i-icon icon="simple-icons:alpinedotjs" class="text-xl icon-button ml-0 mb-1 cursor-pointer" @click="sidebar('alpine')" title="Alpine JS" mode="editor"/>
-        
+        <i-icon icon="cib:shopify" class="text-xl icon-button ml-0 mb-1 cursor-pointer" @click="sidebar('shopify')" title="Shopify" mode="editor"/>            
         <!--<m-icon icon="expand_more" @click="extend=!extend" v-if="!$attrs.expand" title="More options"/>
          <span v-if="extend || $attrs.expand"> -->
             <!-- <m-icon icon="extension" class="icon-button ml-0 mb-1" :class="iconTab==='plugins'?'bg-purple-600 text-white':null" @click="sidebar('plugins')" title="plugins"/> -->

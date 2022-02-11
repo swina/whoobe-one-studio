@@ -6,6 +6,7 @@
             <BlockContainer 
                 v-if="block.type === 'container' || block.tag ==='container' || block.tag === 'blocks'" :doc="block" 
                 :key="block.id" 
+                :data="$attrs.data||block.data"
                 :level="parseInt($attrs.level)+1"/>
             
             <Slider 
@@ -18,6 +19,7 @@
                 v-if="block && block.type != 'slider' && block.type != 'container' && block.tag != 'iconify' && block.tag != 'container' && block.tag != 'youtube' && block.tag != 'vimeo'" 
                 :element="block" 
                 :key="block.id" 
+                :data="$attrs.data"
                 :level="parseInt($attrs.level)+1" 
                 @selected="setFloating"/>
 

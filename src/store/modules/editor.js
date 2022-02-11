@@ -6,6 +6,7 @@ const editor = {
         document: null,
         project: null,
         selected: null,
+        html: null,
         page: null,
         current: null,
         component: null,
@@ -37,6 +38,9 @@ const editor = {
         },
         project ( state , payload ){
             state.project = payload 
+        },
+        html ( state , payload ){
+            state.html = payload
         },
         selected ( state , payload ){
             state.selected = payload 
@@ -96,6 +100,9 @@ const editor = {
         },
         project ( { commit } , payload ){
             commit ( 'project' , payload )
+        },
+        html ( { commit } , payload ){
+            commit ( 'html' , payload )
         },
         selected ( { commit } , payload ){
             commit ( 'selected' , payload )

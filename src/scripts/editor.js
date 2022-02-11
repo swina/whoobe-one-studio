@@ -243,9 +243,9 @@ export default {
             FileSaver.saveAs(blob,'whoobe.js')
         }
 
-        Vue.prototype.$exportPage = (html) => {
+        Vue.prototype.$exportPage = (html,template) => {
             if ( !html ) return
-            let page = store.state.editor.page
+            let page = template
             let fonts = jp.query ( page.json.blocks , '$..blocks..font') 
             let fnts = [ ...new Set ( fonts.filter ( a => { return a } ) )]
             let anims = jp.query ( page.json.blocks , '$..blocks[?(@.gsap.animation)]') 
@@ -263,13 +263,28 @@ export default {
             }
             return exportPage
         }
+        
+        Vue.prototype.$saveProjectAs = () => {
+            if ( !window.localStorage.getItem ('whoobe-project') ) return
+            let data = JSON.stringify(store.state.editor.project)
+            const blob = new Blob([data],{type: 'application/json'})
+            FileSaver.saveAs(blob,'project.json')
+        }
 
         Vue.prototype.$exportProject = ()=>{
             if ( !store.state.editor.project ) return
-            let data = "const whoobe = " + JSON.stringify(store.state.editor.project) + ';export default whoobe'
-            //let data = JSON.stringify(store.state.editor.project)
-            const blob = new Blob([data],{type: 'application/js'})
-            FileSaver.saveAs(blob,'whoobe.js')
+            let project = Object.assign ( {} , store.state.editor.project )
+            delete project.header.preview
+            delete project.footer.preview
+            delete project.homepage.preview
+            Object.keys ( project.pages ).forEach ( page => { 
+                delete project.pages[page].preview 
+            })
+            console.log ( project )
+            let data = "const whoobe = " + JSON.stringify(project) + ';export default whoobe'
+                //let data = JSON.stringify(store.state.editor.project)
+            const blob = new Blob([data],{type: 'text/js'})
+            FileSaver.saveAs(blob,'config.js')
         }
 
         Vue.prototype.$exportImage = ( image ) => {

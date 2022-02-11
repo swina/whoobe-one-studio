@@ -17,7 +17,7 @@
             <!--<BlockEvents v-if="tab==='events'"/>-->
             <BlockAlpine v-if="tab==='alpine'" :element="editor.current" :key="editor.current.id"/>
             <BlockAnimation v-if="tab==='animation'"/>
-
+            <Shopify v-if="tab==='shopify'"/>
             <!--<BlockSettings v-if="tab==='settings'"/>-->
             <BlockTree v-if="tab==='tree'"/>
         </div>
@@ -44,17 +44,18 @@ export default {
     props: ['tab'],
     components: {
         'EditorSidebarTabs' : () => import ( '@/components/editor/EditorSidebarTabs.vue' ),
-        'BlockElements' : () => import ( '@/components/blocks/BlockElements.vue') ,
-        'BlockCustomize': () => import ( '@/components/blocks/tailwind/BlockTailwind.vue'),
-        'BlockCss'      : () => import ( '@/components/blocks/components/BlockCss.vue'),
-        'BlockAttributes': () => import ( '@/components/blocks/components/BlockAttributes.vue'),
-        'BlockLibrary'  : () => import ( '@/components/blocks/components/BlockLibrary.vue'),
-        'BlockComponents'  : () => import ( '@/components/blocks/components/BlockComponents.vue'),
-        'BlockEvents'   : () => import ( '@/components/blocks/components/BlockEvents.vue'),
-        'BlockAnimation': () => import ( '@/components/blocks/components/BlockAnimation.vue'),
-        'BlockAlpine': () => import ( '@/components/blocks/components/BlockAlpine.vue'),
-        'BlockSettings' : () => import ( '@/components/blocks/components/BlockSettings.vue'),
-        'BlockTree'     : () => import ( '@/components/blocks/components/BlockTree.vue'),
+        'BlockElements'     : () => import ( '@/components/blocks/BlockElements.vue') ,
+        'BlockCustomize'    : () => import ( '@/components/blocks/tailwind/BlockTailwind.vue'),
+        'BlockCss'          : () => import ( '@/components/blocks/components/BlockCss.vue'),
+        'BlockAttributes'   : () => import ( '@/components/blocks/components/BlockAttributes.vue'),
+        'BlockLibrary'      : () => import ( '@/components/blocks/components/BlockLibrary.vue'),
+        'BlockComponents'   : () => import ( '@/components/blocks/components/BlockComponents.vue'),
+        'BlockEvents'       : () => import ( '@/components/blocks/components/BlockEvents.vue'),
+        'BlockAnimation'    : () => import ( '@/components/blocks/components/BlockAnimation.vue'),
+        'BlockAlpine'       : () => import ( '@/components/blocks/components/BlockAlpine.vue'),
+        'BlockSettings'     : () => import ( '@/components/blocks/components/BlockSettings.vue'),
+        'BlockTree'         : () => import ( '@/components/blocks/components/BlockTree.vue'),
+        'Shopify'           : () => import ( '@/components/plugins/shopify.vue')
     },
     computed:{
         ...mapState ( ['editor'] )

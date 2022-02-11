@@ -54,6 +54,11 @@ export default {
                         this.$store.dispatch ( 'document' , page.json.blocks )
                         this.loading = false
                     } 
+                    if ( this.$attrs.options.mode === 'project' ){
+                        window.localStorage.setItem ( 'whoobe-project' , JSON.stringify ( page ) )
+                        this.$store.dispatch ( 'project' , page )
+                        this.loading = false
+                    }
                     if ( this.$attrs.options.mode === 'kit' ){
                         this.$store.dispatch ( 'add_uikit' , page)
                         this.$store.dispatch ( 'library' , page )

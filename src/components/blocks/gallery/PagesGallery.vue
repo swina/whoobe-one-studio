@@ -34,7 +34,7 @@
             </div>
         </div>
         <transition name="fade">
-            <div class="absolute inset-0 mt-20 pb-24 min-h-screen flex flex-row flex-wrap px-6 items-center justify-center cursor-pointer overflow-y-auto max-h-screen z-highest transition-all duration-500">
+            <div class="absolute inset-0 justify-start  mt-20 pb-24 min-h-screen flex flex-row flex-wrap px-10 cursor-pointer overflow-y-auto max-h-screen z-highest transition-all duration-500">
                 <template v-for="(page,index) in pages">
                     <div :key="index+skip" class="relative shadow mx-6 my-4 rounded border-t-8 border-gray-500" :title="page.name" >
                         <div class="flex flex-col items-center justify-center w-80 h-80" :title="page.name">

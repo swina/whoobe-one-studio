@@ -18,6 +18,7 @@ export default {
             //{ label: 'Default' , icon: 'web' , action: 'startDefault' },
             { label: 'UI Kit' , icon: 'mdi:widgets-outline' , action: 'UIKit' },
             { label: 'Templates' , icon: 'la:elementor' , action: 'pages' },
+            { label: 'Website' , icon: 'mdi:web' , action: 'website' },
             //{ label: 'Import' , icon: 'download' , action: 'importDB' },
             //{ label: 'UI Kit New' , icon: 'mdi:widgets-outline' , action: 'createUIKit' },
             { label: 'Settings' , icon: 'carbon:settings-adjust' , action: 'settings'},

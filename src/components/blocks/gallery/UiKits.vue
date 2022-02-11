@@ -6,7 +6,9 @@
                 <select class="mr-2 rounded ring-1 ring-purple-500 bg-gray-200 py-2" v-model="$store.state.desktop.library" @change="importUIKit()">
                     <option v-for="uikit in $store.state.desktop.uikits" :value="uikit">{{ uikit.name }}</option>
                 </select>
+                
                 <i-icon icon="bx:bx-import" class="icon-button border cursor-pointer text-2xl" @click="$dialogBus('importUIKit')" title="Upload UI Kit"/>
+                
                 <i-icon v-if="$store.state.desktop.library" icon="bx:bx-export" class="icon-button border cursor-pointer text-2xl" @click="$exportCustomLibrary()" title="Export UI Kit"/>
 
                 <m-icon icon="add" css="icon-button cursor-pointer text-2xl border" @click="$dialogBus('createUIKit')" title="Create a new UI Kit"/>
@@ -76,7 +78,7 @@ export default {
         this.whoobeKits = new Template().kits()
         this.$store.state.desktop.library && this.$store.state.desktop.library.templates.length ?
             this.pages = this.$store.state.desktop.library.templates :
-                this.$dialogBus('createUIKit')
+                null //this.$dialogBus('createUIKit')
         this.galleryID = this.$randomID()
     }
 }

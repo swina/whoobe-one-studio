@@ -5,7 +5,7 @@
             {{ title }}
             <m-icon class="cursor-pointer absolute top-0 right-0 z-highest text-gray-100 mt-1 text-2xl" icon="close" @click="closeDialog"/>
         </div>
-        <div class="p-2">
+        <div class="p-2 dialog-component">
             <component v-if="dialogComponent" :is="dialogComponent" :options="options" @close="dialogComponent=null"/>
         </div>
     </div>
@@ -286,10 +286,16 @@ export default {
         })
 
         dialogBus.$on ( 'website' , () => {
-            this.dialogComponent = () => import ( '@/components/desktop/Website.vue')
-            this.width = 'w-full h-screen'
-            this.options = null
-            this.title = 'Whoobe Website'
+            this.$store.dispatch ( 'add_tab' , {
+                label: 'Website',
+                object: () => import ( '@/components/desktop/Website.vue'),
+                type: 'component',
+                mode: 'website'
+            })
+            // this.dialogComponent = () => import ( '@/components/desktop/Website.vue')
+            // this.width = 'w-full h-screen'
+            // this.options = null
+            // this.title = 'Whoobe Website'
         })
 
         dialogBus.$on ( 'addToWebsite' , () => {
@@ -303,6 +309,14 @@ export default {
             this.title = 'Add to website'
         })
 
+        dialogBus.$on ( 'importProject' , () => {
+            this.dialogComponent = () => import ( '@/components/common/ImportFile.vue')
+            this.title = 'Import Project'
+            this.width = 'w-1/3'
+            this.topBar = true
+            this.options = { mode: 'project' }
+            this.traceDialogs ( 'importProject' )
+        })
 
 
         const wrapper = this.$refs.dialogContainer

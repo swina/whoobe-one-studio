@@ -72,7 +72,13 @@ Vue.component( 'Tree' , Tree )
 // import IconifyIcon from '@iconify/vue';
 // Vue.component ( 'IconifyIcon' , IconifyIcon )
  
+import Client from 'shopify-buy';
+const client = Client.buildClient({
+  domain: process.env.VUE_APP_SHOPIFY_DOMAIN,
+  storefrontAccessToken: process.env.VUE_APP_SHOPIFY_STOREFRONT
+});
 
+store.dispatch( 'shopifyClient' , client )
 
 Vue.config.productionTip = false
 new Vue({
