@@ -145,6 +145,7 @@ export default {
         editorBus.$on ('linkBlock',()=>{
             this.elementLink =! this.elementLink
         })
+        dragula([document.querySelector('#list')]);
         var drake = dragula({
             isContainer: function (el) {
                 return el.classList.contains('dragula-container');

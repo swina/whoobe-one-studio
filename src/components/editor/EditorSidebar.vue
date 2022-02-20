@@ -17,6 +17,7 @@
             <!--<BlockEvents v-if="tab==='events'"/>-->
             <BlockAlpine v-if="tab==='alpine'" :element="editor.current" :key="editor.current.id"/>
             <BlockAnimation v-if="tab==='animation'"/>
+            <Svelte v-if="tab==='svelte'"/>
             <Shopify v-if="tab==='shopify'"/>
             <!--<BlockSettings v-if="tab==='settings'"/>-->
             <BlockTree v-if="tab==='tree'"/>
@@ -55,6 +56,7 @@ export default {
         'BlockAlpine'       : () => import ( '@/components/blocks/components/BlockAlpine.vue'),
         'BlockSettings'     : () => import ( '@/components/blocks/components/BlockSettings.vue'),
         'BlockTree'         : () => import ( '@/components/blocks/components/BlockTree.vue'),
+        'Svelte'            : () => import ( '@/components/blocks/components/BlockSvelte.vue'),
         'Shopify'           : () => import ( '@/components/plugins/shopify.vue')
     },
     computed:{
