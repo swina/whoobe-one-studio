@@ -24,13 +24,14 @@
             <div v-if="showProduct || editor.current.css.container.includes('shopify-product')">
                     <div class="bg-purple-500 text-white px-1" @click="showProduct=!showProduct">Available Fields</div>
                     <ListDraggable :list="Object.keys(schema).sort()" :selected="datastore.whoobe_store.config.fields" @fields="setFieldsConfig"/>
+                    Add to cart button text <input type="text" v-model="addToCart"/>
                     <button class="btn bg-blue-500 text-white rounded m-auto my-2 w-20" @click="createLoopComponent(false)">Set</button>
                 </div>
             <div v-if="editor.current.css.container.includes('shopify-product')">
                 <div class="bg-purple-500 text-white px-1">Product Container</div>
             </div>
             CSS
-            <textarea class="text-sm w-full" v-model="editor.current.css.css"/>
+            <textarea class="text-sm w-full" v-model="editor.current.css.css" v-if="editor.current.css.container.includes('shopify')"/>
         </div>
         <div v-else>
             Shopify not connected.
@@ -57,6 +58,11 @@ export default {
             row: 4,
             fields:[]
         },
+        currency: {
+            USD : '$',
+            EUR : '&euro;'
+        },
+        addToCart: 'Add to cart',
         products: null,
         product: null,
         fields: [],
@@ -361,6 +367,8 @@ export default {
                             element.css.css = 'my-1'
                             if ( this.schema[value].type === 'Price' ){
                                 fieldValue = parseFloat(fieldValue).toFixed(2)
+                                let symbolValue = this.products[index].variants[0][array[0]].currencyCode
+                                fieldValue = this.currency[symbolValue] + ' ' + fieldValue
                             }
                             element.data = { field: value , schema: this.schema[value] , grid: gridID } 
                             element.content = fieldValue
@@ -375,7 +383,11 @@ export default {
                         block.blocks.push ( element )
                     }
             })
-            
+            let addToCart = new Element().createElement( 'Button' )
+            addToCart.content = this.addToCart
+            addToCart.css.container = 'shopify-field-addToCart'
+            addToCart.data = { field: 'addToCart' , grid: gridID }
+            block.blocks.push ( addToCart )
             //this.editor.current.blocks.push ( block )
         },
         createField(value,index){

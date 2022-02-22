@@ -57,12 +57,14 @@
                         
                         <img :src="project[tab].preview" v-if="project[tab].preview"  :class="tab==='homepage'?'w-1/2 h-1/2 object-cover object-top':'w-full h-24 object-contain object-center'" @click="html=true"/>
                         <m-icon icon="edit" class="text-4xl text-gray-400 absolute left-0 top-0" title="Editor HTML" @click="html=!html"/>
+                        
                     </div>
                     <transition name="fade">
                         <div class="modal z-modal w-3/4 h-3/4 bg-white shadow-lg" v-if="html && tab != 'pages'">
                             <h5 class="bg-blue-400 text-white p-1">Editor HTML</h5>
                             <codemirror v-model="project[tab].html" v-if="project[tab]" class="m-auto h-auto" :options="{lang:'htmlmixed',lineNumbers:true,lineWrapping: true, mode: 'xml', theme: 'ambiance',}"></codemirror>
                             <m-icon icon="close" class="absolute top-0 right-0 m-2 text-2xl text-white" @click="html=null"/>
+                            
                         </div>
                     </transition>
                 </div>
@@ -71,12 +73,15 @@
                 <div class="flex flex-col p-4 w-8/12 ml-5" v-if="tab === 'pages' && project.pages">
                     <div class="p-4 text-center border" id="previewTemplate">
                         
-                        <div class="flex flex-row flex-grow">
-                            <template v-for="page in Object.keys(project.pages)">
-                                <div class="flex flex-col mr-2" :title="'Slug: /' + page">
-                                    <img :src="project.pages[page].preview" class="w-40 h-40 object-top" @click="html=page"/>
+                        <div class="flex flex-row flex-grow pages-container">
+                            <template v-for="(page,index) in Object.keys(project.pages)">
+                                <div class="flex flex-col mr-2" :title="'Slug: /' + page" :id="'page_' + index">
+                                    <img :src="project.pages[page].preview" class="w-40 h-40 object-top"  @click="html=page"/>
                                     <span class="chip bg-black text-white p-1">{{ page }}</span>
-                                    <m-icon icon="edit" class="text-xl text-gray-400" title="Editor HTML" @click="html=page"/>
+                                    <div class="flex justify-around">
+                                        <m-icon icon="edit" class="text-xl text-gray-400" title="Editor HTML" @click="html=page"/>
+                                        <m-icon icon="delete" class="text-xl text-gray-400" title="Remove Page" @click="removeDocument(page,'page',index)"/>
+                                    </div>
                                 </div>
                             </template>
                         </div>
@@ -99,14 +104,13 @@
                             <m-icon icon="file_upload" class="text-2xl text-gray-400" title="Upload UIKit" @click="$dialogBus('importUIKit')"/>
                         </div>
                         <select v-model="kit" class="w-full p-1 border-purple-600 rounded border">
-                            <option value="0"></option>
                             <option v-for="row,index in desktop.uikits" :value="index+1">{{ row.name }}</option>
                             
                         </select>
                     </div>
                     <div class="mt-20" v-if="kit">
                         <template v-for="comp,n in desktop.uikits[kit-1].templates">
-                            <img :src="comp.image" class="mt-4 h-30 object-contain border shadow-lg" :position="kit-1" :index="n" @click="addComp(comp)" :title="comp.name + '\n' + comp.description"/>
+                            <img :src="comp.image" class="mt-4 h-30 object-contain border shadow-lg project-page" :position="kit-1" :index="n"  :data-page="n" :data-kit="kit-1" :title="comp.name + '\n' + comp.description"/>
                             
                             <div class="text-xs mb-4 z-2xtop text-gray-400 text-center p-1 m-auto w-full">{{ comp.name }}</div>
                         </template>
@@ -132,7 +136,7 @@
 <script>
 import { mapState } from 'vuex'
 import { codemirror } from 'vue-codemirror-lite'
-//import dragula from 'dragula'
+import dragula from 'dragula'
 
 export default {
     name: 'WebsiteProject',
@@ -175,54 +179,19 @@ export default {
 
     computed:{
         ...mapState ( ['editor','desktop'] ),
-        //treeDisplayData(){
-            // let nodes = []
-            // if ( this.project && this.project.pages ){
-            //     let pages = Object.keys(this.project.pages)
-            //     const pagesNodes = async () => {
-            //         let pn = await pages.map ( slug => { 
-            //             if ( this.project.pages[slug])
-            //                 return { slug: this.project.pages[slug].slug , text: this.project.pages[slug].title , preview: this.project.pages[slug].preview  }
-            //         })
-            //     }
-            //     nodes = [
-            //                 { 
-            //                     text: 'Header ' ,
-            //                     nodes : [ {text:this.project.header.title,preview:this.project.header.preview , type: 'header'}],
-            //                     type: 'header',
-            //                     status: false 
-            //                 },
-            //                 { 
-            //                     text: 'pages' , 
-            //                     nodes: pagesNodes,
-            //                     status: false,
-            //                     type: 'page'
-            //                 },
-            //                 { text: 'Footer ' , 
-            //                     nodes: [ { text: this.project.footer.title , preview: this.project.footer.preview , type: 'footer'} ] ,
-            //                     status: false,
-            //                     type: 'footer'
-            //                 },
-                    
-            //     ]
-            // }
-            // this.nodes = nodes
-            // return nodes
-        //}
+        
     },
     watch:{
         '$store.state.editor.project' : function(value){
             if ( !value ) return
             this.project = value
+        },
+        project (value){
+            this.currentTab ( this.tab )
         }
     },
     methods: {
-        // pagesNodes(pages){
-        //     let pagesNodes = pages.map ( slug => { 
-        //             return { slug: this.project.pages[slug].slug , text: this.project.pages[slug].title , preview: this.project.pages[slug].preview  }
-        //         })
-        //     return pagesNodes
-        // },
+        
         currentTab(tab){
             this.tab = tab
             this.newPage = null
@@ -298,33 +267,35 @@ export default {
             this.$exportProject()
         },
         addComp ( template ){
+            console.log ( template )
             this.newPage = template
-            // if ( this.tab != 'pages' ){
-            //     let page = document.getElementById('content')
-            //     try {
-            //         let html = page.innerHTML
-            //         html = html.replaceAll ( 'http://localhost:3030/' , '' )
-            //         html =  this.$beautify ( html.replaceAll('<!---->','').replaceAll('[object Object]','') )
-            //         let exportPage = this.$exportPage ( html, template )
-            //         this.project[this.tab] = exportPage
-            //     } catch ( error ) {
-            //         console.log ( error )
-            //     }
-            //     console.log ( this.project )
-            // } else {
-            //     let slug = this.$slugify ( template.name )
-            //     let page = document.getElementById('content')
-            //     try {
-            //         let html = page.innerHTML
-            //         html = html.replaceAll ( 'http://localhost:3030/' , '' )
-            //         html =  this.$beautify ( html.replaceAll('<!---->','').replaceAll('[object Object]','') )
-            //         let exportPage = this.$exportPage ( html , template )
-            //         this.project.pages[slug] = exportPage
+            //     if ( this.tab != 'pages' ){
+            //         let page = document.getElementById('content')
+            //         try {
+            //             let html = page.innerHTML
+            //             html = html.replaceAll ( 'http://localhost:3030/' , '' )
+            //             html =  this.$beautify ( html.replaceAll('<!---->','').replaceAll('[object Object]','') )
+            //             let exportPage = this.$exportPage ( html, template )
+            //             this.project[this.tab] = exportPage
+            //         } catch ( error ) {
+            //             console.log ( error )
+            //         }
             //         console.log ( this.project )
-            //     } catch ( error ){
-            //         console.log ( error )
+            //     } else {
+            //         let slug = this.$slugify ( template.name )
+            //         let page = document.getElementById('content')
+            //         try {
+            //             let html = page.innerHTML
+            //             html = html.replaceAll ( 'http://localhost:3030/' , '' )
+            //             html =  this.$beautify ( html.replaceAll('<!---->','').replaceAll('[object Object]','') )
+            //             let exportPage = this.$exportPage ( html , template )
+            //             this.project.pages[slug] = exportPage
+            //             console.log ( this.project )
+            //         } catch ( error ){
+            //             console.log ( error )
+            //         }
             //     }
-            // }
+
             // this.saveSettings()
         },
         previewLoaded(){
@@ -337,9 +308,11 @@ export default {
                 let exportPage = this.$exportPage ( html, this.newPage )
                 if ( this.tab != 'pages' ){
                     this.project[this.tab] = exportPage
+                    this.saveSettings()
                 } else {
                     let slug = this.$slugify ( this.newPage.name )
                     this.project.pages[slug] = exportPage
+                    this.saveSettings()
                 }
             } catch ( error ) {
                 console.log ( error )
@@ -364,9 +337,11 @@ export default {
             this.saveSettings()  
                           
         },
-        removeDocument ( slug , target ){
-            console.log ( 'remove=>' , slug , target )
+        removeDocument ( slug , target , index ){
+            console.log ( 'remove=>' , slug , target , index )
             if ( target === 'page' ){
+                let el = document.querySelector ( '#page_' + index )
+                el.classList.add ( 'hidden' )
                 if ( !slug ){
                     delete this.project.pages.home
                 } else {
@@ -405,26 +380,28 @@ export default {
             this.projectTree()
         }
         //if ( this.$attrs.options ){
-            // var drake = dragula([document.querySelectorAll('.dragula-project'),document.querySelector('#dragula.source')])
-            // console.log ( drake.containers )
-            // var drake = dragula({
-            //     isContainer: function (el) {
-            //         if ( el.classList.contains('dragula-project') ){
-            //             return true 
-            //         }
-            //     },
-                
-            //     copy: true,
-            // });
+            var drake = dragula([document.querySelectorAll('.project-pages'),document.querySelector('.project-page')])
+            console.log ( drake.containers )
+            let vm = this
+            var drake = dragula({
+                isContainer: function (el) {
+                    if ( el.classList.contains ( 'project-page') ){
+                        return true
+                    }
+                },
+                copy: true,
+                copySortSource: false
+            });
             // let vm = this
-            // drake.on ( 'drop' , (el,target,source,sibling) => {
-            //     if ( el.getAttribute ( 'position') ){
-
-            //         console.log ( this.desktop.uikits[el.getAttribute('position')][el.getAttribute[index]] )
-            //         return true
-            //     }
-            //     return false
-            // })
+            drake.on ( 'drop' , (el,target,source,sibling) => {
+                console.log ( el )
+                if ( el.classList.contains ( 'project-page' ) ){
+                    console.log ( el.getAttribute ( 'data-page' ) , el.getAttribute ( 'data-kit') )
+                    let page = vm.desktop.uikits[el.getAttribute('data-kit')].templates[el.getAttribute('data-page')]
+                    target.appenChild ( el )
+                    vm.addComp ( page )
+                }
+            })
         //}
     }
 
