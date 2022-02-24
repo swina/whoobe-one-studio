@@ -1,20 +1,5 @@
 var webpack = require('webpack');
 module.exports = {
-  /*  
-  devServer: {
-    proxy:  
-    { 
-      '^/uploads' : {
-        target: process.env.VUE_APP_NUXPRESSO_URL || 'http://localhost:3000/',
-        ws: true,
-        changeOrigin: true,
-        pathRewrite: {'^/uploads': '/uploads'}, 
-        logLevel: 'debug'
-      }
-    }
-    
-  },
-  */
   pluginOptions: {
     windicss: {
       // see https://github.com/windicss/vite-plugin-windicss/blob/main/packages/plugin-utils/src/options.ts
