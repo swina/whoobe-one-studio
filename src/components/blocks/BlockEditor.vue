@@ -64,6 +64,7 @@ import Element from '@/scripts/ElementsClass'
 import Block from '@/scripts/BlocksClass'
 import { mapState } from 'vuex'
 import { editorBus , dialogBus } from '@/main'
+
 export default {
     name: 'BlockEditor',
     components:{
